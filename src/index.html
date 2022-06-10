@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title data-t>html.title</title>
+   <meta name="description" data-attr-t data-attr-t-interpolate content-t="{{html.description}}">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon" type="image/png" href="./img/favicon.png" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+   <link rel="stylesheet" href="./custom.css">
+   <meta property="og:url" data-attr-t data-attr-t-interpolate content-t="{{html.url}}"/>
+   <meta property="og:type"               content="article" />
+   <meta property="og:title" data-attr-t data-attr-t-interpolate content-t="{{html.title}}"/>
+   <meta property="og:description" data-attr-t data-attr-t-interpolate content-t="{{html.description}}"/>
+   <meta property="og:image" data-attr-t data-attr-t-interpolate content-t="{{html.fbImg}}" />
+</head>
+
+<body>
+
+   <!-- Loading Page -->
+   <div class="container" style="padding: 0 30px;" id="page-loading">
+      <div class="row">
+         <div class="col-0 col-lg-3"></div>
+         <div class="col-12 col-lg-6 text-center">
+            <div class="bg-light p-md-5 py-5 border shadow-lg my-5">
+               <div class="row">
+                  <div class="col"></div>
+                  <div class="col-10">
+                     <img src-t="{{html.logoUrl}}" data-attr-t data-attr-t-interpolate alt-t="{{html.title}}" class="img-fluid" style="max-height: 70px;">
+                  </div>
+                  <div class="col"></div>
+               </div>
+               <div class="row mt-4">
+                  <div class="d-flex justify-content-center">
+                     <div class="spinner-border text-danger" role="status">
+                       <span class="visually-hidden">Loading...</span>
+                     </div>
+                   </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-0 col-lg-3"></div>
+      </div>
+   </div>
+
+   <!-- Login Page -->
+   <div class="container" style="padding: 0 30px; display: none;" id="page-login">
+      <div class="row">
+         <div class="col-0 col-lg-3"></div>
+         <div class="col-12 col-lg-6">
+            <div class="bg-light p-md-5 p-5 border shadow-lg my-5">
+               <div class="row">
+                  <div class="col-12">
+                     <img src-t="{{html.logoUrl}}" data-attr-t data-attr-t-interpolate alt-t="{{html.title}}" class="img-fluid" style="max-height: 70px;">
+                  </div>
+               </div>
+               <div class="row mt-4">
+                  <form action="javascript:void(0)" id="loginForm">
+                     <div class="mb-4">
+                        <label class="form-label fw-bold" data-t>login.password</label>
+                        <input type="password" class="form-control" id="password1">
+                        <div id="pMessage3" class="form-text text-danger mt-4" style="display: none;"></div>
+                     </div>
+                     <button type="button" class="btn btn-success btn-lg" id="buttonLogin">
+                        <i class="bi bi-arrow-right-circle-fill"></i>&nbsp;&nbsp;Login
+                     </button>
+                  </form>
+               </div>
+            </div>
+         </div>
+         <div class="col-0 col-lg-3"></div>
+      </div>
+   </div>
+
+   <!-- New Account Page -->
+   <div class="container" style="padding: 0 30px; display: none;" id="page-newaccount">
+      <div class="row">
+         <div class="col-0 col-lg-3"></div>
+         <div class="col-12 col-lg-6">
+            <div class="bg-light p-md-5 p-3 border shadow-lg my-5">
+               <div class="row">
+                  <div class="col-12">
+                     <img src-t="{{html.logoUrl}}" data-attr-t data-attr-t-interpolate alt-t="{{html.title}}" class="img-fluid" style="max-height: 70px;">
+                  </div>
+               </div>
+               <div class="row mt-3" id="newAccount">
+                  <h4 class="my-3" data-t><u>newAccount.newTitle</u></h4>
+                  <form action="javascript:void(0)">
+                     <div class="mb-3">
+                        <label class="form-label fw-bold" data-t>password</label>
+                        <input type="password" class="form-control" id="password2">
+                      </div>
+                     <div class="mb-4">
+                       <label class="form-label fw-bold" data-t>repeatPassword</label>
+                       <input type="password" class="form-control" id="password3">
+                       <div id="pMessage1" class="form-text text-danger mt-4" style="display: none;"></div>
+                     </div>
+                     <div class="justify-content-between d-flex">
+                        <button class="btn btn-success" id="buttonRegister">
+                           <i class="bi bi-person-plus-fill"></i>&nbsp;<span data-t>newAccount.register</span>
+                        </button>
+                        <button class="btn btn-secondary" id="buttonShowExisting">
+                           <i class="bi bi-person-check-fill"></i>&nbsp;Import
+                        </button>
+                     </div>
+                  </form>
+               </div>
+               <div class="row mt-3" id="existingAccount" style="display: none;">
+                  <h4 class="my-3"><u data-t>newAccount.importTitle</u></h4>
+                  <form action="javascript:void(0)">
+                     <div class="mb-3">
+                        <label class="form-label fw-bold" data-t>password</label>
+                        <input type="password" class="form-control" id="password4">
+                      </div>
+                     <div class="mb-3">
+                       <label class="form-label fw-bold" data-t>repeatPassword</label>
+                       <input type="password" class="form-control" id="password5">
+                     </div>
+                     <div class="mb-4">
+                        <label class="form-label fw-bold" data-t>newAccount.seed</label>
+                        <textarea class="form-control" rows="3" id="seedWords1"></textarea>
+                        <div id="pMessage2" class="form-text text-danger mt-4" style="display: none;"></div>
+                      </div>
+                      <div class="justify-content-between d-flex">
+                        <button class="btn btn-success" id="buttonImport">
+                           <i class="bi bi-person-check-fill"></i>&nbsp;<span data-t>newAccount.import</span>
+                        </button>
+                        <button class="btn btn-secondary" id="buttonNewAccount">
+                           <i class="bi bi-person-plus-fill"></i>&nbsp;<span data-t>newAccount.new</span>
+                        </button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+         <div class="col-0 col-lg-3"></div>
+      </div>
+   </div>
+
+   <!-- Main Page -->
+   <div class="container" style="padding: 0 30px; display: none;" id="page-main">
+
+      <!-- Header -->
+      <div class="row py-5">
+         <div class="col-7 g-0">
+            <img src-t="{{html.logoUrl}}" data-attr-t data-attr-t-interpolate alt-t="{{html.title}}" class="img-fluid" style="max-height: 70px;">
+         </div>
+         <div class="col-2 col-sm-2 col-lg-3"></div>
+         <div class="col-1 text-end fs-1 mt-auto" style="margin-bottom: -5px;">
+            <a data-attr-t data-attr-t-interpolate href-t="{{main.helpUrl}}" target="_blank"><i class="bi bi-patch-question text-dark"></i></a>
+         </div>
+         <div class="col-2 col-sm-2 col-lg-1 text-end fs-1 mt-auto" style="margin-bottom: -5px;">
+            <a href="javascript:void(0)" id="settings"><i class="bi bi-gear text-dark"></i></a>
+         </div>
+      </div>
+
+      <!-- Screen Home -->
+      <div id="screen-home">
+         <div class="row">
+            <div class="alert alert-danger mb-5" role="alert" id="seedWarning" style="display: none;" data-t>home.seedWarning</div>
+            <ul class="nav nav-tabs mb-5">
+               <!-- <li class="nav-item">
+                 <a class="nav-link active fw-bold" aria-current="page" href="javascript:void(0)" id="tabButton1" data-t>home.tab1</a>
+               </li> -->
+               <!-- <li class="nav-item">
+                 <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton2" data-t>home.tab2</a>
+               </li> -->
+               <li class="nav-item">
+                  <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton3" data-t>home.tab3</a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a class="nav-link text-danger fw-bold" href="javascript:void(0)" id="tabButton4" data-t>home.tab4</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-secondary    fw-bold" href="javascript:void(0)" id="tabButton5" data-t>home.tab5</a>
+                </li> -->
+            </ul>
+            <div id="tab1" style="display: none;">
+               <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+                  <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.balance</strong></h3>
+                  <span class="display-1 px-2 fw-bold" id="balance">0.00</span><span class="fs-3" data-t>home.currency</span>
+               </div>
+               <div class="bg-light px-md-5 p-3 mt-5 border shadow-lg" style="color: #515151;">
+                     <h6 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.earnings</strong></h6>
+                     <div class="row p-0">
+                        <div class="col p-0 mt-auto">
+                           <span class="display-6 p-2 fw-bold" id="accumulatedEarningsMain">0.00</span><span class="fs-3" data-t>home.currency</span><br>
+                        </div>
+                        <div class="col text-end pt-2 mt-auto">
+                           <button class="btn btn-success" id="buttonCollect">
+                              <i class="bi bi-arrow-down-circle-fill"></i>&nbsp;&nbsp;<span data-t>home.collectEarnings</span>
+                           </button>
+                        </div>
+                     </div>
+                     <div class="row p-0 mt-2">
+                        <div id="pMessage9" class="form-text text-danger text-end" data-t>home.feeMessage</div>
+                        <div id="pMessage10" class="form-text text-success text-end" style="display: none;" data-t>home.collectSuccess</div>
+                     </div>
+               </div>
+            </div>
+            <!-- <div id="tab2" style="display: none;">
+               <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+                  <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.balanceAnotes</strong></h3>
+                  <span class="display-1 px-2 fw-bold" id="balanceAnotes">0.00</span><span class="fs-3">ANOTE</span>
+               </div>
+               <div class="bg-light px-md-5 p-3 mt-5 border shadow-lg" style="color: #515151;">
+                  <span data-t>home.mineMessage</span>
+               </div>
+            </div> -->
+            <div id="tab3">
+               <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+                  <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.balanceWaves</strong></h3>
+                  <span class="display-1 px-2 fw-bold" id="balanceWaves">0.00</span><span class="fs-3">AINT</span>
+               </div>
+            </div>
+            <div id="tab4" style="display: none;">
+               <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+                  <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.aintTitle</strong></h3>
+                  <span class="display-1 px-2 fw-bold" id="balanceAint">0.00000000</span><span class="fs-3" data-t>home.aintCurrency</span>
+               </div>
+               <div class="bg-light px-md-5 p-3 mt-5 border shadow-lg" style="color: #515151;">
+                     <h6 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.aintEarnings</strong></h6>
+                     <div class="row p-0">
+                        <div class="col p-0 mt-auto">
+                           <span class="display-6 p-2 fw-bold" id="accumulatedEarningsAint">0.00</span><span class="fs-3" data-t>home.currency</span><br>
+                        </div>
+                        <div class="col text-end pt-2 mt-auto">
+                           <button class="btn btn-success" id="buttonCollectEarnings">
+                              <i class="bi bi-arrow-down-circle-fill"></i>&nbsp;&nbsp;<span data-t>home.aintCollectEarnings</span>
+                           </button>
+                        </div>
+                     </div>
+                     <div class="row p-0 mt-2">
+                        <div id="pMessage11" class="form-text text-danger text-end" data-t>home.feeMessage</div>
+                        <div id="pMessage12" class="form-text text-success text-end" style="display: none;" data-t>home.collectSuccess</div>
+                     </div>
+               </div>
+            </div>
+            <div id="tab5" style="display: none;">
+               <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+                  <div class="row">
+                     <div class="col-0 col-lg-3"></div>
+                     <div class="col-12 col-lg-6">
+                        <div class="alert alert-danger" role="alert" data-t>exchange.feeMessageExchange</div>
+                        <form action="javascript:void(0)">
+                           <div class="mb-4">
+                              <label class="form-label fw-bold" data-t>exchange.from</label>
+                              <select class="form-select form-control-lg" name="fromCurrency" id="fromCurrency">
+                                 <option data-attr-t data-attr-t-interpolate value-t="{{send.firstCurrencyId}}" data-t>send.firstCurrencyName</option>
+                                 <option value="" selected>WAVES</option>
+                              </select>
+                           </div>
+                           <div class="mb-3">
+                              <label class="form-label fw-bold" data-t>exchange.to</label>
+                              <select class="form-select form-control-lg" name="toCurrency" id="toCurrency">
+                                 <option data-attr-t data-attr-t-interpolate value-t="{{send.firstCurrencyId}}" selected data-t>send.firstCurrencyName</option>
+                                 <option value="66DUhUoJaoZcstkKpcoN3FUcqjB6v8VJd5ZQd6RsPxhv">AINT</option>
+                                 <option value="">WAVES</option>
+                              </select>
+                           </div>
+                           <div class="mb-4">
+                              <label class="form-label fw-bold" data-t>send.amount</label>
+                              <input type="text" class="form-control" data-attr-t data-attr-t-interpolate placeholder-t="{{send.amount2}}" aria-label-t="{{send.amount2}}" id="amountExchange">
+                           </div>
+                           <div id="exchangeError" class="form-text text-danger" style="display: none;"></div>
+                           <div id="exchangeSuccess" class="form-text text-success mt-3 mb-2" style="display: none;" data-t>exchange.exchangeMessage</div>
+                           <div class="d-grid mt-4">
+                              <button class="btn btn-danger btn-block btn-lg" id="buttonExchange">
+                                 <i class="bi bi-arrow-repeat"></i>&nbsp;&nbsp;<span data-t>exchange.exchange</span>
+                              </button>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="col-0 col-lg-3"></div>
+                  </div>   
+               </div>
+            </div>
+         </div>
+         <div class="row py-4">
+            <div class="col-xl-1 col-md-2 col-3 text-start px-0">
+               <a href="javascript:void(0)" id="addressBook"><i class="bi bi-people-fill text-primary main-icon"></i></a>
+            </div>
+            <div class="col-xl-9 col-md-6 col-3">
+               <a href="https://aint.live/" id="history" target="_blank"><i class="bi bi-person-lines-fill text-secondary main-icon"></i></a>
+            </div>
+            <div class="col-xl-1 col-md-2 col-3 text-end">
+               <a href="jaascript:void(0)" id="receive"><i class="bi bi-arrow-down-circle-fill text-success main-icon"></i></a>
+            </div>
+            <div class="col-xl-1 col-md-2 col-3 text-end px-0">
+               <a href="javascript:void(0)" id="send"><i class="bi bi-arrow-up-right-circle-fill text-danger main-icon"></i></a>
+            </div>
+         </div>
+      </div>
+
+      <!-- Screen Receive -->
+      <div id="screen-receive" style="display: none;">
+         <div class="row">
+            <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+               <div class="row">
+                  <div class="col-0 col-lg-4"></div>
+                  <div class="col-12 col-lg-4">
+                     <label class="form-label fw-bold" data-t>receive.account</label>
+                     <div class="input-group mb-3 input-group-sm">
+                        <input type="text" class="form-control" readonly value="" id="address">
+                        <div class="input-group-append">
+                           <button class="btn btn-primary" type="button" id="buttonCopy">
+                              <i class="bi bi-files"></i>
+                           </button>
+                        </div>
+                     </div>
+                     <div id="pMessage4" class="form-text text-success mt-1 mb-2" style="display: none;" data-t>receive.message</div>
+                     <label class="form-label fw-bold" data-t>receive.qr</label>
+                     <img src="./img/qrcode.svg" alt="QR Code" class="qrcode border border-dark" id="qrcode">
+                  </div>
+                  <div class="col-0 col-lg-4"></div>
+               </div>
+            </div>
+         </div>
+         <div class="row py-4">
+            <div class="text-start px-0">
+               <button class="btn btn-secondary btn-lg" type="button" id="backFromReceive">
+                  <i class="bi bi-arrow-left-circle-fill"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+
+      <!-- Screen Send -->
+      <div id="screen-send" style="display: none;">
+         <div class="row">
+            <div class="bg-light p-md-5 py-5 border shadow-lg" style="color: #515151;">
+               <div class="row">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <div class="alert alert-danger" role="alert" data-t>send.feeMessage</div>
+                     <form action="javascript:void(0)">
+                        <!-- <div class="mb-4">
+                           <label class="form-label fw-bold" data-t>send.currency</label>
+                           <select class="form-select" name="sendCurrency" id="sendCurrency">
+                              <option data-attr-t data-attr-t-interpolate value-t="{{send.firstCurrencyId}}" selected data-t>send.firstCurrencyName</option>
+                              <option data-attr-t data-attr-t-interpolate value-t="{{send.secondCurrencyId}}" data-t>send.secondCurrencyName</option>
+                              <option value="66DUhUoJaoZcstkKpcoN3FUcqjB6v8VJd5ZQd6RsPxhv">AINT</option>
+                              <option value="4zbprK67hsa732oSGLB6HzE8Yfdj3BcTcehCeTA1G5Lf">ANOTE</option>
+                              <option value="">WAVES</option>
+                            </select>
+                        </div> -->
+                        <div class="mb-4">
+                           <label class="form-label fw-bold" data-t>receive.account</label>
+                           <div class="input-group mb-3 input-group-lg">
+                              <input type="text" class="form-control" data-attr-t data-attr-t-interpolate placeholder-t="{{send.address}}" aria-label-t="{{send.address}}" id="addressRec" style="font-size: 1rem;">
+                              <div class="input-group-append">
+                                 <button class="btn btn-primary btn-lg" type="button" id="qrButton">
+                                    <i class="bi bi-upc-scan"></i>
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="mb-4">
+                           <label class="form-label fw-bold" data-t>send.amount</label>
+                           <div class="input-group input-group-lg">
+                              <input type="text" class="form-control" data-attr-t data-attr-t-interpolate placeholder-t="{{send.amount2}}" aria-label-t="{{send.amount2}}" id="amount" style="font-size: 1rem; line-height: 2;">
+                           </div>
+                        </div>
+                        <div id="sendError" class="form-text text-danger" style="display: none;"></div>
+                        <div id="sendSuccess" class="form-text text-success mt-3 mb-2" style="display: none;" data-t>send.sendMessage</div>
+                        <div class="d-grid mt-4">
+                           <button class="btn btn-danger btn-block btn-lg" id="buttonSend">
+                              <i class="bi bi-arrow-up-right-circle-fill"></i>&nbsp;&nbsp;<span data-t>send.sendButton</span>
+                           </button>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div>
+            </div>
+         </div>
+         <div class="row py-4">
+            <div class="text-start px-0">
+               <button class="btn btn-secondary btn-lg" type="button" id="backFromSend">
+                  <i class="bi bi-arrow-left-circle-fill"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+
+      <!-- Screen QR -->
+      <div id="screen-qr" style="display: none;">
+         <div class="row">
+            <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+               <div class="row">
+                  <div class="col-0 col-lg-4"></div>
+                  <div class="col-12 col-lg-4" id="video">
+                     <video id="video"></video>
+                  </div>
+                  <div class="col-0 col-lg-4"></div>
+               </div>
+            </div>
+         </div>
+         <div class="row py-4">
+            <div class="text-start px-0">
+               <button class="btn btn-secondary btn-lg" type="button" id="backFromQR">
+                  <i class="bi bi-arrow-left-circle-fill"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+
+      <!-- Screen Address Book -->
+      <div id="screen-addressBook" style="display: none;">
+         <div class="row">
+            <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+               <span data-t>addressBook.message</span>
+            </div>
+         </div>
+         <div class="row py-4">
+            <div class="text-start px-0">
+               <button class="btn btn-secondary btn-lg" type="button" id="backFromAddressBook">
+                  <i class="bi bi-arrow-left-circle-fill"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+
+      <!-- Screen Settings -->
+      <div id="screen-settings" style="display: none;">
+         <div class="row">
+            <div class="bg-light p-md-5 py-5 border shadow-lg" style="color: #515151;">
+               <div class="row">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <h5 class="border-bottom border-lite mb-3">Backup</h5>
+                     <form action="javascript:void(0)">
+                        <div class="mb-3">
+                           <label class="form-label fw-bold" data-t>settings.seedWords</label>
+                           <textarea class="form-control" rows="3" readonly id="seedWords2"></textarea>
+                           <div id="pMessage5" class="form-text text-success mt-3 mb-2" style="display: none;" data-t>settings.seedWordsCopied</div>
+                           <div id="pMessage8" class="form-text text-danger mt-3 mb-2" style="display: none;"></div>
+                        </div>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                           <i class="bi bi-lightbulb-fill"></i>&nbsp;&nbsp;<span data-t>settings.show</span>
+                        </button>
+                        <button class="btn btn-primary ms-3" disabled id="buttonSeedCopy">
+                           <i class="bi bi-files"></i>&nbsp;&nbsp;<span data-t>settings.copy</span>
+                        </button>
+                     </form>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div>
+               <!-- <div class="row mt-5">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <h5 class="border-bottom border-lite mb-3" data-t>settings.referralTitle</h5>
+                     <form action="javascript:void(0)">
+                        <div class="mb-3">
+                           <label class="form-label fw-bold" data-t>settings.referralLink</label>
+                           <div class="input-group mb-3 input-group-sm">
+                              <input type="text" class="form-control" readonly value="https://www.kriptokuna.com/?r=" id="referralLink">
+                              <div class="input-group-append">
+                                 <button class="btn btn-primary" type="button" id="buttonCopyReferral">
+                                    <i class="bi bi-files"></i>
+                                 </button>
+                              </div>
+                           </div>
+                           <div id="pMessage13" class="form-text text-success mt-1 mb-2" style="display: none;" data-t>settings.rCopyMessage</div>
+                         </div>
+                     </form>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div> -->
+               <div class="row mt-4">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <h5 class="border-bottom border-lite mb-3" data-t>settings.passwordChange</h5>
+                     <form action="javascript:void(0)">
+                        <div class="mb-3">
+                           <label class="form-label fw-bold" data-t>settings.newPassword</label>
+                           <input type="password" class="form-control" id="password6">
+                         </div>
+                        <div class="mb-3">
+                          <label class="form-label fw-bold" data-t>settings.repeatNewPassword</label>
+                          <input type="password" class="form-control" id="password7">
+                        </div>
+                        <div id="pMessage6" class="form-text text-danger mb-2" style="display: none;"></div>
+                        <div id="pMessage7" class="form-text text-success mb-2" style="display: none;"></div>
+                        <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                           <i class="bi bi-lock-fill"></i>&nbsp;&nbsp;<span data-t>settings.changePassword</span>
+                        </button>
+                     </form>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div>
+               <!-- <div class="row mt-5">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <h5 class="border-bottom border-lite mb-3" data-t>settings.connectTelegram</h5>
+                     <div class="row">
+                        <div class="col">
+                           <a href="javascript:void(0);" class="btn btn-primary w-100 disabled" id="btnAnoteRobot" target="_blank"><i class="bi bi-telegram"></i>&nbsp;&nbsp;AnoteRobot</a>
+                        </div>
+                        <div class="col">
+                           <a href="javascript:void(0);" class="btn btn-primary w-100 disabled" id="btnFunderBot" target="_blank"><i class="bi bi-telegram"></i>&nbsp;&nbsp;FunderRobot</a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div> -->
+               <div class="row mt-5">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <h5 class="border-bottom border-lite" data-t>settings.logoutTitle</h5>
+                     <div class="row">
+                        <div class="col-6">
+                           <button class="btn btn-danger btn-lg w-100 mt-3" id="buttonLogout">
+                              <i class="bi bi-power"></i>&nbsp;&nbsp;<span data-t>settings.logout</span>
+                           </button>
+                        </div>
+                        <div class="col-6">
+                           <button class="btn btn-outline-danger btn-lg w-100 mt-3" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                              <i class="bi bi-trash-fill"></i>&nbsp;&nbsp;<span data-t>settings.deleteAccount</span>
+                           </button>
+                        </div>
+                     </div>
+                     <div class="row p-0 mt-3">
+                        <div id="pMessage14" class="form-text text-danger text-start" style="display: none;"></div>
+                     </div>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div>
+            </div>
+         </div>
+         <div class="row py-4">
+            <div class="text-start px-0">
+               <button class="btn btn-secondary btn-lg" type="button" id="backFromSettings">
+                  <i class="bi bi-arrow-left-circle-fill"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+      
+      <!-- Modal Password Show Seed -->
+      <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="passwordModalLabel" data-t>modals.title1</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" data-attr-t data-attr-t-interpolate aria-label-t="{{modals.cancel}}"></button>
+            </div>
+            <div class="modal-body pt-1">
+               <input type="password" class="form-control" id="password8">
+            </div>
+            <div class="modal-footer justify-content-between">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-circle-fill"></i>&nbsp;&nbsp;<span data-t>modals.cancel</span>
+               </button>
+               <button type="button" class="btn btn-danger" id="buttonShowSeed" data-bs-dismiss="modal">
+                  <i class="bi bi-arrow-right-circle-fill"></i>&nbsp;&nbsp;<span data-t>modals.continue</span>
+               </button>
+            </div>
+         </div>
+         </div>
+      </div>
+
+      <!-- Modal Password Change Password -->
+      <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="passwordModalLabel" data-t>modals.title2</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" data-attr-t data-attr-t-interpolate aria-label-t="{{modals.cancel}}"></button>
+            </div>
+            <div class="modal-body pt-1">
+               <input type="password" class="form-control" id="password9">
+            </div>
+            <div class="modal-footer justify-content-between">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-circle-fill"></i>&nbsp;&nbsp;<span data-t>modals.cancel</span>
+               </button>
+               <button type="button" class="btn btn-danger" id="buttonChangePass" data-bs-dismiss="modal">
+                  <i class="bi bi-arrow-right-circle-fill"></i>&nbsp;&nbsp;<span data-t>modals.continue</span>
+               </button>
+            </div>
+         </div>
+         </div>
+      </div>
+
+      <!-- Modal Delete Account -->
+      <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="passwordModalLabel" data-t>modals.title1</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" data-attr-t data-attr-t-interpolate aria-label-t="{{modals.cancel}}"></button>
+            </div>
+            <div class="modal-body pt-1">
+               <input type="password" class="form-control" id="password10">
+            </div>
+            <div class="modal-footer justify-content-between">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-circle-fill"></i>&nbsp;&nbsp;<span data-t>modals.cancel</span>
+               </button>
+               <button type="button" class="btn btn-danger" id="buttonDeleteAccount" data-bs-dismiss="modal">
+                  <i class="bi bi-arrow-right-circle-fill"></i>&nbsp;&nbsp;<span data-t>modals.continue</span>
+               </button>
+            </div>
+         </div>
+         </div>
+      </div>
+
+   </div>
+
+   <input type="hidden" id="lang" data-attr-t data-attr-t-interpolate value-t="{{lang}}">
+
+   <input type="hidden" id="earningsWaves" value="">
+   <input type="hidden" id="earningsAhrk" value="">
+   <input type="hidden" id="earningsAeur" value="">
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+   <script src="./app.ts"></script>
+
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113507826-3"></script>
+   <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+
+   gtag('config', 'UA-113507826-3');
+   </script>
+
+</body>
+
+</html>

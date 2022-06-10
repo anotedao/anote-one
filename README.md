@@ -1,0 +1,2 @@
+# waveslite
+Waves Lite Wallet
