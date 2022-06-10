@@ -630,7 +630,7 @@ class Wallet {
 
     private async populateData() {
         $("#address").val(this.address);
-        var historyHref = "https://aint.live/address/" + this.address + "/tx";
+        var historyHref = "https://anote.live/address/" + this.address + "/tx";
         $("#history").attr("href", historyHref);
         this.generateQR();
 
