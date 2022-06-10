@@ -600,7 +600,7 @@ class Wallet {
 
     private async initWaves(seed) {
         this.signer = new Signer({
-            NODE_URL: 'https://nodes.kriptokuna.com',
+            NODE_URL: 'https://nodes.aint.digital',
           });
         this.provider = new ProviderSeed(seed);
         this.signer.setProvider(this.provider);
@@ -695,7 +695,7 @@ class Wallet {
             try {
                 var seed = libs.crypto.decryptSeed(this.seed, String(password));
                 var signer = new Signer({
-                    NODE_URL: 'https://nodes.kriptokuna.com',
+                    NODE_URL: 'https://nodes.aint.digital',
                   });
                 var provider = new ProviderSeed(seed);
                 signer.setProvider(provider);
