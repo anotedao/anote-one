@@ -413,17 +413,24 @@ class Wallet {
                 feeCurrency = AEUR;
             }
         }
-        var recipient = $("#addressRec").val();
+        var recipient = $("#addressRec").val()?.toString();
         var a = $("#amount").val();
         if (a && recipient) {
             try {
+                var attachment = "";
+                if (recipient.startsWith('3P')) {
+                    attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
+                    recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
+                }
+
                 var amount: number = +a;
                 await this.signer.transfer({
                     amount: Math.floor(amount * decimalPlaces),
                     recipient: recipient,
                     assetId: currency,
                     feeAssetId: feeCurrency,
-                    fee: fee
+                    fee: fee,
+                    attachment: attachment
                 }).broadcast();
                 $("#sendSuccess").fadeIn(function(){
                     setTimeout(function(){
@@ -458,12 +465,76 @@ class Wallet {
                 }, 2000);
             });
         }
+
         // const data = {
-        //     leaseId: '5axWhdK9K4nuRCo3VXSL1nN2FGuYkeqksTU2ZGBpgNA7',
+        //     leaseId: '9eJ19bMUo7yQ48Hkn6BRm5hpULtYBkHb9bLrShTYHhpv',
         //   }
           
         //   const [tx] = await this.signer
         //     .cancelLease(data)
+        //     .broadcast();
+
+        // const records = [{ key: 'fee', type: 'integer', value: 950 }]
+
+        // const [tx] = await this.signer
+        // .data({ data: records })
+        // .broadcast();
+
+        // const data = {
+        //     name: 'AINT',
+        //     decimals: 8,
+        //     quantity: 14400000000000,
+        //     reissuable: false,
+        //     description: 'Anonymous Infrastructure Token',
+        //   }
+          
+        //   const [tx] = await this.signer
+        //     .issue(data)
+        //     .broadcast();
+
+        // const data = {
+        //     assetId: '2299MC1V4ErNtHCcZjdjCNGZWAQ6rZVPpRMmZuoXQ5cp',
+        //     quantity: 100000000000,
+        //     }
+            
+        //     const [tx] = await this.signer
+        //     .burn(data)
+        //     .broadcast();
+
+        // const data = {
+        //     script: null,
+        //     fee: 10000000 
+        //   }
+          
+        //   const [tx] = await this.signer
+        //     .setScript(data)
+        //     .broadcast();
+
+        // const [tx] = await this.signer.invoke({
+        //     dApp: "3A9Rb3t91eHg1ypsmBiRth4Ld9ZytGwZe9p",
+        //     call: { function: "call" },
+        //     fee: 100500000
+        //  }).broadcast();
+
+        // const data = {
+        //     assetId: 'wEWa7ufhN2vLcmMTV4xc9rWAcFwruFusMnQs5VE1S75',
+        //     quantity: 1,
+        //   }
+          
+        //   const [tx] = await this.signer
+        //     .burn(data)
+        //     .broadcast();
+
+        // const data = {
+        //     name: 'ANOTE',
+        //     decimals: 8,
+        //     quantity: 525600000000000,
+        //     reissuable: true,
+        //     description: 'Anonymous Cryptocurrency',
+        //   }
+          
+        //   const [tx] = await this.signer
+        //     .issue(data)
         //     .broadcast();
     }
 
