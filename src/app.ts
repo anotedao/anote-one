@@ -402,10 +402,10 @@ class Wallet {
     }
 
     async send() {
-        var currency = '';
+        var currency = '4PVEMfdqhwzpLAQjqgQ1Sys9agqBxtP8QEnAthSrLPfF';
         var decimalPlaces = this.getDecimalPlaces(String(currency));
         var fee = this.getFee(String(currency));
-        var feeCurrency = currency;
+        var feeCurrency = '';
         if (currency == AINT) {
             if (t.lang == "hr") {
                 feeCurrency = AHRK;
@@ -467,7 +467,7 @@ class Wallet {
         }
 
         // const data = {
-        //     leaseId: '9eJ19bMUo7yQ48Hkn6BRm5hpULtYBkHb9bLrShTYHhpv',
+        //     leaseId: '6pcjhkUPiEqb1zTxMcEopg2g6JtavwyJrg5UgToNZrSk',
         //   }
           
         //   const [tx] = await this.signer
@@ -817,7 +817,7 @@ class Wallet {
 
 const AHRK = "Gvs59WEEXVAQiRZwisUosG7fVNr8vnzS8mjkgqotrERT";
 const AEUR = "Az4MsPQZn9RJm8adcya5RuztQ49rMGUW99Ebj56triWr";
-const AINT = "66DUhUoJaoZcstkKpcoN3FUcqjB6v8VJd5ZQd6RsPxhv";
+const AINT = "4PVEMfdqhwzpLAQjqgQ1Sys9agqBxtP8QEnAthSrLPfF";
 const ANOTE = "4zbprK67hsa732oSGLB6HzE8Yfdj3BcTcehCeTA1G5Lf";
 
 const AHRKDEC = 1000000;
