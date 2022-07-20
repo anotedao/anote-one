@@ -775,7 +775,7 @@ class Wallet {
                     NODE_URL: 'https://nodes.aint.digital',
                   });
                 var provider = new ProviderSeed(seed);
-                this.provider.connect({
+                provider.connect({
                     NODE_URL: 'https://nodes.aint.digital',
                     NETWORK_BYTE: '7',
                 });
@@ -787,6 +787,7 @@ class Wallet {
                     return false;
                 }
             } catch (e) {
+                console.log(e);
                 return false;
             }
         } else {
