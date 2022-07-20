@@ -19,7 +19,7 @@
     "@waves/provider-seed": "0.3.2",
     "@waves/signer": "1.0.11",
     "@waves/ts-types": "1.1.0",
-    "@waves/waves-transactions": "^3.20.2",
+    "@waves/waves-transactions": "4.2.10",
     "jquery": "^3.6.0",
     "qr-code-scanner": "^1.0.8",
     "wallet": "^0.1.220004"
