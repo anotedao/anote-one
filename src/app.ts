@@ -775,6 +775,10 @@ class Wallet {
                     NODE_URL: 'https://nodes.aint.digital',
                   });
                 var provider = new ProviderSeed(seed);
+                this.provider.connect({
+                    NODE_URL: 'https://nodes.aint.digital',
+                    NETWORK_BYTE: '7',
+                });
                 signer.setProvider(provider);
                 var user = await signer.login();
                 if (this.address == user.address) {
