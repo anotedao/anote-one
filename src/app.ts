@@ -402,7 +402,7 @@ class Wallet {
     }
 
     async send() {
-        var currency = '4PVEMfdqhwzpLAQjqgQ1Sys9agqBxtP8QEnAthSrLPfF';
+        var currency = '';
         var decimalPlaces = this.getDecimalPlaces(String(currency));
         var fee = this.getFee(String(currency));
         var feeCurrency = '';
@@ -441,6 +441,7 @@ class Wallet {
                 });
             } catch (e) {
                 if (e.error == 112) {
+                    console.log(e);
                     $("#sendError").html(t.send.notEnough);
                     $("#sendError").fadeIn(function(){
                         setTimeout(function(){
