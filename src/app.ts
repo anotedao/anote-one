@@ -676,7 +676,7 @@ class Wallet {
         this.provider = new ProviderSeed(seed);
         this.provider.connect({
             NODE_URL: 'https://nodes.aint.digital',
-            NETWORK_BYTE: '7',
+            NETWORK_BYTE: 55,
         });
         this.signer.setProvider(this.provider);
         this.user = await this.signer.login();
@@ -777,7 +777,7 @@ class Wallet {
                 var provider = new ProviderSeed(seed);
                 provider.connect({
                     NODE_URL: 'https://nodes.aint.digital',
-                    NETWORK_BYTE: '7',
+                    NETWORK_BYTE: 55,
                 });
                 signer.setProvider(provider);
                 var user = await signer.login();

@@ -112,7 +112,7 @@
       "oldRequired": "Old password is required."
     },
     "send": {
-      "notEnough": "You don't have enough on your account, the fee is 0.3 Anotes.",
+      "notEnough": "You don't have enough on your account, the fee is 0.001 Anotes.",
       "bothRequired": "Both fields are required."
     },
     "exchange": {
