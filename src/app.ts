@@ -69,24 +69,24 @@ class Wallet {
     }
 
     getEarningsScript() {
-        var newScript = document.createElement("script");
-        newScript.onload = function() {
-            wallet.earningsWaves = parseInt(String($("#earningsWaves").val()));
-            wallet.earningsAhrk = parseInt(String($("#earningsAhrk").val()));
-            wallet.earningsAeur = parseInt(String($("#earningsAeur").val()));
+        // var newScript = document.createElement("script");
+        // newScript.onload = function() {
+        //     wallet.earningsWaves = parseInt(String($("#earningsWaves").val()));
+        //     wallet.earningsAhrk = parseInt(String($("#earningsAhrk").val()));
+        //     wallet.earningsAeur = parseInt(String($("#earningsAeur").val()));
     
-            $("#accumulatedEarningsAint").html(String((wallet.earningsWaves / AHRKDEC).toFixed(6)));
+        //     $("#accumulatedEarningsAint").html(String((wallet.earningsWaves / AHRKDEC).toFixed(6)));
 
-            if (t.lang == "en") {
-                $("#accumulatedEarningsMain").html(String((wallet.earningsAeur / 100).toFixed(2)));
-            } else if (t.lang == "hr") {
-                $("#accumulatedEarningsMain").html(String((wallet.earningsAhrk / AHRKDEC).toFixed(6)));
-            }
-        }
-        newScript.async = false;
-        var stamp = new Date().getTime();
-        newScript.src = earningsScript + "/" + this.getAddress() + "/earnings.js?stamp=" + stamp;
-        document.body.appendChild(newScript);
+        //     if (t.lang == "en") {
+        //         $("#accumulatedEarningsMain").html(String((wallet.earningsAeur / 100).toFixed(2)));
+        //     } else if (t.lang == "hr") {
+        //         $("#accumulatedEarningsMain").html(String((wallet.earningsAhrk / AHRKDEC).toFixed(6)));
+        //     }
+        // }
+        // newScript.async = false;
+        // var stamp = new Date().getTime();
+        // newScript.src = earningsScript + "/" + this.getAddress() + "/earnings.js?stamp=" + stamp;
+        // document.body.appendChild(newScript);
     }
 
     async collectEarnings(address:string) {
@@ -674,9 +674,15 @@ class Wallet {
             NODE_URL: 'https://nodes.aint.digital',
           });
         this.provider = new ProviderSeed(seed);
+        this.provider.connect({
+            NODE_URL: 'https://nodes.aint.digital',
+            NETWORK_BYTE: '7',
+        });
         this.signer.setProvider(this.provider);
         this.user = await this.signer.login();
         this.address = this.user.address;
+        // console.log(this.user);
+        // console.log(this.address);
     }
 
     private encryptSeed(seed, password) {
