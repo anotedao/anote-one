@@ -427,8 +427,8 @@ class Wallet {
                 await this.signer.transfer({
                     amount: Math.floor(amount * decimalPlaces),
                     recipient: recipient,
-                    assetId: currency,
-                    feeAssetId: feeCurrency,
+                    // assetId: currency,
+                    // feeAssetId: feeCurrency,
                     fee: fee,
                     attachment: attachment
                 }).broadcast();
