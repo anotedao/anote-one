@@ -26,6 +26,8 @@ class Wallet {
     earningsAhrk:number;
     earningsAeur:number;
 
+    selectedCurrency:string;
+
     constructor() { 
         this.address = Cookies.get("address");
         this.seed = Cookies.get("seed");
@@ -41,6 +43,8 @@ class Wallet {
         this.earningsWaves = 0;
         this.earningsAhrk = 0;
         this.earningsAeur = 0;
+
+        this.selectedCurrency = ANOTE;
     }
 
     getPage():string {
@@ -193,7 +197,7 @@ class Wallet {
     }
 
     updateAmount() {
-        var currency = '';
+        var currency = this.selectedCurrency;
 
         var amount = 0;
         var dp = this.getDecimalPlaces(String(currency));
@@ -402,17 +406,10 @@ class Wallet {
     }
 
     async send() {
-        var currency = '';
+        var currency = this.selectedCurrency;
         var decimalPlaces = this.getDecimalPlaces(String(currency));
         var fee = this.getFee(String(currency));
         var feeCurrency = '';
-        if (currency == AINT) {
-            if (t.lang == "hr") {
-                feeCurrency = AHRK;
-            } else if (t.lang == "en") {
-                feeCurrency = AEUR;
-            }
-        }
         var recipient = $("#addressRec").val()?.toString();
         var a = $("#amount").val();
         if (a && recipient) {
@@ -424,14 +421,18 @@ class Wallet {
                 }
 
                 var amount: number = +a;
-                await this.signer.transfer({
+                var transferOpts = {
                     amount: Math.floor(amount * decimalPlaces),
                     recipient: recipient,
-                    // assetId: currency,
-                    // feeAssetId: feeCurrency,
                     fee: fee,
                     attachment: attachment
-                }).broadcast();
+                }
+
+                if (currency != "") {
+                    transferOpts["assetId"] = currency;
+                }
+
+                await this.signer.transfer(transferOpts).broadcast();
                 $("#sendSuccess").fadeIn(function(){
                     setTimeout(function(){
                         $("#sendSuccess").fadeOut();
@@ -817,11 +818,7 @@ class Wallet {
         } else if (currency == ANOTE) {
             return 30000000;
         } else if (currency == AINT) {
-            if (t.lang == "hr") {
-                return 50000;
-            } else if (t.lang == "en") {
-                return 1;
-            }
+            return 100000;
         }
         return 100000;
     }
@@ -830,7 +827,7 @@ class Wallet {
 const AHRK = "Gvs59WEEXVAQiRZwisUosG7fVNr8vnzS8mjkgqotrERT";
 const AEUR = "Az4MsPQZn9RJm8adcya5RuztQ49rMGUW99Ebj56triWr";
 const AINT = "4PVEMfdqhwzpLAQjqgQ1Sys9agqBxtP8QEnAthSrLPfF";
-const ANOTE = "4zbprK67hsa732oSGLB6HzE8Yfdj3BcTcehCeTA1G5Lf";
+const ANOTE = "";
 
 const AHRKDEC = 1000000;
 const SATINBTC = 100000000;
@@ -1091,6 +1088,18 @@ $("#buttonSeedCopy").on( "click", function() {
             $("#buttonSeedCopy").prop('disabled', true);
         }, 500);
     });
+});
+
+$("#anoteButton").on( "click", function() {
+    wallet.selectedCurrency = ANOTE;
+    $("#dropdownMenuButton1").html("ANOTE");
+    wallet.updateAmount();
+});
+
+$("#aintButton").on( "click", function() {
+    wallet.selectedCurrency = AINT;
+    $("#dropdownMenuButton1").html("AINT");
+    wallet.updateAmount();
 });
 
 function createTranslation() {
