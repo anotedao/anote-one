@@ -68,8 +68,13 @@
     "exchange": "Exchange",
     "exchangeMessage": "Exchange was successful. The amount will show soon on your account."
   },
-  "addressBook": {
-    "message": "Address book is under the development and it will be available in the next version."
+  "bank": {
+    "tab1": "Mining",
+    "tab2": "Leasing",
+    "tab3": "Staking",
+    "message": "This section is under the development and it will be available in the next version.",
+    "minedAnotes": "Mined Anotes",
+    "mine": "Mine Anotes"
   },
   "settings": {
     "seedWords": "Seed Words for Backup",

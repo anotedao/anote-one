@@ -162,23 +162,14 @@
          <div class="row">
             <div class="alert alert-danger mb-5" role="alert" id="seedWarning" style="display: none;" data-t>home.seedWarning</div>
             <ul class="nav nav-tabs mb-5">
-               <!-- <li class="nav-item">
-                 <a class="nav-link active fw-bold" aria-current="page" href="javascript:void(0)" id="tabButton1" data-t>home.tab1</a>
-               </li> -->
-               <!-- <li class="nav-item">
-                 <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton2" data-t>home.tab2</a>
-               </li> -->
                <li class="nav-item">
-                  <a class="nav-link active fw-bold" href="javascript:void(0)" id="tabButton3" data-t>home.tab3</a>
+                  <a class="nav-link active fw-bold" href="javascript:void(0)" id="tabButton1" data-t>home.tab3</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton4" data-t>home.tab4</a>
+                  <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton2" data-t>home.tab4</a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a class="nav-link text-secondary    fw-bold" href="javascript:void(0)" id="tabButton5" data-t>home.tab5</a>
-                </li> -->
             </ul>
-            <div id="tab1" style="display: none;">
+            <!-- <div style="display: none;">
                <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
                   <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.balance</strong></h3>
                   <span class="display-1 px-2 fw-bold" id="balance">0.00</span><span class="fs-3" data-t>home.currency</span>
@@ -200,46 +191,20 @@
                         <div id="pMessage10" class="form-text text-success text-end" style="display: none;" data-t>home.collectSuccess</div>
                      </div>
                </div>
-            </div>
-            <!-- <div id="tab2" style="display: none;">
-               <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
-                  <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.balanceAnotes</strong></h3>
-                  <span class="display-1 px-2 fw-bold" id="balanceAnotes">0.00</span><span class="fs-3">ANOTE</span>
-               </div>
-               <div class="bg-light px-md-5 p-3 mt-5 border shadow-lg" style="color: #515151;">
-                  <span data-t>home.mineMessage</span>
-               </div>
             </div> -->
-            <div id="tab3">
+            <div id="tab1" style="padding: 0;">
                <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
                   <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.balanceWaves</strong></h3>
                   <span class="display-1 px-2 fw-bold" id="balanceWaves">0.00</span><span class="fs-3">ANOTEs</span>
                </div>
             </div>
-            <div id="tab4" style="display: none;">
+            <div id="tab2" style="display: none; padding: 0;">
                <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
                   <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.aintTitle</strong></h3>
                   <span class="display-1 px-2 fw-bold" id="balanceAint">0.00000000</span><span class="fs-3" data-t>home.aintCurrency</span>
                </div>
-               <!-- <div class="bg-light px-md-5 p-3 mt-5 border shadow-lg" style="color: #515151;">
-                     <h6 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.aintEarnings</strong></h6>
-                     <div class="row p-0">
-                        <div class="col p-0 mt-auto">
-                           <span class="display-6 p-2 fw-bold" id="accumulatedEarningsAint">0.00</span><span class="fs-3" data-t>home.currency</span><br>
-                        </div>
-                        <div class="col text-end pt-2 mt-auto">
-                           <button class="btn btn-success" id="buttonCollectEarnings">
-                              <i class="bi bi-arrow-down-circle-fill"></i>&nbsp;&nbsp;<span data-t>home.aintCollectEarnings</span>
-                           </button>
-                        </div>
-                     </div>
-                     <div class="row p-0 mt-2">
-                        <div id="pMessage11" class="form-text text-danger text-end" data-t>home.feeMessage</div>
-                        <div id="pMessage12" class="form-text text-success text-end" style="display: none;" data-t>home.collectSuccess</div>
-                     </div>
-               </div> -->
             </div>
-            <div id="tab5" style="display: none;">
+            <!-- <div id="tab5" style="display: none;">
                <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
                   <div class="row">
                      <div class="col-0 col-lg-3"></div>
@@ -277,7 +242,7 @@
                      <div class="col-0 col-lg-3"></div>
                   </div>   
                </div>
-            </div>
+            </div> -->
          </div>
          <div class="row py-4">
             <div class="col-xl-1 col-md-2 col-3 text-start px-0">
@@ -423,11 +388,36 @@
       <!-- Screen Address Book -->
       <div id="screen-addressBook" style="display: none;">
          <div class="row">
-            <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
-               <span data-t>addressBook.message</span>
+            <ul class="nav nav-tabs mb-5">
+               <li class="nav-item">
+                  <a class="nav-link active fw-bold" href="javascript:void(0)" id="tabButton3" data-t>bank.tab1</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton4" data-t>bank.tab2</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton5" data-t>bank.tab3</a>
+                </li>
+            </ul>
+            <div id="tab3" class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
+               <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>bank.minedAnotes</strong></h3>
+               <span class="display-1 px-2 fw-bold" id="balanceMined">0.00</span><span class="fs-3">ANOTEs</span>
+               <div class="row p-0">
+                  <div class="col text-end pt-2 mt-auto">
+                     <button class="btn btn-lg btn-success" id="buttonCollect">
+                        <i class="bi bi-hammer"></i>&nbsp;&nbsp;<span data-t>bank.mine</span>
+                     </button>
+                  </div>
+               </div>
+            </div>
+            <div id="tab4" class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151; display: none;">
+               <span data-t>bank.message</span>
+            </div>
+            <div id="tab5" class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151; display: none;">
+               <span data-t>bank.message</span>
             </div>
          </div>
-         <div class="row py-4">
+         <div class="row py-4 mt-4">
             <div class="text-start px-0">
                <button class="btn btn-secondary btn-lg" type="button" id="backFromAddressBook">
                   <i class="bi bi-arrow-left-circle-fill"></i>

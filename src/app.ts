@@ -140,7 +140,7 @@ class Wallet {
                     });
                 });
             }
-        } catch (error) {
+        } catch (error: any) {
             if (error.error == 112) {
                 $("#pMessage9").html(t.collectEarnings.notEnough);
             } else {
@@ -440,7 +440,7 @@ class Wallet {
                         $("#addressRec").val("");
                     }, 2000);
                 });
-            } catch (e) {
+            } catch (e: any) {
                 if (e.error == 112) {
                     console.log(e);
                     $("#sendError").html(t.send.notEnough);
@@ -579,7 +579,7 @@ class Wallet {
                             $("#addressRec").val("");
                         }, 2000);
                     });
-                } catch (e) {
+                } catch (e: any) {
                     if (e.error == 112) {
                         $("#exchangeError").html(t.send.notEnough);
                         $("#exchangeError").fadeIn(function(){
@@ -902,37 +902,21 @@ $("#settings").on( "click", function() {
 $("#tabButton1").on( "click", function() {
     $("#tabButton1").addClass("active");
     $("#tabButton2").removeClass("active");
-    $("#tabButton3").removeClass("active");
-    $("#tabButton4").removeClass("active");
-    $("#tabButton5").removeClass("active");
     $("#tab2").hide();
-    $("#tab3").hide();
-    $("#tab4").hide();
-    $("#tab5").hide();
     $("#tab1").fadeIn();
 });
 
 $("#tabButton2").on( "click", function() {
     $("#tabButton2").addClass("active");
     $("#tabButton1").removeClass("active");
-    $("#tabButton3").removeClass("active");
-    $("#tabButton4").removeClass("active");
-    $("#tabButton5").removeClass("active");
     $("#tab1").hide();
-    $("#tab3").hide();
-    $("#tab4").hide();
-    $("#tab5").hide();
     $("#tab2").fadeIn();
 });
 
 $("#tabButton3").on( "click", function() {
     $("#tabButton3").addClass("active");
-    $("#tabButton1").removeClass("active");
-    $("#tabButton2").removeClass("active");
     $("#tabButton4").removeClass("active");
     $("#tabButton5").removeClass("active");
-    $("#tab1").hide();
-    $("#tab2").hide();
     $("#tab4").hide();
     $("#tab5").hide();
     $("#tab3").fadeIn();
@@ -940,12 +924,8 @@ $("#tabButton3").on( "click", function() {
 
 $("#tabButton4").on( "click", function() {
     $("#tabButton4").addClass("active");
-    $("#tabButton1").removeClass("active");
-    $("#tabButton2").removeClass("active");
     $("#tabButton3").removeClass("active");
     $("#tabButton5").removeClass("active");
-    $("#tab1").hide();
-    $("#tab2").hide();
     $("#tab3").hide();
     $("#tab5").hide();
     $("#tab4").fadeIn();
@@ -953,12 +933,8 @@ $("#tabButton4").on( "click", function() {
 
 $("#tabButton5").on( "click", function() {
     $("#tabButton5").addClass("active");
-    $("#tabButton1").removeClass("active");
-    $("#tabButton2").removeClass("active");
     $("#tabButton3").removeClass("active");
     $("#tabButton4").removeClass("active");
-    $("#tab1").hide();
-    $("#tab2").hide();
     $("#tab3").hide();
     $("#tab4").hide();
     $("#tab5").fadeIn();
@@ -1055,7 +1031,7 @@ $("#fromCurrency").on( "change", function() {
 });
 
 $("#buttonCollectEarnings").on( "click", function() {
-    wallet.collectEarnings(AINTADDRESS);
+    // wallet.collectEarnings(AINTADDRESS);
 });
 
 $("#buttonCopy").on( "click", function() {
