@@ -673,11 +673,11 @@ class Wallet {
 
     private async initWaves(seed) {
         this.signer = new Signer({
-            NODE_URL: 'https://nodes.aint.digital',
+            NODE_URL: 'https://nodes.anote.digital',
           });
         this.provider = new ProviderSeed(seed);
         this.provider.connect({
-            NODE_URL: 'https://nodes.aint.digital',
+            NODE_URL: 'https://nodes.anote.digital',
             NETWORK_BYTE: 55,
         });
         this.signer.setProvider(this.provider);
@@ -774,11 +774,11 @@ class Wallet {
             try {
                 var seed = libs.crypto.decryptSeed(this.seed, String(password));
                 var signer = new Signer({
-                    NODE_URL: 'https://nodes.aint.digital',
+                    NODE_URL: 'https://nodes.anote.digital',
                   });
                 var provider = new ProviderSeed(seed);
                 provider.connect({
-                    NODE_URL: 'https://nodes.aint.digital',
+                    NODE_URL: 'https://nodes.anote.digital',
                     NETWORK_BYTE: 55,
                 });
                 signer.setProvider(provider);
