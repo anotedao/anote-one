@@ -45,6 +45,8 @@ class Wallet {
         this.earningsAeur = 0;
 
         this.selectedCurrency = ANOTE;
+
+        this.getCaptcha();
     }
 
     getPage():string {
@@ -70,6 +72,13 @@ class Wallet {
         if (!this.seedSaved) {
             $("#seedWarning").show();
         }
+    }
+
+    getCaptcha() {
+        $.getJSON("https://mobile.anote.digital/new-captcha/" + this.address, function(data) {
+            $("#captcha-img").attr("src", data.image);
+            $("#captcha-img").attr("onclick", "this.src=('" + data.image + "?reload='+(new Date()).getTime())");
+        });
     }
 
     getEarningsScript() {

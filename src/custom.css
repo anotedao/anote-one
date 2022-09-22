@@ -19,3 +19,7 @@
 .modal-footer {
     border-top: 0 none;
 }
+
+.captcha-img {
+    /* border: 1px solid darkslategrey; */
+}

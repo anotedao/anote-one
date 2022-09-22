@@ -400,14 +400,39 @@
                 </li>
             </ul>
             <div id="tab3" class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
-               <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>bank.minedAnotes</strong></h3>
-               <span class="display-1 px-2 fw-bold" id="balanceMined">0.00</span><span class="fs-3">ANOTEs</span>
-               <div class="row p-0">
-                  <div class="col text-end pt-2 mt-auto">
-                     <button class="btn btn-lg btn-success" id="buttonCollect">
-                        <i class="bi bi-hammer"></i>&nbsp;&nbsp;<span data-t>bank.mine</span>
-                     </button>
+               <div class="row">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>bank.minedAnotes</strong></h3>
+                     <!-- <span class="display-1 px-2 fw-bold" id="balanceMined">0.00</span><span class="fs-3">ANOTEs</span> -->
+                     <div class="row">
+                        <div class="col text-center pt-2 mt-auto">
+                           <a class="captcha" href="javascript:" tabindex="-1">
+                              <img onclick="" class="captcha-img" src="" id="captcha-img">
+                           </a>
+                        </div>
+                     </div>
+                     <h6 class="p-3 text-center text-secondary border-bottom"><strong data-t>bank.captchacode</strong> (click to reload)</h6>
+                     <div class="row">
+                        <div class="col text-center pt-2 mt-2">
+                           <input type="text" class="form-control" value="" id="captchaCode" name="captchaCode" placeholder="Enter Captcha Code">
+                        </div>
+                     </div>
+                     <h6 class="p-3 text-center text-secondary border-bottom"><strong data-t>bank.miningcode</strong> (find it <a href="https://t.me/AnoteAds" target="_blank">here</a>)</h6>
+                     <div class="row">
+                        <div class="col text-center pt-2 mt-2">
+                           <input type="text" class="form-control" value="" id="miningCode" name="miningCode" placeholder="Enter Mining Code">
+                        </div>
+                     </div>
+                     <div class="row p-0">
+                        <div class="col text-end pt-2 mt-3 mb-3 d-grid">
+                           <button class="btn btn-lg btn-success btn-block" id="buttonCollect">
+                              <i class="bi bi-hammer"></i>&nbsp;&nbsp;<span data-t>bank.mine</span>
+                           </button>
+                        </div>
+                     </div>
                   </div>
+                  <div class="col-0 col-lg-3"></div>
                </div>
             </div>
             <div id="tab4" class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151; display: none;">
