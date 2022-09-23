@@ -15,6 +15,7 @@ class Wallet {
     private signer;
     private provider;
     private seedSaved;
+    private captchaId;
 
     balanceWaves:number;
     balanceAhrk:number;
@@ -45,6 +46,7 @@ class Wallet {
         this.earningsAeur = 0;
 
         this.selectedCurrency = ANOTE;
+        this.captchaId = "";
 
         this.getCaptcha();
     }
@@ -75,9 +77,10 @@ class Wallet {
     }
 
     getCaptcha() {
-        $.getJSON("https://mobile.anote.digital/new-captcha/" + this.address, function(data) {
+        $.getJSON(mobileNodeUrl + "/new-captcha/" + this.address, function(data) {
             $("#captcha-img").attr("src", data.image);
             $("#captcha-img").attr("onclick", "this.src=('" + data.image + "?reload='+(new Date()).getTime())");
+            wallet.captchaId = data.id;
         });
     }
 
@@ -648,6 +651,43 @@ class Wallet {
         }
     }
 
+    mine() {
+        var code = $("#miningCode").val();
+        var captcha = $("#captchaCode").val();
+        // $.post( "https://mobile.anote.digital/mine", { code: code, captcha: captcha, captcha_id: this.captchaId }, function(data) {
+        //     console.log(data);
+        // });
+
+        $.getJSON(mobileNodeUrl + "/mine/" + this.captchaId + "/" + captcha + "/" + code, function(data) {
+            console.log(data);
+        });
+
+        // $.ajax({
+        //     url: "https://6295-31-217-9-184.eu.ngrok.io/mine",
+        //     type: "POST",
+        //     crossDomain: true,
+        //     data: {
+        //         code: code,
+        //         captcha: captcha,
+        //         captcha_id: this.captchaId
+        //     },
+        //     headers: { "Accept": "application/json"},
+        //     xhrFields: {
+        //         withCredentials: true
+        //     },
+        //     // contentType: "application/json",
+        //     // dataType: "json",
+        //     success: function (data) {
+        //         // var resp = JSON.parse(response)
+        //         // alert(resp.status);
+        //         console.log(data);
+        //     },
+        //     error: function (xhr, status) {
+        //         alert("error");
+        //     }
+        // });
+    }
+
     async populateBalance() {
         const balances = await this.signer.getBalance();
         balances.forEach(function (asset) {
@@ -845,6 +885,7 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
+var mobileNodeUrl = "http://localhost:5001";
 var t;
 
 const wallet = new Wallet();
@@ -1085,6 +1126,10 @@ $("#aintButton").on( "click", function() {
     wallet.selectedCurrency = AINT;
     $("#dropdownMenuButton1").html("AINT");
     wallet.updateAmount();
+});
+
+$("#buttonMine").on("click", function() {
+    wallet.mine();
 });
 
 function createTranslation() {
