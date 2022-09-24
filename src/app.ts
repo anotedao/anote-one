@@ -48,7 +48,7 @@ class Wallet {
         this.selectedCurrency = ANOTE;
         this.captchaId = "";
 
-        this.getCaptcha();
+        this.initMiningSection();
     }
 
     getPage():string {
@@ -81,6 +81,23 @@ class Wallet {
             $("#captcha-img").attr("src", data.image);
             $("#captcha-img").attr("onclick", "this.src=('" + data.image + "?reload='+(new Date()).getTime())");
             wallet.captchaId = data.id;
+        });
+    }
+
+    initMiningSection() {
+        this.getCaptcha();
+
+        $.getJSON("https://nodes.anote.digital/node/status", function(data) {
+            var currentHeight = data.blockchainHeight;
+            $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
+                if (data.length > 0) {
+                    var miningHeight = data[0].value;
+                    if (currentHeight - miningHeight <= 1440) {
+                        $("#miningPanel1").hide();
+                        $("#miningPanel2").show();
+                    }
+                }
+            });
         });
     }
 
@@ -734,7 +751,8 @@ class Wallet {
         this.user = await this.signer.login();
         this.address = this.user.address;
         // console.log(this.user);
-        // console.log(this.address);
+        // console.log(this.signer);
+        // console.log(this.provider);
     }
 
     private encryptSeed(seed, password) {
@@ -886,7 +904,8 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
-var mobileNodeUrl = "http://localhost:5001";
+// var mobileNodeUrl = "http://localhost:5001";
+var mobileNodeUrl = "https://mobile.anote.digital";
 var t;
 
 const wallet = new Wallet();
