@@ -654,38 +654,39 @@ class Wallet {
     mine() {
         var code = $("#miningCode").val();
         var captcha = $("#captchaCode").val();
-        // $.post( "https://mobile.anote.digital/mine", { code: code, captcha: captcha, captcha_id: this.captchaId }, function(data) {
-        //     console.log(data);
-        // });
 
-        $.getJSON(mobileNodeUrl + "/mine/" + this.captchaId + "/" + captcha + "/" + code, function(data) {
-            console.log(data);
-        });
-
-        // $.ajax({
-        //     url: "https://6295-31-217-9-184.eu.ngrok.io/mine",
-        //     type: "POST",
-        //     crossDomain: true,
-        //     data: {
-        //         code: code,
-        //         captcha: captcha,
-        //         captcha_id: this.captchaId
-        //     },
-        //     headers: { "Accept": "application/json"},
-        //     xhrFields: {
-        //         withCredentials: true
-        //     },
-        //     // contentType: "application/json",
-        //     // dataType: "json",
-        //     success: function (data) {
-        //         // var resp = JSON.parse(response)
-        //         // alert(resp.status);
-        //         console.log(data);
-        //     },
-        //     error: function (xhr, status) {
-        //         alert("error");
-        //     }
-        // });
+        if (code?.toString().length == 0 || captcha?.toString().length == 0) {
+            $("#pMessage15").html(t.send.bothRequired);
+            $("#pMessage15").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage15").fadeOut();
+                }, 500);
+            });
+        } else {
+            $.getJSON(mobileNodeUrl + "/mine/" + this.address + "/" + this.captchaId + "/" + captcha + "/" + code, function(data) {
+                if (data.error == 1) {
+                    $("#pMessage15").html(t.bank.wrongCaptcha);
+                    $("#pMessage15").fadeIn(function(){
+                        setTimeout(function(){
+                            $("#pMessage15").fadeOut();
+                        }, 500);
+                    });
+                    $("#captcha-img").click();
+                } else if (data.error == 2) {
+                    $("#pMessage15").html(t.bank.wrongCode);
+                    $("#pMessage15").fadeIn(function(){
+                        setTimeout(function(){
+                            $("#pMessage15").fadeOut();
+                        }, 500);
+                    });
+                    $("#captcha-img").click();
+                } else {
+                    $("#miningPanel1").fadeOut(function(){
+                        $("#miningPanel2").fadeIn();
+                    });
+                }
+            });
+        }
     }
 
     async populateBalance() {

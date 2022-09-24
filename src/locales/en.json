@@ -76,7 +76,8 @@
     "minedAnotes": "Mine Anotes",
     "mine": "Mine Anotes",
     "captchacode": "Captcha Code",
-    "miningcode": "Mining Code"
+    "miningcode": "Mining Code",
+    "miningCycle": "Mining cycle is currently running."
   },
   "settings": {
     "seedWords": "Seed Words for Backup",
@@ -128,6 +129,10 @@
     },
     "import": {
       "seedRequired": "Seed words are required."
+    },
+    "bank": {
+      "wrongCaptcha": "Captcha code is wrong, please try again.",
+      "wrongCode": "Mining code is wrong, please try again."
     },
     "bothPassRequired": "Both passwords are required.",
     "passwordsDontMatch": "Passwords don't match."
