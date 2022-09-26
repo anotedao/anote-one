@@ -99,6 +99,16 @@ class Wallet {
                 }
             });
         });
+
+        $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + this.address, function(data) {
+            if (data.length == 0) {
+                $("#miningPanel1").hide();
+                $("#miningPanel2").hide();
+                $("#miningPanel3").show();
+            }
+        });
+
+        $("#buttonTelegram").attr("href", "https://t.me/AnoteRobot?start=" + this.address);
     }
 
     getEarningsScript() {
@@ -904,8 +914,8 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
-// var mobileNodeUrl = "http://localhost:5001";
-var mobileNodeUrl = "https://mobile.anote.digital";
+var mobileNodeUrl = "http://localhost:5001";
+// var mobileNodeUrl = "https://mobile.anote.digital";
 var t;
 
 const wallet = new Wallet();

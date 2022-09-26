@@ -77,7 +77,8 @@
     "mine": "Mine Anotes",
     "captchacode": "Captcha Code",
     "miningcode": "Mining Code",
-    "miningCycle": "Mining cycle is currently running."
+    "miningCycle": "Mining cycle is currently running.",
+    "telegram": "Connect With Telegram"
   },
   "settings": {
     "seedWords": "Seed Words for Backup",
