@@ -96,16 +96,16 @@ class Wallet {
                         $("#miningPanel1").hide();
                         $("#miningPanel2").show();
                     }
+
+                    $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function(data) {
+                        if (data.length == 0) {
+                            $("#miningPanel1").hide();
+                            $("#miningPanel2").hide();
+                            $("#miningPanel3").show();
+                        }
+                    });
                 }
             });
-        });
-
-        $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + this.address, function(data) {
-            if (data.length == 0) {
-                $("#miningPanel1").hide();
-                $("#miningPanel2").hide();
-                $("#miningPanel3").show();
-            }
         });
 
         $("#buttonTelegram").attr("href", "https://t.me/AnoteRobot?start=" + this.address);
