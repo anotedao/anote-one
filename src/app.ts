@@ -47,8 +47,6 @@ class Wallet {
 
         this.selectedCurrency = ANOTE;
         this.captchaId = "";
-
-        this.initMiningSection();
     }
 
     getPage():string {
@@ -497,6 +495,7 @@ class Wallet {
                     });
                     console.log(e.message)
                 }
+                navigator.vibrate(500);
             }
         } else {
             $("#sendError").html(t.send.bothRequired);
@@ -699,6 +698,7 @@ class Wallet {
                         }, 500);
                     });
                     $("#captcha-img").click();
+                    navigator.vibrate(500);
                 } else if (data.error == 2) {
                     $("#pMessage15").html(t.bank.wrongCode);
                     $("#pMessage15").fadeIn(function(){
@@ -707,9 +707,11 @@ class Wallet {
                         }, 500);
                     });
                     $("#captcha-img").click();
+                    navigator.vibrate(500);
                 } else {
                     $("#miningPanel1").fadeOut(function(){
                         $("#miningPanel2").fadeIn();
+                        navigator.vibrate(1500);
                     });
                 }
             });
@@ -801,6 +803,14 @@ class Wallet {
         setInterval(async function(){
             try {
                 await wallet.populateBalance();
+            } catch (e) {}
+        }, 30000);
+
+        await wallet.initMiningSection();
+
+        setInterval(async function(){
+            try {
+                await wallet.initMiningSection();
             } catch (e) {}
         }, 30000);
     }
@@ -914,8 +924,8 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
-var mobileNodeUrl = "http://localhost:5001";
-// var mobileNodeUrl = "https://mobile.anote.digital";
+// var mobileNodeUrl = "http://localhost:5001";
+var mobileNodeUrl = "https://mobile.anote.digital";
 var t;
 
 const wallet = new Wallet();
