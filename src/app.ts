@@ -87,19 +87,25 @@ class Wallet {
 
         $.getJSON("https://nodes.anote.digital/node/status", function(data) {
             var currentHeight = data.blockchainHeight;
-            $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
-                if (data.length > 0) {
-                    var miningHeight = data[0].value;
-                    if (currentHeight - miningHeight <= 1440) {
-                        $("#miningPanel1").hide();
-                        $("#miningPanel2").show();
-                    }
-
-                    $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function(data) {
-                        if (data.length == 0) {
-                            $("#miningPanel1").hide();
+            $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function(data) {
+                if (data.length == 0) {
+                    $("#miningPanel1").hide();
+                    $("#miningPanel2").hide();
+                    $("#miningPanel3").show();
+                } else {
+                    $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
+                        if (data.length > 0) {
+                            var miningHeight = data[0].value;
+                            if (currentHeight - miningHeight <= 1440) {
+                                $("#miningPanel1").hide();
+                                $("#miningPanel2").show();
+                            } else {
+                                $("#miningPanel2").hide();
+                                $("#miningPanel1").show();
+                            }
+                        } else {
                             $("#miningPanel2").hide();
-                            $("#miningPanel3").show();
+                            $("#miningPanel1").show();
                         }
                     });
                 }
@@ -688,6 +694,7 @@ class Wallet {
                     $("#pMessage15").fadeOut();
                 }, 500);
             });
+            navigator.vibrate(500);
         } else {
             $.getJSON(mobileNodeUrl + "/mine/" + this.address + "/" + this.captchaId + "/" + captcha + "/" + code, function(data) {
                 if (data.error == 1) {
@@ -711,7 +718,7 @@ class Wallet {
                 } else {
                     $("#miningPanel1").fadeOut(function(){
                         $("#miningPanel2").fadeIn();
-                        navigator.vibrate(1500);
+                        navigator.vibrate(1000);
                     });
                 }
             });
