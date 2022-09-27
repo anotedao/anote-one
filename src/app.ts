@@ -9,6 +9,7 @@ import copy from 'copy-to-clipboard';
 
 class Wallet { 
     private address;
+    private referral;
     private seed;
     private sessionSeed;
     private user;
@@ -31,6 +32,7 @@ class Wallet {
 
     constructor() { 
         this.address = Cookies.get("address");
+        this.referral = Cookies.get("referral");
         this.seed = Cookies.get("seed");
         this.sessionSeed = Cookies.get("sessionSeed");
         this.seedSaved = Cookies.get("seedSaved");
@@ -816,11 +818,38 @@ class Wallet {
 
         await wallet.initMiningSection();
 
+        await wallet.checkReferral();
+
         setInterval(async function(){
             try {
                 await wallet.initMiningSection();
             } catch (e) {}
         }, 30000);
+    }
+
+    private async checkReferral() {
+        if (this.balanceWaves > 100000) {
+            if (this.referral && this.referral.length > 0) {
+                $.getJSON("https://nodes.anote.digital/addresses/data/" + this.address + "?key=referral", function( data ) {
+                    if (data.length == 0) {
+                        const records = [{ key: 'referral', type: 'string', value: wallet.referral }]
+    
+                        wallet.signer
+                        .data({ data: records })
+                        .broadcast();
+                    } else {
+                        Cookies.remove("referral");
+                        wallet.referral = "";
+                    }
+                });
+            }
+        } else {
+            setInterval(async function(){
+                try {
+                    await wallet.checkReferral();
+                } catch (e) {}
+            }, 30000);
+        }
     }
 
     private accountExists():boolean {
