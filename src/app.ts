@@ -795,6 +795,7 @@ class Wallet {
     }
 
     private async populateData() {
+        $("#referralLink").val("https://anote.one/mine?r=" + this.address);
         $("#address").val(this.address);
         var historyHref = "https://anote.live/address/" + this.address + "/tx";
         $("#history").attr("href", historyHref);
