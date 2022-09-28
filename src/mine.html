@@ -31,10 +31,13 @@
         }
 
         var referral = getReferralFromUrl();
+        var savedReferral = Cookies.get('referral');
 
         if (referral) {
-            Cookies.set('referral', referral, { expires: 30, domain: getDomainName(window.location.hostname) });
-            var urlSplit = window.location.href.split("?");
+            if (!!!savedReferral) {
+                Cookies.set('referral', referral, { expires: 30, domain: getDomainName(window.location.hostname) });
+                var urlSplit = window.location.href.split("?");
+            }
             window.location.href = urlSplit[0];
         }
 
@@ -47,7 +50,7 @@
         <div class="row">
            <div class="col-0 col-lg-2"></div>
            <div class="col-12 col-lg-8 text-center">
-              <div class="bg-light p-md-5 py-5 border shadow-lg my-5">
+              <div class="bg-light p-md-5 py-5 border shadow-lg my-5 p-4">
                  <div class="row">
                     <div class="col"></div>
                     <div class="col-10">
@@ -57,14 +60,14 @@
                  </div>
                  <div class="row mt-5 text-start">
                     <p><u>Anote is a simple to use cryptocurrency that combines best of Bitcoin, Ethereum and PI. You can mine it, send it, receive it and participate in decisions by voting. Start earning today!</u></p>
-                    <p><strong>To start mining and earning follow these simple instructions:</strong></p>
+                    <p><strong>To start mining and earning, follow these simple instructions:</strong></p>
                     <ul class="list-unstyled">
-                        <li><i class="bi bi-check-lg text-success"></i>&nbsp;&nbsp;&nbsp;Install Telegram messenger if you don't have it installed</li>
+                        <li><i class="bi bi-check-lg text-success"></i>&nbsp;&nbsp;&nbsp;Install Telegram messenger (if you don't have it)</li>
                         <li><i class="bi bi-check-lg text-success"></i>&nbsp;&nbsp;&nbsp;Open new account on anote.one wallet</li>
                         <li><i class="bi bi-check-lg text-success"></i>&nbsp;&nbsp;&nbsp;Follow instructions in the wallet</li>
                     </ul>
                  </div>
-                 <div class="row mt-2">
+                 <div class="row mt-4">
                     <a href="https://anote.one" class="btn btn-lg btn-success"><i class="bi bi-hammer"></i>&nbsp;&nbsp;Start Mining Anote</a>
                  </div>
               </div>
