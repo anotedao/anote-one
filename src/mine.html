@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title data-t>Mine Anote</title>
+    <meta name="description" data-attr-t data-attr-t-interpolate content-t="{{html.description}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="./img/favicon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./mine.css">
+    <meta property="og:url" data-attr-t data-attr-t-interpolate content-t="{{html.url}}"/>
+    <meta property="og:type"           content="article" />
+    <meta property="og:title" data-attr-t data-attr-t-interpolate content-t="{{html.title}}"/>
+    <meta property="og:description" data-attr-t data-attr-t-interpolate content-t="{{html.description}}"/>
+    <meta property="og:image" data-attr-t data-attr-t-interpolate content-t="{{html.fbImg}}" />
+    <script>
+
+        !function(e){var n=!1;if("function"==typeof define&&define.amd&&(define(e),n=!0),"object"==typeof exports&&(module.exports=e(),n=!0),!n){var o=window.Cookies,t=window.Cookies=e();t.noConflict=function(){return window.Cookies=o,t}}}(function(){function g(){for(var e=0,n={};e<arguments.length;e++){var o=arguments[e];for(var t in o)n[t]=o[t]}return n}return function e(l){function C(e,n,o){var t;if("undefined"!=typeof document){if(1<arguments.length){if("number"==typeof(o=g({path:"/"},C.defaults,o)).expires){var r=new Date;r.setMilliseconds(r.getMilliseconds()+864e5*o.expires),o.expires=r}o.expires=o.expires?o.expires.toUTCString():"";try{t=JSON.stringify(n),/^[\{\[]/.test(t)&&(n=t)}catch(e){}n=l.write?l.write(n,e):encodeURIComponent(String(n)).replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,decodeURIComponent),e=(e=(e=encodeURIComponent(String(e))).replace(/%(23|24|26|2B|5E|60|7C)/g,decodeURIComponent)).replace(/[\(\)]/g,escape);var i="";for(var c in o)o[c]&&(i+="; "+c,!0!==o[c]&&(i+="="+o[c]));return document.cookie=e+"="+n+i}e||(t={});for(var a=document.cookie?document.cookie.split("; "):[],s=/(%[0-9A-Z]{2})+/g,f=0;f<a.length;f++){var p=a[f].split("="),d=p.slice(1).join("=");this.json||'"'!==d.charAt(0)||(d=d.slice(1,-1));try{var u=p[0].replace(s,decodeURIComponent);if(d=l.read?l.read(d,u):l(d,u)||d.replace(s,decodeURIComponent),this.json)try{d=JSON.parse(d)}catch(e){}if(e===u){t=d;break}e||(t[u]=d)}catch(e){}}return t}}return(C.set=C).get=function(e){return C.call(C,e)},C.getJSON=function(){return C.apply({json:!0},[].slice.call(arguments))},C.defaults={},C.remove=function(e,n){C(e,"",g(n,{expires:-1}))},C.withConverter=e,C}(function(){})});
+
+        function getReferralFromUrl(){
+            var k = 'r';
+            var p={};
+            location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(s,k,v){p[k]=v})
+            return k?p[k]:p;
+        }
+
+        function getDomainName(hostName) {
+            return hostName.substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1);
+        }
+
+        var referral = getReferralFromUrl();
+
+        if (referral) {
+            Cookies.set('referral', referral, { expires: 30, domain: getDomainName(window.location.hostname) });
+            var urlSplit = window.location.href.split("?");
+            window.location.href = urlSplit[0];
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <div class="container" style="padding: 0 30px;">
+        <div class="row">
+           <div class="col-0 col-lg-2"></div>
+           <div class="col-12 col-lg-8 text-center">
+              <div class="bg-light p-md-5 py-5 border shadow-lg my-5">
+                 <div class="row">
+                    <div class="col"></div>
+                    <div class="col-10">
+                       <img src="./img/logo.png" class="img-fluid" style="max-height: 70px;">
+                    </div>
+                    <div class="col"></div>
+                 </div>
+                 <div class="row mt-5 text-start">
+                    <p><u>Anote is a simple to use cryptocurrency that combines best of Bitcoin, Ethereum and PI. You can mine it, send it, receive it and participate in decisions by voting. Start earning today!</u></p>
+                    <p><strong>To start mining follow these simple instructions:</strong></p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-lg text-success"></i>&nbsp;&nbsp;&nbsp;Install Telegram messenger if you don't have it installed</li>
+                        <li><i class="bi bi-check-lg text-success"></i>&nbsp;&nbsp;&nbsp;Open new account on anote.one wallet</li>
+                        <li><i class="bi bi-check-lg text-success"></i>&nbsp;&nbsp;&nbsp;Follow instructions in the wallet</li>
+                    </ul>
+                 </div>
+                 <div class="row mt-2">
+                    <a href="https://anote.one" class="btn btn-lg btn-success"><i class="bi bi-hammer"></i>&nbsp;&nbsp;Start Mining Anote</a>
+                 </div>
+              </div>
+           </div>
+           <div class="col-0 col-lg-2"></div>
+        </div>
+     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
