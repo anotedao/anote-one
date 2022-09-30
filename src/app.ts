@@ -85,8 +85,6 @@ class Wallet {
     }
 
     initMiningSection() {
-        this.getCaptcha();
-
         $.getJSON("https://nodes.anote.digital/node/status", function(data) {
             var currentHeight = data.blockchainHeight;
             $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function(data) {
@@ -717,7 +715,16 @@ class Wallet {
                     });
                     $("#captcha-img").click();
                     navigator.vibrate(500);
-                } else {
+                } else if (data.error == 3) {
+                    $("#pMessage15").html(t.bank.otherError);
+                    $("#pMessage15").fadeIn(function(){
+                        setTimeout(function(){
+                            $("#pMessage15").fadeOut();
+                        }, 500);
+                    });
+                    $("#captcha-img").click();
+                    navigator.vibrate(500);
+                } else if (data.success) {
                     $("#miningPanel1").fadeOut(function(){
                         $("#miningPanel2").fadeIn();
                         navigator.vibrate(1000);
@@ -819,6 +826,8 @@ class Wallet {
         await wallet.initMiningSection();
 
         await wallet.checkReferral();
+
+        await wallet.getCaptcha();
 
         setInterval(async function(){
             try {

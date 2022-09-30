@@ -133,7 +133,8 @@
     },
     "bank": {
       "wrongCaptcha": "Captcha code is wrong, please try again.",
-      "wrongCode": "Mining code is wrong, please try again."
+      "wrongCode": "Mining code is wrong, please try again.",
+      "otherError": "An error happened."
     },
     "bothPassRequired": "Both passwords are required.",
     "passwordsDontMatch": "Passwords don't match."
