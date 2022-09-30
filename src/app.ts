@@ -743,6 +743,46 @@ class Wallet {
         }
     }
 
+    async saveAlias() {
+        var alias = $("#alias").val();
+
+        if (!alias) {
+            $("#pMessage16").html(t.settings.aliasRequired);
+            $("#pMessage16").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage16").fadeOut();
+                }, 500);
+            });
+        } else {
+            try {
+                const data = {
+                    alias: alias,
+                }
+                
+                const tx = await this.signer
+                    .alias(data)
+                    .broadcast();
+
+                // $("#pMessage17").html(error);
+                $("#pMessage17").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage17").fadeOut();
+                    }, 500);
+                });
+
+                $("#alias").attr("readonly", "yes");
+                setTimeout(wallet.checkAlias, 30);
+            } catch (error: any) {
+                $("#pMessage16").html(error);
+                $("#pMessage16").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage16").fadeOut();
+                    }, 500);
+                });
+            }
+        }
+    }
+
     async populateBalance() {
         const balances = await this.signer.getBalance();
         balances.forEach(function (asset) {
@@ -838,6 +878,8 @@ class Wallet {
 
         await wallet.getCaptcha();
 
+        await wallet.checkAlias();
+
         setInterval(async function(){
             try {
                 await wallet.initMiningSection();
@@ -848,17 +890,22 @@ class Wallet {
     private async checkReferral() {
         if (this.balanceWaves > 100000) {
             if (this.referral && this.referral.length > 0) {
-                $.getJSON("https://nodes.anote.digital/addresses/data/" + this.address + "?key=referral", function( data ) {
-                    if (data.length == 0) {
-                        const records = [{ key: 'referral', type: 'string', value: wallet.referral }]
-    
-                        wallet.signer
-                        .data({ data: records })
-                        .broadcast();
-                    } else {
-                        Cookies.remove("referral");
-                        wallet.referral = "";
+                $.getJSON("https://nodes.aint.digital/alias/by-alias/" + this.referral, function( data ) {
+                    if (data.address) {
+                        wallet.referral = data.address;
                     }
+                    $.getJSON("https://nodes.anote.digital/addresses/data/" + wallet.address + "?key=referral", function( data ) {
+                        if (data.length == 0) {
+                            const records = [{ key: 'referral', type: 'string', value: wallet.referral }]
+        
+                            wallet.signer
+                            .data({ data: records })
+                            .broadcast();
+                        } else {
+                            Cookies.remove("referral");
+                            wallet.referral = "";
+                        }
+                    });
                 });
             }
         } else {
@@ -868,6 +915,17 @@ class Wallet {
                 } catch (e) {}
             }, 30000);
         }
+    }
+
+    private async checkAlias() {
+        $.getJSON("https://nodes.aint.digital/alias/by-address/" + this.address, function( data ) {
+            if (data.length > 0) {
+                var alias = String(data[0]).replace("alias:7:", "");
+                $("#alias").val(alias);
+                $("#alias").attr("readonly", "yes");
+                $("#referralLink").val("https://anote.one/mine?r=" + alias);
+            }
+        });
     }
 
     private accountExists():boolean {
@@ -1227,6 +1285,10 @@ $("#aintButton").on( "click", function() {
 
 $("#buttonMine").on("click", function() {
     wallet.mine();
+});
+
+$("#saveAlias").on("click", function() {
+    wallet.saveAlias();
 });
 
 function createTranslation() {

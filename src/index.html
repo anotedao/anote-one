@@ -535,6 +535,24 @@
                <div class="row mt-4">
                   <div class="col-0 col-lg-3"></div>
                   <div class="col-12 col-lg-6">
+                     <h5 class="border-bottom border-lite mb-3" data-t>settings.addAlias</h5>
+                     <form action="javascript:void(0)">
+                        <div class="mb-3">
+                           <label class="form-label fw-bold" data-t>settings.newAlias</label>
+                           <input type="text" class="form-control" id="alias">
+                         </div>
+                        <div id="pMessage16" class="form-text text-danger mb-2" style="display: none;"></div>
+                        <div id="pMessage17" class="form-text text-success mb-2" style="display: none;">Alias successfully saved.</div>
+                        <button class="btn btn-primary mt-2" id="saveAlias">
+                           <i class="bi bi-save"></i>&nbsp;&nbsp;<span data-t>settings.saveAlias</span>
+                        </button>
+                     </form>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div>
+               <div class="row mt-4">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
                      <h5 class="border-bottom border-lite mb-3" data-t>settings.passwordChange</h5>
                      <form action="javascript:void(0)">
                         <div class="mb-3">
@@ -681,16 +699,6 @@
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
    <script src="./app.ts"></script>
-
-   <!-- Global site tag (gtag.js) - Google Analytics -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113507826-3"></script>
-   <script>
-   window.dataLayer = window.dataLayer || [];
-   function gtag(){dataLayer.push(arguments);}
-   gtag('js', new Date());
-
-   gtag('config', 'UA-113507826-3');
-   </script>
 
 </body>
 

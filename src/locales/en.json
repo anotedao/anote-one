@@ -96,7 +96,10 @@
     "logoutTitle": "Logging Out",
     "referralTitle": "Referral Program",
     "referralLink": "Invitation link",
-    "rCopyMessage": "Link is copied."
+    "rCopyMessage": "Link is copied.",
+    "addAlias": "Alias / Nickname",
+    "newAlias": "Add new alias",
+    "saveAlias": "Save Alias"
   },
   "modals": {
     "title1": "Enter Password",
@@ -136,6 +139,9 @@
       "wrongCaptcha": "Captcha code is wrong, please try again.",
       "wrongCode": "Mining code is wrong, please try again.",
       "otherError": "An error happened."
+    },
+    "settings": {
+      "aliasRequired": "Alias field is required."
     },
     "bothPassRequired": "Both passwords are required.",
     "passwordsDontMatch": "Passwords don't match."
