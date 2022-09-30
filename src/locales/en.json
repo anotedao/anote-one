@@ -25,6 +25,7 @@
   },
   "home": {
     "seedWarning": "Save your seed words for backup purposes. You can find them in settings. <strong><u>You are responsible for your account.</u></strong>",
+    "mineInfo": "To start mining Anote, click blue briefcase icon, connect Telegram and mine with a simple click of a button.",
     "tab1": "AnonEuro",
     "tab2": "Mining",
     "tab3": "ANOTE",

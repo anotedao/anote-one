@@ -16,6 +16,7 @@ class Wallet {
     private signer;
     private provider;
     private seedSaved;
+    private openMine;
     private captchaId;
 
     balanceWaves:number;
@@ -36,6 +37,7 @@ class Wallet {
         this.seed = Cookies.get("seed");
         this.sessionSeed = Cookies.get("sessionSeed");
         this.seedSaved = Cookies.get("seedSaved");
+        this.openMine = Cookies.get("openMine");
 
         this.balanceWaves = 0;
         this.balanceAhrk = 0;
@@ -53,6 +55,7 @@ class Wallet {
 
     getPage():string {
         this.checkSeedWarning();
+        this.checkMineWarning();
         if (this.isLoggedIn()) {
             this.populateData();
             this.getEarningsScript();
@@ -73,6 +76,12 @@ class Wallet {
     checkSeedWarning() {
         if (!this.seedSaved) {
             $("#seedWarning").show();
+        }
+    }
+
+    checkMineWarning() {
+        if (!this.openMine) {
+            $("#mineInfo").show();
         }
     }
 
@@ -1009,8 +1018,10 @@ $("#backFromSend").on( "click", function() {
 
 $("#addressBook").on( "click", function() {
     activeScreen = "addressBook";
+    Cookies.set("openMine", "true", { expires: 365*24*10 });
     $("#screen-home").fadeOut(function(){
         $("#screen-addressBook").fadeIn();
+        $("#mineInfo").hide();
     });
 });
 
