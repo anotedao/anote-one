@@ -779,6 +779,7 @@ class Wallet {
 
                 $("#alias").attr("readonly", "yes");
                 $("#referralLink").val("https://anote.one/mine?r=" + alias);
+                $("#saveAlias").remove();
             } catch (error: any) {
                 $("#pMessage16").html(t.settings.aliasLimit);
                 $("#pMessage16").fadeIn(function(){
@@ -931,6 +932,7 @@ class Wallet {
                 $("#alias").val(alias);
                 $("#alias").attr("readonly", "yes");
                 $("#referralLink").val("https://anote.one/mine?r=" + alias);
+                $("#saveAlias").remove();
             }
         });
     }
