@@ -107,13 +107,16 @@ class Wallet {
                             var miningHeight = data[0].value;
                             if (currentHeight - miningHeight <= 1440) {
                                 $("#miningPanel1").hide();
+                                $("#miningPanel3").hide();
                                 $("#miningPanel2").show();
                             } else {
                                 $("#miningPanel2").hide();
+                                $("#miningPanel3").hide();
                                 $("#miningPanel1").show();
                             }
                         } else {
                             $("#miningPanel2").hide();
+                            $("#miningPanel3").hide();
                             $("#miningPanel1").show();
                         }
                     });
