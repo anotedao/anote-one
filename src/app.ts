@@ -753,6 +753,13 @@ class Wallet {
                     $("#pMessage16").fadeOut();
                 }, 500);
             });
+        } else if (this.balanceWaves < 100000) {
+            $("#pMessage16").html(t.settings.aliasMinimumBalance);
+            $("#pMessage16").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage16").fadeOut();
+                }, 500);
+            });
         } else {
             try {
                 const data = {
@@ -771,9 +778,9 @@ class Wallet {
                 });
 
                 $("#alias").attr("readonly", "yes");
-                setTimeout(wallet.checkAlias, 30);
+                $("#referralLink").val("https://anote.one/mine?r=" + alias);
             } catch (error: any) {
-                $("#pMessage16").html(error);
+                $("#pMessage16").html(t.settings.aliasLimit);
                 $("#pMessage16").fadeIn(function(){
                     setTimeout(function(){
                         $("#pMessage16").fadeOut();
@@ -890,7 +897,7 @@ class Wallet {
     private async checkReferral() {
         if (this.balanceWaves > 100000) {
             if (this.referral && this.referral.length > 0) {
-                $.getJSON("https://nodes.aint.digital/alias/by-alias/" + this.referral, function( data ) {
+                $.getJSON("https://nodes.anote.digital/alias/by-alias/" + this.referral, function( data ) {
                     if (data.address) {
                         wallet.referral = data.address;
                     }
@@ -909,7 +916,7 @@ class Wallet {
                 });
             }
         } else {
-            setInterval(async function(){
+            setTimeout(async function(){
                 try {
                     await wallet.checkReferral();
                 } catch (e) {}
@@ -918,7 +925,7 @@ class Wallet {
     }
 
     private async checkAlias() {
-        $.getJSON("https://nodes.aint.digital/alias/by-address/" + this.address, function( data ) {
+        $.getJSON("https://nodes.anote.digital/alias/by-address/" + this.address, function( data ) {
             if (data.length > 0) {
                 var alias = String(data[0]).replace("alias:7:", "");
                 $("#alias").val(alias);
