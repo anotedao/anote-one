@@ -96,30 +96,57 @@ class Wallet {
     initMiningSection() {
         $.getJSON("https://nodes.anote.digital/node/status", function(data) {
             var currentHeight = data.blockchainHeight;
-            $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function(data) {
-                if (data.length == 0) {
+            // $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function(data) {
+            //     if (data.length == 0) {
+            //         $("#miningPanel1").hide();
+            //         $("#miningPanel2").hide();
+            //         $("#miningPanel3").show();
+            //     } else {
+            //         $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
+            //             if (data.length > 0) {
+            //                 var miningHeight = data[0].value;
+            //                 if (currentHeight - miningHeight <= 1440) {
+            //                     $("#miningPanel1").hide();
+            //                     $("#miningPanel3").hide();
+            //                     $("#miningPanel2").show();
+            //                 } else {
+            //                     $("#miningPanel2").hide();
+            //                     $("#miningPanel3").hide();
+            //                     $("#miningPanel1").show();
+            //                 }
+            //             } else {
+            //                 $("#miningPanel2").hide();
+            //                 $("#miningPanel3").hide();
+            //                 $("#miningPanel1").show();
+            //             }
+            //         });
+            //     }
+            // });
+            $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
+                if (data.length > 0) {
+                    var miningData = data[0].value;
+                    var mdSplit = miningData.split("__")
+                    if (mdSplit.length >= 3) {
+                        var miningHeight = parseInt(miningData.split("__")[2]);
+                    } else {
+                        var miningHeight = 0;
+                    }
+                    if (currentHeight - miningHeight <= 1440) {
+                        $("#miningPanel1").hide();
+                        $("#miningPanel3").hide();
+                        $("#miningPanel2").show();
+                    } else {
+                        $("#miningPanel2").hide();
+                        $("#miningPanel3").hide();
+                        $("#miningPanel1").show();
+                    }
+                } else {
+                    // $("#miningPanel2").hide();
+                    // $("#miningPanel3").hide();
+                    // $("#miningPanel1").show();
                     $("#miningPanel1").hide();
                     $("#miningPanel2").hide();
                     $("#miningPanel3").show();
-                } else {
-                    $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
-                        if (data.length > 0) {
-                            var miningHeight = data[0].value;
-                            if (currentHeight - miningHeight <= 1440) {
-                                $("#miningPanel1").hide();
-                                $("#miningPanel3").hide();
-                                $("#miningPanel2").show();
-                            } else {
-                                $("#miningPanel2").hide();
-                                $("#miningPanel3").hide();
-                                $("#miningPanel1").show();
-                            }
-                        } else {
-                            $("#miningPanel2").hide();
-                            $("#miningPanel3").hide();
-                            $("#miningPanel1").show();
-                        }
-                    });
                 }
             });
         });
@@ -708,7 +735,13 @@ class Wallet {
             });
             navigator.vibrate(500);
         } else {
-            $.getJSON(mobileNodeUrl + "/mine/" + this.address + "/" + this.captchaId + "/" + captcha + "/" + code, function(data) {
+            var ref = "";
+
+            if (this.referral && this.referral.length > 0) {
+                ref = "/" + this.referral
+            }
+            
+            $.getJSON(mobileNodeUrl + "/mine/" + wallet.address + "/" + wallet.captchaId + "/" + captcha + "/" + code + ref, function(data) {
                 if (data.error == 1) {
                     $("#pMessage15").html(t.bank.wrongCaptcha);
                     $("#pMessage15").fadeIn(function(){
@@ -885,47 +918,17 @@ class Wallet {
 
         await wallet.initMiningSection();
 
-        await wallet.checkReferral();
-
         await wallet.getCaptcha();
 
         await wallet.checkAlias();
+
+        await wallet.checkReferral();
 
         setInterval(async function(){
             try {
                 await wallet.initMiningSection();
             } catch (e) {}
         }, 30000);
-    }
-
-    private async checkReferral() {
-        if (this.balanceWaves > 100000) {
-            if (this.referral && this.referral.length > 0) {
-                $.getJSON("https://nodes.anote.digital/alias/by-alias/" + this.referral, function( data ) {
-                    if (data.address) {
-                        wallet.referral = data.address;
-                    }
-                    $.getJSON("https://nodes.anote.digital/addresses/data/" + wallet.address + "?key=referral", function( data ) {
-                        if (data.length == 0) {
-                            const records = [{ key: 'referral', type: 'string', value: wallet.referral }]
-        
-                            wallet.signer
-                            .data({ data: records })
-                            .broadcast();
-                        } else {
-                            Cookies.remove("referral");
-                            wallet.referral = "";
-                        }
-                    });
-                });
-            }
-        } else {
-            setTimeout(async function(){
-                try {
-                    await wallet.checkReferral();
-                } catch (e) {}
-            }, 30000);
-        }
     }
 
     private async checkAlias() {
@@ -938,6 +941,17 @@ class Wallet {
                 $("#saveAlias").remove();
             }
         });
+    }
+
+    private async checkReferral() {
+        if (this.referral && this.referral.length > 0 && !this.referral.startsWith("3A")) {
+            $.getJSON("https://nodes.anote.digital/alias/by-alias/" + this.referral, function( data ) {
+                var ref = "";
+                if (data.address) {
+                    wallet.referral = data.address;
+                }
+            });
+        }
     }
 
     private accountExists():boolean {
