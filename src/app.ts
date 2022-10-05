@@ -96,32 +96,7 @@ class Wallet {
     initMiningSection() {
         $.getJSON("https://nodes.anote.digital/node/status", function(data) {
             var currentHeight = data.blockchainHeight;
-            // $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function(data) {
-            //     if (data.length == 0) {
-            //         $("#miningPanel1").hide();
-            //         $("#miningPanel2").hide();
-            //         $("#miningPanel3").show();
-            //     } else {
-            //         $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
-            //             if (data.length > 0) {
-            //                 var miningHeight = data[0].value;
-            //                 if (currentHeight - miningHeight <= 1440) {
-            //                     $("#miningPanel1").hide();
-            //                     $("#miningPanel3").hide();
-            //                     $("#miningPanel2").show();
-            //                 } else {
-            //                     $("#miningPanel2").hide();
-            //                     $("#miningPanel3").hide();
-            //                     $("#miningPanel1").show();
-            //                 }
-            //             } else {
-            //                 $("#miningPanel2").hide();
-            //                 $("#miningPanel3").hide();
-            //                 $("#miningPanel1").show();
-            //             }
-            //         });
-            //     }
-            // });
+
             $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
                 if (data.length > 0) {
                     var miningData = data[0].value;
@@ -141,9 +116,6 @@ class Wallet {
                         $("#miningPanel1").show();
                     }
                 } else {
-                    // $("#miningPanel2").hide();
-                    // $("#miningPanel3").hide();
-                    // $("#miningPanel1").show();
                     $("#miningPanel1").hide();
                     $("#miningPanel2").hide();
                     $("#miningPanel3").show();
