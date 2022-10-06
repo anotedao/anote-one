@@ -809,6 +809,52 @@ class Wallet {
         }
     }
 
+    async unstakeAint() {
+        var a = $("#stakeAmount").val();
+        var amount = 0;
+        if (a != undefined && a != "") {
+            amount = parseFloat(a?.toString()) * 100000000;
+        }
+
+        if (amount > 0) {
+            try {
+                const [tx] = await this.signer.invoke({
+                    dApp: "3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP",
+                    call: { function: "unlockAint", args: [{ type: 'string', value: '' }, { type: 'integer', value: amount }] },
+                    fee: 500000,
+                }).broadcast();
+
+                setTimeout(wallet.populateStaking, 10000);
+
+                $("#stakeAmount").val("");
+
+                $("#pMessage10").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage10").fadeOut();
+                    }, 500);
+                });
+            } catch (e: any) {
+                $("#pMessage11").html(e.message);
+                $("#pMessage11").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage11").fadeOut();
+                    }, 2000);
+                });
+                console.log(e.message)
+                navigator.vibrate(500);
+            }
+
+        } else {
+            $("#pMessage11").html(t.exchange.amountRequired);
+            $("#pMessage11").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage11").fadeOut();
+                }, 2000);
+            });
+            navigator.vibrate(500);
+        }
+    }
+
     async saveAlias() {
         var alias = $("#alias").val();
 
@@ -1358,6 +1404,10 @@ $("#buttonMine").on("click", function() {
 
 $("#buttonStakeAint").on("click", function() {
     wallet.stakeAint();
+});
+
+$("#buttonUnstakeAint").on("click", function() {
+    wallet.unstakeAint();
 });
 
 $("#saveAlias").on("click", function() {
