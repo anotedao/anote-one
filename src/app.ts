@@ -751,6 +751,64 @@ class Wallet {
         }
     }
 
+    async stakeAint() {
+        var a = $("#stakeAmount").val();
+        var amount = 0;
+        if (a != undefined && a != "") {
+            amount = parseFloat(a?.toString()) * 100000000;
+        }
+
+        if (amount > this.balanceAint) {
+            $("#pMessage11").html("You don't have enough AINT.");
+            $("#pMessage11").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage11").fadeOut();
+                }, 2000);
+            });
+            navigator.vibrate(500);
+        } else if (amount > 0) {
+            try {
+                const [tx] = await this.signer.invoke({
+                    dApp: "3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP",
+                    call: { function: "lockAint", args: [{ type: 'string', value: '' }] },
+                    fee: 500000,
+                    payment: [{
+                        assetId: AINT,
+                        amount: amount,
+                    }],
+                }).broadcast();
+
+                setTimeout(wallet.populateStaking, 10000);
+
+                $("#stakeAmount").val("");
+
+                $("#pMessage10").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage10").fadeOut();
+                    }, 500);
+                });
+            } catch (e: any) {
+                $("#pMessage11").html(e);
+                $("#pMessage11").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage11").fadeOut();
+                    }, 2000);
+                });
+                console.log(e.message)
+                navigator.vibrate(500);
+            }
+
+        } else {
+            $("#pMessage11").html(t.exchange.amountRequired);
+            $("#pMessage11").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage11").fadeOut();
+                }, 2000);
+            });
+            navigator.vibrate(500);
+        }
+    }
+
     async saveAlias() {
         var alias = $("#alias").val();
 
@@ -894,6 +952,8 @@ class Wallet {
 
         await wallet.checkAlias();
 
+        await wallet.populateStaking();
+
         await wallet.checkReferral();
 
         setInterval(async function(){
@@ -912,6 +972,17 @@ class Wallet {
                 $("#referralLink").val("https://anote.one/mine?r=" + alias);
                 $("#saveAlias").remove();
             }
+        });
+    }
+
+    private async populateStaking() {
+        var stakingKey = "%25s__" + this.address;
+        $.getJSON("https://nodes.anote.digital/addresses/data/3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP?key=" + stakingKey, function( data ) {
+            var amountStaked = 0.0;
+            if (data.length > 0) {
+                amountStaked = parseFloat(data[0].value) / 100000000;
+            }
+            $("#stakedAmount").val(amountStaked.toFixed(8));
         });
     }
 
@@ -1283,6 +1354,10 @@ $("#aintButton").on( "click", function() {
 
 $("#buttonMine").on("click", function() {
     wallet.mine();
+});
+
+$("#buttonStakeAint").on("click", function() {
+    wallet.stakeAint();
 });
 
 $("#saveAlias").on("click", function() {
