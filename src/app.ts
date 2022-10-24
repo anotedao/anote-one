@@ -1037,8 +1037,9 @@ class Wallet {
             var showDropdown = false;
             var buttonNum = 0;
             data.forEach(function (entry) {
-                if (wallet.address == entry.value) {
-                    var html = '<li><a class="dropdown-item" href="javascript: void null;" id="nodeButton' + buttonNum + '">Node: ' + entry.key + '</a></li>';
+                if (entry.value?.toString().includes(wallet.address)) {
+                    var nodeAddr = entry.value?.toString().split("__")[1]
+                    var html = '<li><a class="dropdown-item" href="javascript: void null;" id="nodeButton' + buttonNum + '">Node: ' + nodeAddr + '</a></li>';
                     $("#dropdownMenu2").append(html);
                     showDropdown = true;
 
