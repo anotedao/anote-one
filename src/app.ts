@@ -29,6 +29,7 @@ class Wallet {
     earningsAhrk:number;
     earningsAeur:number;
     stakeType:string;
+    mineInterval;
 
     selectedCurrency:string;
 
@@ -161,7 +162,9 @@ class Wallet {
 
                         var seconds = blocks * 60;
 
-                        setInterval(function() {
+                        clearInterval(wallet.mineInterval);
+
+                        wallet.mineInterval = setInterval(function() {
                             var countdown = "";
                             seconds--;
                             var hours = Math.floor(seconds / 60 / 60);
