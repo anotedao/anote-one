@@ -141,7 +141,7 @@
       "wrongCaptcha": "Captcha code is wrong, please try again.",
       "wrongCode": "Mining code is wrong, please try again.",
       "ipError": "Sorry, there are too many miners on a single Internet connection.",
-      "otherError": "An error happened."
+      "otherError": "An error happened. Please unblock <a href=\"https://t.me/AnoteRobot\" target=\"_blank\">AnoteRobot</a> Telegram bot to mine."
     },
     "settings": {
       "aliasRequired": "Alias field is required.",
