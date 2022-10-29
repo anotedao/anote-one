@@ -18,6 +18,7 @@ class Wallet {
     private seedSaved;
     private openMine;
     private captchaId;
+    private countdownStarted;
 
     balanceWaves:number;
     balanceAhrk:number;
@@ -29,7 +30,6 @@ class Wallet {
     earningsAhrk:number;
     earningsAeur:number;
     stakeType:string;
-    mineInterval;
 
     selectedCurrency:string;
 
@@ -40,6 +40,7 @@ class Wallet {
         this.sessionSeed = Cookies.get("sessionSeed");
         this.seedSaved = Cookies.get("seedSaved");
         this.openMine = Cookies.get("openMine");
+        this.countdownStarted = false;
 
         this.balanceWaves = 0;
         this.balanceAhrk = 0;
@@ -146,48 +147,38 @@ class Wallet {
                         var blocks = 1410 - currentHeight + miningHeight;
                         $("#blocks").html(blocks?.toString());             
                         setTimeout(wallet.updateBlocks, 60000);
-
-                        var hours = Math.floor(blocks / 60);
-                        var countdown = "~ ";
-                        if (hours < 10) {
-                            countdown += "0";
-                        }
-                        countdown += hours + ":";
-                        var minutes = blocks % 60;
-                        if (minutes < 10) {
-                            countdown += "0";
-                        }
-                        countdown += minutes + ":00";
-                        $("#countdown").html(countdown);
-
                         var seconds = blocks * 60;
-
-                        clearInterval(wallet.mineInterval);
-
-                        wallet.mineInterval = setInterval(function() {
-                            var countdown = "~ ";
-                            seconds--;
-                            var hours = Math.floor(seconds / 60 / 60);
-                            if (hours < 10) {
-                                countdown += "0";
-                            }
-                            countdown += hours + ":";
-                            var minutes = Math.floor(seconds / 60) % 60;
-                            if (minutes < 10) {
-                                countdown += "0";
-                            }
-                            countdown += minutes + ":";
-                            var sec = seconds % 60;
-                            if (sec < 10) {
-                                countdown += "0";
-                            }
-                            countdown += sec;
-                            $("#countdown").html(countdown);
-                        }, 1000);
+                        wallet.startCountdown(seconds);
                     }
                 }
             });
         });
+    }
+
+    startCountdown(seconds) {
+        if (!this.countdownStarted) {
+            this.countdownStarted = true;
+            setInterval(function() {
+                var countdown = "~ ";
+                seconds--;
+                var hours = Math.floor(seconds / 60 / 60);
+                if (hours < 10) {
+                    countdown += "0";
+                }
+                countdown += hours + ":";
+                var minutes = Math.floor(seconds / 60) % 60;
+                if (minutes < 10) {
+                    countdown += "0";
+                }
+                countdown += minutes + ":";
+                var sec = seconds % 60;
+                if (sec < 10) {
+                    countdown += "0";
+                }
+                countdown += sec;
+                $("#countdown").html(countdown);
+            }, 1000);
+        }
     }
 
     getEarningsScript() {
@@ -821,26 +812,7 @@ class Wallet {
 
                     var seconds = 1410 * 60;
 
-                    wallet.mineInterval = setInterval(function() {
-                        var countdown = "~ ";
-                        seconds--;
-                        var hours = Math.floor(seconds / 60 / 60);
-                        if (hours < 10) {
-                            countdown += "0";
-                        }
-                        countdown += hours + ":";
-                        var minutes = Math.floor(seconds / 60) % 60;
-                        if (minutes < 10) {
-                            countdown += "0";
-                        }
-                        countdown += minutes + ":";
-                        var sec = seconds % 60;
-                        if (sec < 10) {
-                            countdown += "0";
-                        }
-                        countdown += sec;
-                        $("#countdown").html(countdown);
-                    }, 1000);
+                    wallet.startCountdown(seconds);
                 }
             });
         }
