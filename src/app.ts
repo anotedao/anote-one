@@ -108,7 +108,8 @@ class Wallet {
                     } else {
                         var miningHeight = 0;
                     }
-                    if (currentHeight - miningHeight <= 1440) {
+                    if (currentHeight - miningHeight <= 1410) {
+                        wallet.updateBlocks();
                         $("#miningPanel1").hide();
                         $("#miningPanel3").hide();
                         $("#miningPanel2").show();
@@ -126,6 +127,64 @@ class Wallet {
         });
 
         $("#buttonTelegram").attr("href", "https://t.me/AnoteRobot?start=" + this.address);
+    }
+
+    updateBlocks() {
+        $.getJSON("https://nodes.anote.digital/node/status", function(data) {
+            var currentHeight = data.blockchainHeight;
+            $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function(data) {
+                if (data.length > 0) {
+                    var miningData = data[0].value;
+                    var mdSplit = miningData.split("__")
+                    if (mdSplit.length >= 3) {
+                        var miningHeight = parseInt(miningData.split("__")[2]);
+                    } else {
+                        var miningHeight = 0;
+                    }
+                    if (currentHeight - miningHeight <= 1410) {
+                        var blocks = 1410 - currentHeight + miningHeight;
+                        $("#blocks").html(blocks?.toString());             
+                        setTimeout(wallet.updateBlocks, 60000);
+
+                        var hours = Math.floor(blocks / 60);
+                        var countdown = "";
+                        if (hours < 10) {
+                            countdown += "0";
+                        }
+                        countdown += hours + ":";
+                        var minutes = blocks % 60;
+                        if (minutes < 10) {
+                            countdown += "0";
+                        }
+                        countdown += minutes + ":00";
+                        $("#countdown").html(countdown);
+
+                        var seconds = blocks * 60;
+
+                        setInterval(function() {
+                            var countdown = "";
+                            seconds--;
+                            var hours = Math.floor(seconds / 60 / 60);
+                            if (hours < 10) {
+                                countdown += "0";
+                            }
+                            countdown += hours + ":";
+                            var minutes = Math.floor(seconds / 60) % 60;
+                            if (minutes < 10) {
+                                countdown += "0";
+                            }
+                            countdown += minutes + ":";
+                            var sec = seconds % 60;
+                            if (sec < 10) {
+                                countdown += "0";
+                            }
+                            countdown += sec;
+                            $("#countdown").html(countdown);
+                        }, 1000);
+                    }
+                }
+            });
+        });
     }
 
     getEarningsScript() {
@@ -742,6 +801,14 @@ class Wallet {
                         }, 500);
                     });
                     $("#captcha-img").click();
+                    navigator.vibrate(500);
+                } else if (data.error == 4) {
+                    $("#pMessage15").html(t.bank.ipError);
+                    $("#pMessage15").fadeIn(function(){
+                        setTimeout(function(){
+                            $("#pMessage15").fadeOut();
+                        }, 1000);
+                    });
                     navigator.vibrate(500);
                 } else if (data.success) {
                     $("#miningPanel1").fadeOut(function(){
