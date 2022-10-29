@@ -801,7 +801,7 @@ class Wallet {
                     $("#pMessage15").fadeIn(function(){
                         setTimeout(function(){
                             $("#pMessage15").fadeOut();
-                        }, 2000);
+                        }, 5000);
                     });
                     $("#captcha-img").click();
                     navigator.vibrate(500);
@@ -818,6 +818,29 @@ class Wallet {
                         $("#miningPanel2").fadeIn();
                         navigator.vibrate(1000);
                     });
+
+                    var seconds = 1410 * 60;
+
+                    wallet.mineInterval = setInterval(function() {
+                        var countdown = "~ ";
+                        seconds--;
+                        var hours = Math.floor(seconds / 60 / 60);
+                        if (hours < 10) {
+                            countdown += "0";
+                        }
+                        countdown += hours + ":";
+                        var minutes = Math.floor(seconds / 60) % 60;
+                        if (minutes < 10) {
+                            countdown += "0";
+                        }
+                        countdown += minutes + ":";
+                        var sec = seconds % 60;
+                        if (sec < 10) {
+                            countdown += "0";
+                        }
+                        countdown += sec;
+                        $("#countdown").html(countdown);
+                    }, 1000);
                 }
             });
         }
