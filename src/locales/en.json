@@ -80,7 +80,7 @@
     "captchacode": "Captcha Code",
     "miningCycleTitle": "Restart Mining In",
     "miningcode": "Mining Code",
-    "miningCycle": "Mining cycle is currently running. One block is around 1 minute.",
+    "miningCycle": "<u><strong>You can close the app!</strong></u><br>Mining cycle is now running. One block is around 1 minute.",
     "telegram": "Connect With Telegram"
   },
   "settings": {
