@@ -101,7 +101,10 @@
     "rCopyMessage": "Link is copied.",
     "addAlias": "Alias / Nickname",
     "newAlias": "Save Your Alias",
-    "saveAlias": "Save Alias"
+    "saveAlias": "Save Alias",
+    "saveReferral": "Save Referral",
+    "yourReferral": "Your Referral",
+    "refTitle": "Your Referral"
   },
   "modals": {
     "title1": "Enter Password",
@@ -145,6 +148,7 @@
     },
     "settings": {
       "aliasRequired": "Alias field is required.",
+      "referralRequired": "Referral field is required.",
       "aliasMinimumBalance": "You need to have at least 0.001 anotes for this.",
       "aliasLimit": "You can only use lowercase alphanumeric characters, dot, underscore, hyphen and @."
     },

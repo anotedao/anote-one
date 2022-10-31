@@ -979,6 +979,28 @@ class Wallet {
         }
     }
 
+    saveReferral() {
+        var referral = $("#referral").val();
+
+        if (!referral) {
+            $("#pMessage18").html(t.settings.referralRequired);
+            $("#pMessage18").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage18").fadeOut();
+                }, 500);
+            });
+        } else {
+            Cookies.set("referral", referral.toString(), { expires: 365*24*10 });
+            $("#referral").attr("readonly", "yes");
+            $("#pMessage19").fadeIn(function(){
+                setTimeout(function(){
+                    $("#pMessage19").fadeOut();
+                    $("#saveReferral").remove();
+                }, 500);
+            });
+        }
+    }
+
     async populateBalance() {
         const balances = await this.signer.getBalance();
         balances.forEach(function (asset) {
@@ -1041,6 +1063,7 @@ class Wallet {
     private setCookies() {
         Cookies.set("address", this.address, { expires: 365*24*10 });
         Cookies.set("seed", this.seed, { expires: 365*24*10 });
+        Cookies.set("referral", this.referral, { expires: 365*24*10 });
 
         var d = new Date();
         d.setHours(d.getHours()+1)
@@ -1073,6 +1096,8 @@ class Wallet {
         await wallet.getCaptcha();
 
         await wallet.checkAlias();
+
+        wallet.checkReferral();
 
         await wallet.populateStaking();
 
@@ -1143,11 +1168,16 @@ class Wallet {
     private async checkReferral() {
         if (this.referral && this.referral.length > 0 && !this.referral.startsWith("3A")) {
             $.getJSON("https://nodes.anote.digital/alias/by-alias/" + this.referral, function( data ) {
-                var ref = "";
                 if (data.address) {
                     wallet.referral = data.address;
                 }
             });
+        }
+
+        if (this.referral.length > 0) {
+            $("#referral").val(this.referral);
+            $("#referral").attr("readonly", "yes");
+            $("#saveReferral").remove();
         }
     }
 
@@ -1533,6 +1563,10 @@ $("#buttonUnstakeAint").on("click", function() {
 
 $("#saveAlias").on("click", function() {
     wallet.saveAlias();
+});
+
+$("#saveReferral").on("click", function() {
+    wallet.saveReferral();
 });
 
 function createTranslation() {
