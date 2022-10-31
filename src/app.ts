@@ -1171,13 +1171,12 @@ class Wallet {
                 if (data.address) {
                     wallet.referral = data.address;
                 }
+                if (wallet.referral.length > 0) {
+                    $("#referral").val(wallet.referral);
+                    $("#referral").attr("readonly", "yes");
+                    $("#saveReferral").remove();
+                }
             });
-        }
-
-        if (this.referral.length > 0) {
-            $("#referral").val(this.referral);
-            $("#referral").attr("readonly", "yes");
-            $("#saveReferral").remove();
         }
     }
 
