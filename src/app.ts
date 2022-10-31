@@ -773,7 +773,7 @@ class Wallet {
         } else {
             var ref = "";
 
-            if (this.referral && this.referral.length > 0) {
+            if (this.referral && this.referral.length > 0 && this.referral != undefined) {
                 ref = "/" + this.referral
             }
             
@@ -990,7 +990,7 @@ class Wallet {
                 }, 500);
             });
         } else {
-            Cookies.set("referral", referral.toString(), { expires: 365*24*10 });
+            Cookies.set("referral", referral?.toString(), { expires: 365*24*10 });
             $("#referral").attr("readonly", "yes");
             $("#pMessage19").fadeIn(function(){
                 setTimeout(function(){
@@ -1097,7 +1097,7 @@ class Wallet {
 
         await wallet.checkAlias();
 
-        wallet.checkReferral();
+        // wallet.checkReferral();
 
         await wallet.populateStaking();
 
@@ -1166,10 +1166,12 @@ class Wallet {
     }
 
     private async checkReferral() {
-        if (this.referral && this.referral.length > 0 && !this.referral.startsWith("3A")) {
+        if (this.referral && this.referral.length > 0 && !this.referral.startsWith("3A") && this.referral != undefined) {
             $.getJSON("https://nodes.anote.digital/alias/by-alias/" + this.referral, function( data ) {
                 if (data.address) {
                     wallet.referral = data.address;
+                    Cookies.remove("referral", { domain: '.anote.one' });
+                    Cookies.set("referral", data.address, { expires: 365*24*10 });
                 }
                 if (wallet.referral.length > 0) {
                     $("#referral").val(wallet.referral);
