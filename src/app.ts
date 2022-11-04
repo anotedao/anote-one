@@ -45,14 +45,23 @@ class Wallet {
 
         if (!this.address || this.address == undefined) {
             this.address = Cookies.get("address");
+            if (this.address && this.address.length > 0 && this.address != undefined) {
+                localStorage.setItem("address", this.address);
+            }
         }
 
         if (!this.referral || this.referral == undefined) {
             this.referral = Cookies.get("referral");
+            if (this.referral && this.referral.length > 0 && this.referral != undefined) {
+                localStorage.setItem("referral", this.referral);
+            }
         }
 
         if (!this.seed || this.seed == undefined) {
             this.seed = Cookies.get("seed");
+            if (this.seed && this.seed.length > 0 && this.seed != undefined) {
+                localStorage.setItem("seed", this.seed);
+            }
         }
 
         this.balanceWaves = 0;
