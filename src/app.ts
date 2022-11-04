@@ -34,14 +34,26 @@ class Wallet {
 
     selectedCurrency:string;
 
-    constructor() { 
-        this.address = Cookies.get("address");
-        this.referral = Cookies.get("referral");
-        this.seed = Cookies.get("seed");
+    constructor() {
+        this.address = localStorage.getItem("address");
+        this.referral = localStorage.getItem("referral");
+        this.seed = localStorage.getItem("seed");
         this.sessionSeed = Cookies.get("sessionSeed");
         this.seedSaved = Cookies.get("seedSaved");
         this.openMine = Cookies.get("openMine");
         this.countdownStarted = false;
+
+        if (!this.address || this.address == undefined) {
+            this.address = Cookies.get("address");
+        }
+
+        if (!this.referral || this.referral == undefined) {
+            this.referral = Cookies.get("referral");
+        }
+
+        if (!this.seed || this.seed == undefined) {
+            this.seed = Cookies.get("seed");
+        }
 
         this.balanceWaves = 0;
         this.balanceAhrk = 0;
@@ -508,8 +520,8 @@ class Wallet {
             this.seed = null;
             this.address = null;
             Cookies.remove("sessionSeed");
-            Cookies.remove("seed");
-            Cookies.remove("address");
+            localStorage.removeItem("seed");
+            localStorage.removeItem("address");
             $("#page-main").fadeOut(function(){
                 $("#page-newaccount").fadeIn();
             });
@@ -990,7 +1002,7 @@ class Wallet {
                 }, 500);
             });
         } else {
-            Cookies.set("referral", referral?.toString(), { expires: 365*24*10 });
+            localStorage.setItem("referral", referral?.toString());
             $("#referral").attr("readonly", "yes");
             $("#pMessage19").fadeIn(function(){
                 setTimeout(function(){
@@ -1061,10 +1073,10 @@ class Wallet {
     }
 
     private setCookies() {
-        Cookies.set("address", this.address, { expires: 365*24*10 });
-        Cookies.set("seed", this.seed, { expires: 365*24*10 });
+        localStorage.setItem("address", this.address);
+        localStorage.setItem("seed", this.seed);
         if (this.referral && this.referral.length > 0 && this.referral != undefined) {
-            Cookies.set("referral", this.referral, { expires: 365*24*10 });
+            localStorage.setItem("referral", this.referral);
         }
 
         var d = new Date();
@@ -1180,8 +1192,8 @@ class Wallet {
             $.getJSON("https://nodes.anote.digital/alias/by-alias/" + this.referral, function( data ) {
                 if (data.address) {
                     wallet.referral = data.address;
-                    Cookies.remove("referral", { domain: '.anote.one' });
-                    Cookies.set("referral", data.address, { expires: 365*24*10 });
+                    localStorage.removeItem("referral");
+                    localStorage.setItem("referral", data.address);
                 }
                 if (wallet.referral.length > 0) {
                     $("#referral").val(wallet.referral);
