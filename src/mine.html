@@ -35,7 +35,7 @@
 
         if (referral) {
             if (!!!savedReferral) {
-                Cookies.set('referral', referral, { expires: 365*24*10, domain: getDomainName(window.location.hostname) });
+                Cookies.set('referral', referral, { expires: 60, domain: getDomainName(window.location.hostname), secure: true });
             }
             var urlSplit = window.location.href.split("?");
             window.location.href = urlSplit[0];

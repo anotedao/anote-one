@@ -77,6 +77,7 @@
     "message": "This section is under the development and it will be available in the next version.",
     "minedAnotes": "Mine Anotes",
     "mine": "Mine Anotes",
+    "getCode": "Get Code",
     "captchacode": "Captcha Code",
     "miningCycleTitle": "Restart Mining In",
     "miningcode": "Mining Code",
