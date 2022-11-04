@@ -1097,6 +1097,8 @@ class Wallet {
 
         await wallet.checkAlias();
 
+        await wallet.getAdNumber();
+
         // wallet.checkReferral();
 
         await wallet.populateStaking();
@@ -1108,6 +1110,12 @@ class Wallet {
                 await wallet.initMiningSection();
             } catch (e) {}
         }, 30000);
+    }
+
+    async getAdNumber() {
+        $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/%25s__adnum", function( data ) {
+            $("#buttonCode").attr("href", "https://t.me/AnoteToday/" + data.value);
+        });
     }
 
     private async checkAlias() {
