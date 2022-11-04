@@ -1063,7 +1063,9 @@ class Wallet {
     private setCookies() {
         Cookies.set("address", this.address, { expires: 365*24*10 });
         Cookies.set("seed", this.seed, { expires: 365*24*10 });
-        Cookies.set("referral", this.referral, { expires: 365*24*10 });
+        if (this.referral && this.referral.length > 0 && this.referral != undefined) {
+            Cookies.set("referral", this.referral, { expires: 365*24*10 });
+        }
 
         var d = new Date();
         d.setHours(d.getHours()+1)
