@@ -9,6 +9,7 @@ import copy from 'copy-to-clipboard';
 
 class Wallet { 
     private address;
+    private addressWaves;
     private referral;
     private seed;
     private sessionSeed;
@@ -36,6 +37,7 @@ class Wallet {
 
     constructor() {
         this.address = localStorage.getItem("address");
+        this.addressWaves = "";
         this.referral = localStorage.getItem("referral");
         this.seed = localStorage.getItem("seed");
         this.sessionSeed = Cookies.get("sessionSeed");
@@ -1066,9 +1068,20 @@ class Wallet {
         this.signer.setProvider(this.provider);
         this.user = await this.signer.login();
         this.address = this.user.address;
-        // console.log(this.user);
-        // console.log(this.signer);
-        // console.log(this.provider);
+
+
+        var signerW = new Signer({
+            NODE_URL: 'https://nodes.wavesplatform.com',
+          });
+        var providerW = new ProviderSeed(seed);
+        providerW.connect({
+            NODE_URL: 'https://nodes.wavesplatform.com',
+            NETWORK_BYTE: 87,
+        });
+
+        signerW.setProvider(providerW);
+        var userW = await signerW.login();
+        this.addressWaves = userW.address;
     }
 
     private encryptSeed(seed, password) {
@@ -1105,6 +1118,8 @@ class Wallet {
             var seed = this.decryptSeedSession();
             await this.initWaves(seed);
         }
+
+        $("#wavesAddress").val(this.addressWaves);
 
         await wallet.populateBalance();
 
@@ -1546,6 +1561,16 @@ $("#buttonCopyReferral").on( "click", function() {
             $("#pMessage13").fadeOut();
         }, 500);
     });
+});
+
+$("#buttonCopyWavesAddress").on( "click", function() {
+    var link = $("#wavesAddress").val();
+    copy(String(link));
+    // $("#pMessage13").fadeIn(function(){
+    //     setTimeout(function(){
+    //         $("#pMessage13").fadeOut();
+    //     }, 500);
+    // });
 });
 
 $("#buttonSeedCopy").on( "click", function() {
