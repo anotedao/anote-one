@@ -1392,14 +1392,18 @@ $("#settings").on( "click", function() {
 $("#tabButton1").on( "click", function() {
     $("#tabButton1").addClass("active");
     $("#tabButton2").removeClass("active");
+    $("#tabButton5").removeClass("active");
     $("#tab2").hide();
+    $("#tab5").hide();
     $("#tab1").fadeIn();
 });
 
 $("#tabButton2").on( "click", function() {
     $("#tabButton2").addClass("active");
     $("#tabButton1").removeClass("active");
+    $("#tabButton5").removeClass("active");
     $("#tab1").hide();
+    $("#tab5").hide();
     $("#tab2").fadeIn();
 });
 
@@ -1423,10 +1427,10 @@ $("#tabButton4").on( "click", function() {
 
 $("#tabButton5").on( "click", function() {
     $("#tabButton5").addClass("active");
-    $("#tabButton3").removeClass("active");
-    $("#tabButton4").removeClass("active");
-    $("#tab3").hide();
-    $("#tab4").hide();
+    $("#tabButton1").removeClass("active");
+    $("#tabButton2").removeClass("active");
+    $("#tab1").hide();
+    $("#tab2").hide();
     $("#tab5").fadeIn();
 });
 
