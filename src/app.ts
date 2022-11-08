@@ -1633,6 +1633,28 @@ $("#saveReferral").on("click", function() {
     wallet.saveReferral();
 });
 
+$("#buttonCalculate").on("click", function() {
+    var amount = $("#sendWaves").val();
+    if (!amount || amount?.toString().length == 0) {
+        $("#pMessage20").fadeIn(function(){
+            setTimeout(function(){
+                $("#pMessage20").fadeOut();
+            }, 1000);
+        });
+    }
+});
+
+$("#buttonMint").on("click", function() {
+    var amount = $("#sendWaves").val();
+    if (!amount || amount?.toString().length == 0) {
+        $("#pMessage20").fadeIn(function(){
+            setTimeout(function(){
+                $("#pMessage20").fadeOut();
+            }, 1000);
+        });
+    }
+});
+
 function createTranslation() {
     var lang = $("#lang").val();
     $.getJSON("locales/" + lang + ".json", function( data ) {
