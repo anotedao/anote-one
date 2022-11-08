@@ -236,12 +236,14 @@
                                 <label class="form-label fw-bold">You Lock (WAVES)</label>
                                 <input type="text" class="form-control" id="sendWaves">
                             </div>
-                            <div>
+                            <div class="mb-3">
                                 <label class="form-label fw-bold">You Mint (AINT)</label>
                                 <input type="text" class="form-control" id="receiveAint" disabled readonly>
                             </div>
-                            <div class="row p-0 mt-2">
-                                <div class="col text-end pt-2 mt-3 mb-3 d-grid">
+                            <div id="pMessage20" class="form-text text-danger mb-2" style="display: none;"></div>
+                            <div id="pMessage21" class="form-text text-success mb-2" style="display: none;">You have successfully minted new AINT.</div>
+                            <div class="row p-0 mt-1">
+                                <div class="col text-end pt-2 d-grid">
                                     <!-- <a class="btn btn-lg btn-secondary btn-block" id="buttonCalculate" href="https://t.me/AnoteToday" target="_blank">
                                         <i class="bi bi-telegram"></i>&nbsp;&nbsp;<span data-t>bank.getCode</span>
                                     </a> -->
@@ -249,7 +251,7 @@
                                         <i class="bi bi-calculator  "></i>&nbsp;&nbsp;<span data-t>Calculate</span>
                                      </button>
                                 </div>
-                                <div class="col text-end pt-2 mt-3 mb-3 d-grid">
+                                <div class="col text-end pt-2 d-grid">
                                    <button class="btn btn-lg btn-success btn-block" id="buttonMint">
                                       <i class="bi bi-hammer"></i>&nbsp;&nbsp;<span data-t>Mint AINT</span>
                                    </button>
