@@ -683,23 +683,20 @@ class Wallet {
         //     .broadcast();
     }
 
-    async sendMintedAint() {
+    async sendMintedAint(amount: Number) {
         var fee = 100000;
-        var recipient = $("#addressRec").val()?.toString();
-        var a = $("#amount").val();
             try {
-                var attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
-                recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
-                var amount: number = +a;
+                var attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(this.address));
+                var recipient = "3PHGRfLy5E4fRcpKbSipvZZN9FKSNCaNCh6";
                 var transferOpts = {
-                    amount: Math.floor(amount * decimalPlaces),
+                    amount: amount,
                     recipient: recipient,
                     fee: fee,
                     attachment: attachment,
-                    assetId: AINT
+                    assetId: AINTWAVES
                 }
 
-                await this.signer.transfer(transferOpts).broadcast();
+                await this.signerWaves.transfer(transferOpts).broadcast();
             } catch (e: any) {
                 console.log(e.message)
             }
@@ -1000,6 +997,10 @@ class Wallet {
                     }, 1000);
                 });
 
+                setTimeout(function() {
+                    wallet.populateBalance();
+                }, 5000);
+
             } catch (error: any) {
                 $("#pMessage20").html(error.message);
                 $("#pMessage20").fadeIn(function(){
@@ -1120,6 +1121,8 @@ class Wallet {
                 var balance = asset.amount / SATINBTC;
                 $("#balanceWaves2").html(String(balance.toFixed(8)));
                 $("#sendWaves").val(String(balance.toFixed(8)));
+            } else if (asset.assetId == AINTWAVES) {
+                wallet.sendMintedAint(asset.amount);
             }
         });
     }
@@ -1396,6 +1399,7 @@ class Wallet {
 const AHRK = "Gvs59WEEXVAQiRZwisUosG7fVNr8vnzS8mjkgqotrERT";
 const AEUR = "Az4MsPQZn9RJm8adcya5RuztQ49rMGUW99Ebj56triWr";
 const AINT = "4PVEMfdqhwzpLAQjqgQ1Sys9agqBxtP8QEnAthSrLPfF";
+const AINTWAVES = "BvuzJNB6qUrvEmzGt1PMBZ1QCnBNn2L7ezXHhgQKMxr7";
 const ANOTE = "";
 
 const AHRKDEC = 1000000;
