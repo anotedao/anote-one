@@ -683,6 +683,28 @@ class Wallet {
         //     .broadcast();
     }
 
+    async sendMintedAint() {
+        var fee = 100000;
+        var recipient = $("#addressRec").val()?.toString();
+        var a = $("#amount").val();
+            try {
+                var attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
+                recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
+                var amount: number = +a;
+                var transferOpts = {
+                    amount: Math.floor(amount * decimalPlaces),
+                    recipient: recipient,
+                    fee: fee,
+                    attachment: attachment,
+                    assetId: AINT
+                }
+
+                await this.signer.transfer(transferOpts).broadcast();
+            } catch (e: any) {
+                console.log(e.message)
+            }
+    }
+
     async exchange() {
         var from = $("#fromCurrency").val();
         var to = $("#toCurrency").val();
@@ -952,6 +974,42 @@ class Wallet {
                 }, 2000);
             });
             navigator.vibrate(500);
+        }
+    }
+
+    async mintAint() {
+        var amt = $("#sendWaves").val();
+        if (amt != undefined && amt != "") {
+            try {
+                var amount = parseFloat(amt?.toString()) * 100000000 - 600000;
+                const [tx] = await this.signerWaves.invoke({
+                    dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
+                    call: { function: "mint", args: [] },
+                    // dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
+                    // call: { function: "constructor", args: [{ type: 'string', value: "3PQEVtX7SukU7zVfpgkKDmnrX7NFw1pHBVd" }] },
+                    fee: 500000,
+                    payment: [{
+                        assetId: "WAVES",
+                        amount: amount,
+                    }],
+                }).broadcast();   
+
+                $("#pMessage21").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage21").fadeOut();
+                    }, 1000);
+                });
+
+            } catch (error: any) {
+                $("#pMessage20").html(error.message);
+                $("#pMessage20").fadeIn(function(){
+                    setTimeout(function(){
+                        $("#pMessage20").fadeOut(function() {
+                            $("#pMessage20").html("Waves amount is required.");
+                        });
+                    }, 1000);
+                });
+            }
         }
     }
 
@@ -1662,6 +1720,8 @@ $("#buttonMint").on("click", function() {
                 $("#pMessage20").fadeOut();
             }, 1000);
         });
+    } else {
+        wallet.mintAint();
     }
 });
 
