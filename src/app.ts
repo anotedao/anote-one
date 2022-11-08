@@ -697,6 +697,14 @@ class Wallet {
                 }
 
                 await this.signerWaves.transfer(transferOpts).broadcast();
+
+                $("#pMessage21").html("Minting is done. You can continue using your app normally. Your AINTs will be shown on your balance in a minute.");
+                setTimeout(function() {
+                    wallet.populateBalance();
+                    $("#pMessage21").fadeOut(function() {
+                        $("#pMessage21").html("You have successfully minted new AINT.");
+                    });
+                }, 3000);
             } catch (e: any) {
                 console.log(e.message)
             }
@@ -993,7 +1001,7 @@ class Wallet {
 
                 $("#pMessage21").fadeIn(function(){
                     setTimeout(function(){
-                        $("#pMessage21").fadeOut();
+                        $("#pMessage21").html("<u><strong>Please wait for a few seconds without refreshing or closing the app!</strong></u>")
                     }, 1000);
                 });
 
