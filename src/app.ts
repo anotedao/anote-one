@@ -15,6 +15,7 @@ class Wallet {
     private sessionSeed;
     private user;
     private signer;
+    private signerWaves;
     private provider;
     private seedSaved;
     private openMine;
@@ -1054,6 +1055,15 @@ class Wallet {
                 $("#balanceAnotes").html(String(balance.toFixed(8)));
             }
         });
+
+        const balancesW = await this.signerWaves.getBalance();
+        balancesW.forEach(function (asset) {
+            if (asset.assetId == "WAVES") {
+                var balance = asset.amount / SATINBTC;
+                $("#balanceWaves2").html(String(balance.toFixed(8)));
+                $("#sendWaves").val(String(balance.toFixed(8)));
+            }
+        });
     }
 
     private async initWaves(seed) {
@@ -1070,7 +1080,7 @@ class Wallet {
         this.address = this.user.address;
 
 
-        var signerW = new Signer({
+        this.signerWaves = new Signer({
             NODE_URL: 'https://nodes.wavesplatform.com',
           });
         var providerW = new ProviderSeed(seed);
@@ -1079,8 +1089,8 @@ class Wallet {
             NETWORK_BYTE: 87,
         });
 
-        signerW.setProvider(providerW);
-        var userW = await signerW.login();
+        this.signerWaves.setProvider(providerW);
+        var userW = await this.signerWaves.login();
         this.addressWaves = userW.address;
     }
 
