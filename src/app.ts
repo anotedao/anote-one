@@ -1016,10 +1016,29 @@ class Wallet {
                         $("#pMessage20").fadeOut(function() {
                             $("#pMessage20").html("Waves amount is required.");
                         });
-                    }, 1000);
+                    }, 3000);
                 });
             }
         }
+    }
+
+    async loadAintInfo() {
+        $.getJSON("https://nodes.wavesplatform.com/addresses/data/3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy", function( data ) {
+            data.forEach(function (entry) {
+                if (entry.key == "%s__price") {
+                    var price = parseFloat(entry.value) / 100000000;
+                    $("#aintPrice").val(price.toFixed(8));
+                } else if (entry.key == "%s__tier") {
+                    var tier = parseFloat(entry.value) / 100000000;
+                    $("#aintTier").val(tier.toFixed(8));
+                }
+            });
+        });
+
+        $.getJSON("https://nodes.wavesplatform.com/assets/balance/3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy/BvuzJNB6qUrvEmzGt1PMBZ1QCnBNn2L7ezXHhgQKMxr7", function( data ) {
+            var total = parseFloat(data.balance) / 100000000;
+            $("#aintTotal").val(total.toFixed(8));
+        });
     }
 
     async saveAlias() {
@@ -1133,6 +1152,8 @@ class Wallet {
                 wallet.sendMintedAint(asset.amount);
             }
         });
+
+        this.loadAintInfo();
     }
 
     private async initWaves(seed) {
