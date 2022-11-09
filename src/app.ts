@@ -1079,7 +1079,7 @@ class Wallet {
             var price = this.aintPrice;
 
             while (amountWaves > 0.005) {
-                amountAint += amountStepWaves / this.aintPrice;
+                amountAint += amountStepWaves / price;
                 // console.log(amountAint);
 
                 amountWaves = amountWaves - amountStepWaves - 0.005;
@@ -1818,7 +1818,7 @@ $("#saveReferral").on("click", function() {
 
 $("#buttonCalculate").on("click", function() {
     var amount = $("#sendWaves").val();
-    if (!amount || amount?.toString().length == 0) {
+    if (!amount || amount?.toString().length == 0 || parseFloat(amount?.toString()) == 0) {
         $("#pMessage20").fadeIn(function(){
             setTimeout(function(){
                 $("#pMessage20").fadeOut();
@@ -1835,7 +1835,7 @@ $("#wavesMax").on("click", function() {
 
 $("#buttonMint").on("click", function() {
     var amount = $("#sendWaves").val();
-    if (!amount || amount?.toString().length == 0) {
+    if (!amount || amount?.toString().length == 0 || parseFloat(amount?.toString()) == 0) {
         $("#pMessage20").fadeIn(function(){
             setTimeout(function(){
                 $("#pMessage20").fadeOut();
