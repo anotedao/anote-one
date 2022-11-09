@@ -707,9 +707,11 @@ class Wallet {
                 $("#pMessage21").html("Minting is done. You can continue using your app normally. Your AINTs will be shown on your balance in a minute.");
                 setTimeout(function() {
                     wallet.populateBalance(false);
-                    $("#pMessage21").fadeOut(function() {
-                        $("#pMessage21").html("You have successfully minted new AINT.");
-                    });
+                    // $("#pMessage21").fadeOut(function() {
+                    //     $("#pMessage21").html("You have successfully minted new AINT.");
+                    // });
+                    $("#mintLoading").fadeOut();
+
                 }, 3000);
             } catch (e: any) {
                 console.log(e.message)
@@ -995,6 +997,9 @@ class Wallet {
                 setTimeout(function(){
                     $("#pMessage21").html("<u><strong>Please wait for a few seconds without refreshing or closing the app!</strong></u>")
                 }, 1000);
+                $("#mint1").fadeOut(function() {
+                    $("#mint2").fadeIn();
+                });
             });
             
             var amountWaves = parseFloat(amt?.toString()) - 0.001;
@@ -1822,6 +1827,10 @@ $("#buttonCalculate").on("click", function() {
     } else {
         wallet.calculateAint();
     }
+});
+
+$("#wavesMax").on("click", function() {
+    $("#sendWaves").val(wallet.balanceWaves2.toFixed(8));
 });
 
 $("#buttonMint").on("click", function() {

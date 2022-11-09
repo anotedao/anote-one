@@ -219,57 +219,77 @@
                         <div class="col-0 col-lg-3"></div>
                         <div class="col-12 col-lg-6">
                             <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.mintAintTitle</strong></h3>
-                            <div>
-                                <span class="display-4 px-2 fw-bold" id="balanceWaves2">0.0</span><span class="fs-3" data-t>WAVES</span>
-                            </div>
-                            <label for="wavesAddress" class="form-label fw-bold mt-1">Your WAVES Address</label>
-                            <div class="input-group mb-3 input-group-sm">
-                                <input type="text" class="form-control" readonly value="" id="wavesAddress">
-                                <div class="input-group-append">
-                                   <button class="btn btn-primary" type="button" id="buttonCopyWavesAddress">
-                                      <i class="bi bi-files"></i>
-                                   </button>
+                            <div id="mint1">
+                                <div>
+                                    <span class="display-4 px-2 fw-bold" id="balanceWaves2">0.0</span><span class="fs-3" data-t>WAVES</span>
+                                </div>
+                                <label for="wavesAddress" class="form-label fw-bold mt-1">Your WAVES Address</label>
+                                <div class="input-group mb-3 input-group-sm">
+                                    <input type="text" class="form-control" readonly value="" id="wavesAddress">
+                                    <div class="input-group-append">
+                                       <button class="btn btn-primary" type="button" id="buttonCopyWavesAddress">
+                                          <i class="bi bi-files"></i>
+                                       </button>
+                                    </div>
+                                </div>
+                                <h4 class="p-2 text-center text-secondary border-bottom"><strong data-t>AINT Contract Info</strong></h4>
+                                <div class="mb-2 mt-3">
+                                    <label class="form-label fw-bold">Current AINT Price (in WAVES)</label>
+                                    <input type="text" class="form-control" id="aintPrice" disabled readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label fw-bold">AINT With This Price</label>
+                                    <input type="text" class="form-control" id="aintTier" disabled readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Total AINT Left</label>
+                                    <input type="text" class="form-control" id="aintTotal" disabled readonly>
+                                </div>
+                                <h4 class="p-2 text-center text-secondary border-bottom"><strong data-t>Calculate</strong></h4>
+                                <div class="mb-2 mt-3">
+                                    <label class="form-label fw-bold">You Lock (WAVES)</label>
+                                    <div class="input-group mb-2 mt-0 input-group-sm">
+                                        <input type="text" class="form-control" readonly value="" id="sendWaves">
+                                        <div class="input-group-append">
+                                           <button class="btn btn-primary" type="button" id="wavesMax">
+                                              MAX
+                                           </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">You Mint (AINT)</label>
+                                    <input type="text" class="form-control" id="receiveAint" disabled readonly>
+                                </div>
+                                <div id="pMessage20" class="form-text text-danger mb-2" style="display: none;">Waves amount is required.</div>
+                                <div class="row p-0 mt-1">
+                                    <div class="col text-end pt-2 d-grid">
+                                        <!-- <a class="btn btn-lg btn-secondary btn-block" id="buttonCalculate" href="https://t.me/AnoteToday" target="_blank">
+                                            <i class="bi bi-telegram"></i>&nbsp;&nbsp;<span data-t>bank.getCode</span>
+                                        </a> -->
+                                        <button class="btn btn-lg btn-secondary btn-block" id="buttonCalculate">
+                                            <i class="bi bi-calculator  "></i>&nbsp;&nbsp;<span data-t>Calculate</span>
+                                         </button>
+                                    </div>
+                                    <div class="col text-end pt-2 d-grid">
+                                       <button class="btn btn-lg btn-success btn-block" id="buttonMint">
+                                          <i class="bi bi-hammer"></i>&nbsp;&nbsp;<span data-t>Mint AINT</span>
+                                       </button>
+                                    </div>
                                 </div>
                             </div>
-                            <h4 class="p-2 text-center text-secondary border-bottom"><strong data-t>AINT Contract Info</strong></h4>
-                            <div class="mb-2 mt-3">
-                                <label class="form-label fw-bold">Current AINT Price (in WAVES)</label>
-                                <input type="text" class="form-control" id="aintPrice" disabled readonly>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label fw-bold">AINT With This Price</label>
-                                <input type="text" class="form-control" id="aintTier" disabled readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Total AINT Left</label>
-                                <input type="text" class="form-control" id="aintTotal" disabled readonly>
-                            </div>
-                            <h4 class="p-2 text-center text-secondary border-bottom"><strong data-t>Calculate</strong></h4>
-                            <div class="mb-2 mt-3">
-                                <label class="form-label fw-bold">You Lock (WAVES)</label>
-                                <input type="text" class="form-control" id="sendWaves">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">You Mint (AINT)</label>
-                                <input type="text" class="form-control" id="receiveAint" disabled readonly>
-                            </div>
-                            <div id="pMessage20" class="form-text text-danger mb-2" style="display: none;">Waves amount is required.</div>
-                            <div id="pMessage21" class="form-text text-success mb-2" style="display: none;">You have successfully minted new AINT.</div>
-                            <div class="row p-0 mt-1">
-                                <div class="col text-end pt-2 d-grid">
-                                    <!-- <a class="btn btn-lg btn-secondary btn-block" id="buttonCalculate" href="https://t.me/AnoteToday" target="_blank">
-                                        <i class="bi bi-telegram"></i>&nbsp;&nbsp;<span data-t>bank.getCode</span>
-                                    </a> -->
-                                    <button class="btn btn-lg btn-secondary btn-block" id="buttonCalculate">
-                                        <i class="bi bi-calculator  "></i>&nbsp;&nbsp;<span data-t>Calculate</span>
-                                     </button>
+                            <div id="mint2" style="display: none;">
+                                <div id="mintLoading">
+                                    <div class="d-flex justify-content-center my-5">
+                                        <div class="spinner-border text-danger" role="status">
+                                          <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col text-end pt-2 d-grid">
-                                   <button class="btn btn-lg btn-success btn-block" id="buttonMint">
-                                      <i class="bi bi-hammer"></i>&nbsp;&nbsp;<span data-t>Mint AINT</span>
-                                   </button>
+                                <div class="alert alert-success" role="alert" id="pMessage21">
+                                    Your AINT is being minted, please wait!
                                 </div>
-                             </div>
+                            </div>
                         </div>
                         <div class="col-0 col-lg-3"></div>
                     </div>
