@@ -991,6 +991,14 @@ class Wallet {
     }
 
     async mintAint() {
+        // const [tx] = await this.signerWaves.invoke({
+        //     // dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
+        //     // call: { function: "mint", args: [] },
+        //     dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
+        //     call: { function: "constructor", args: [{ type: 'string', value: "3PQEVtX7SukU7zVfpgkKDmnrX7NFw1pHBVd" }] },
+        //     fee: 500000,
+        //     payment: [],
+        // }).broadcast();
         var amt = $("#sendWaves").val();
         if (amt != undefined && amt != "") {
             $("#pMessage21").fadeIn(function(){
