@@ -904,7 +904,7 @@ class Wallet {
         } else if (amount > 0) {
             try {
                 const [tx] = await this.signer.invoke({
-                    dApp: "3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP",
+                    dApp: "3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD",
                     call: { function: "lockAint", args: [{ type: 'string', value: this.stakeType }] },
                     fee: 500000,
                     payment: [{
@@ -952,9 +952,10 @@ class Wallet {
         }
 
         if (amount > 0) {
+            console.log(this.stakeType);
             try {
                 const [tx] = await this.signer.invoke({
-                    dApp: "3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP",
+                    dApp: "3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD",
                     call: { function: "unlockAint", args: [{ type: 'string', value: this.stakeType }, { type: 'integer', value: amount }] },
                     fee: 500000,
                 }).broadcast();
@@ -1360,10 +1361,10 @@ class Wallet {
 
     private async populateStaking() {
         var stakingKey = "%25s__" + this.address;
-        $.getJSON("https://nodes.anote.digital/addresses/data/3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP?key=" + stakingKey, function( data ) {
+        $.getJSON("https://nodes.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function( data ) {
             var amountStaked = 0.0;
             if (data.length > 0) {
-                amountStaked = parseFloat(data[0].value) / 100000000;
+                amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
             }
             $("#stakedAmount").val(amountStaked.toFixed(8));
         });
@@ -1382,10 +1383,10 @@ class Wallet {
                         $("#dropdownMenuButton2").html(this.innerHTML);
                         wallet.stakeType = this.innerHTML.replace("Node: ", "");
                         var stakingKey = "%25s__" + wallet.stakeType;
-                        $.getJSON("https://nodes.anote.digital/addresses/data/3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP?key=" + stakingKey, function( data ) {
+                        $.getJSON("https://nodes.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function( data ) {
                             var amountStaked = 0.0;
                             if (data.length > 0) {
-                                amountStaked = parseFloat(data[0].value) / 100000000;
+                                amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
                             }
                             $("#stakedAmount").val(amountStaked.toFixed(8));
                         });
@@ -1792,10 +1793,10 @@ $("#mobileButton").on( "click", function() {
     wallet.stakeType = "mobile";
     $("#dropdownMenuButton2").html("Mobile Mining");
     var stakingKey = "%25s__" + wallet.getAddress();
-    $.getJSON("https://nodes.anote.digital/addresses/data/3ACyYVfFcyco4RS8WLbyRSGPHPeCCiUuSqP?key=" + stakingKey, function( data ) {
+    $.getJSON("https://nodes.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function( data ) {
         var amountStaked = 0.0;
         if (data.length > 0) {
-            amountStaked = parseFloat(data[0].value) / 100000000;
+            amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
         }
         $("#stakedAmount").val(amountStaked.toFixed(8));
     });
