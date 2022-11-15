@@ -172,10 +172,8 @@
         <!-- Screen Home -->
         <div id="screen-home">
             <div class="row">
-                <div class="alert alert-danger" role="alert" id="seedWarning" style="display: none;" data-t>
-                    home.seedWarning</div>
-                <div class="alert alert-primary" role="alert" id="mineInfo" style="display: none;" data-t>home.mineInfo
-                </div>
+                <div class="alert alert-danger" role="alert" id="seedWarning" style="display: none;" data-t>home.seedWarning</div>
+                <div class="alert alert-primary" role="alert" id="mineInfo" style="display: none;" data-t>home.mineInfo</div>
                 <ul class="nav nav-tabs mb-5 mt-4">
                     <li class="nav-item">
                         <a class="nav-link active fw-bold" href="javascript:void(0)" id="tabButton1"
@@ -604,8 +602,7 @@
                     <div class="row mt-3">
                         <div class="col-0 col-lg-3"></div>
                         <div class="col-12 col-lg-6">
-                            <h5 class="p-2 border-bottom border-lite mb-3 text-center" data-t>settings.referralTitle
-                            </h5>
+                            <h5 class="p-2 border-bottom border-lite mb-3 text-center" data-t>settings.referralTitle</h5>
                             <form action="javascript:void(0)">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold" data-t>settings.referralLink</label>
@@ -667,43 +664,48 @@
                         <div class="col-12 col-lg-6">
                             <h5 class="pb-2 text-start text-secondary border-bottom mb-3"><strong
                                     data-t>home.stakeAintNodeTitle</strong></h5>
-                            <div class="mb-3" id="stakeTypeDropdown">
-                                <label class="form-label fw-bold" data-t>Node</label>
-                                <div class="dropdown d-grid">
-                                    <button class="btn btn-block btn-primary btn-lg dropdown-toggle" type="button"
-                                        id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false"
-                                        style="text-align: left; font-size: 1rem; padding: 0.75rem 1rem;">
-                                        Node
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2" id="dropdownMenu2">
-                                        
-                                    </ul>
+                            <div id="nodeStakePanel">
+                                <div class="mb-3" id="stakeTypeDropdown">
+                                    <label class="form-label fw-bold" data-t>Node</label>
+                                    <div class="dropdown d-grid">
+                                        <button class="btn btn-block btn-primary btn-lg dropdown-toggle" type="button"
+                                            id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false"
+                                            style="text-align: left; font-size: 1rem; padding: 0.75rem 1rem;">
+                                            Node
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2" id="dropdownMenu2">
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stakedAmount" class="form-label"><strong>Staked Amount</strong></label>
+                                    <input type="text" class="form-control" id="stakedAmountNode" placeholder="0.0" readonly
+                                        disabled>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="stakeAmount" class="form-label"><strong>Amount</strong></label>
+                                    <input type="text" class="form-control" id="stakeAmountNode" placeholder="0.0">
+                                </div>
+                                <div id="pMessage23" class="form-text text-success mb-4"
+                                    style="display: none; margin-top: 0;">You have successfully staked AINT.</div>
+                                <div id="pMessage24" class="form-text text-danger mb-4"
+                                    style="display: none; margin-top: 0;"></div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-success btn-lg" id="buttonStakeAintNode">
+                                            <i class="bi bi-lock-fill"></i>&nbsp;&nbsp;Stake AINT
+                                        </button>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <button type="button" class="btn btn-danger btn-lg" id="buttonUnstakeAintNode">
+                                            <i class="bi bi-unlock-fill"></i>&nbsp;&nbsp;Unstake AINT
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="stakedAmount" class="form-label"><strong>Staked Amount</strong></label>
-                                <input type="text" class="form-control" id="stakedAmountNode" placeholder="0.0" readonly
-                                    disabled>
-                            </div>
-                            <div class="mb-4">
-                                <label for="stakeAmount" class="form-label"><strong>Amount</strong></label>
-                                <input type="text" class="form-control" id="stakeAmountNode" placeholder="0.0">
-                            </div>
-                            <div id="pMessage23" class="form-text text-success mb-4"
-                                style="display: none; margin-top: 0;">You have successfully staked AINT.</div>
-                            <div id="pMessage24" class="form-text text-danger mb-4"
-                                style="display: none; margin-top: 0;"></div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <button type="button" class="btn btn-success btn-lg" id="buttonStakeAintNode">
-                                        <i class="bi bi-lock-fill"></i>&nbsp;&nbsp;Stake AINT
-                                    </button>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <button type="button" class="btn btn-danger btn-lg" id="buttonUnstakeAintNode">
-                                        <i class="bi bi-unlock-fill"></i>&nbsp;&nbsp;Unstake AINT
-                                    </button>
-                                </div>
+                            <div style="display: none;" id="nodeStakePanel2">
+                                You don't have active Anote nodes.
                             </div>
                         </div>
                         <div class="col-0 col-lg-3"></div>

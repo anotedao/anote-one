@@ -887,6 +887,7 @@ class Wallet {
     }
 
     async stakeAint() {
+        this.stakeType = "mobile";
         var a = $("#stakeAmount").val();
         var amount = 0;
         if (a != undefined && a != "") {
@@ -913,7 +914,7 @@ class Wallet {
                     }],
                 }).broadcast();
 
-                // setTimeout(wallet.populateStaking, 10000);
+                setTimeout(wallet.populateStaking, 3000);
 
                 $("#stakeAmount").val("");
 
@@ -945,6 +946,7 @@ class Wallet {
     }
 
     async unstakeAint() {
+        this.stakeType = "mobile";
         var a = $("#stakeAmount").val();
         var amount = 0;
         if (a != undefined && a != "") {
@@ -960,7 +962,7 @@ class Wallet {
                     fee: 500000,
                 }).broadcast();
 
-                // setTimeout(wallet.populateStaking, 10000);
+                setTimeout(wallet.populateStaking, 3000);
 
                 $("#stakeAmount").val("");
 
@@ -1029,7 +1031,7 @@ class Wallet {
                     }],
                 }).broadcast();
 
-                // setTimeout(wallet.populateStaking, 10000);
+                setTimeout(wallet.populateStaking, 3000);
 
                 $("#stakeAmountNode").val("");
 
@@ -1087,7 +1089,7 @@ class Wallet {
                     fee: 500000,
                 }).broadcast();
 
-                // setTimeout(wallet.populateStaking, 10000);
+                setTimeout(wallet.populateStaking, 3000);
 
                 $("#stakeAmountNode").val("");
 
@@ -1487,7 +1489,7 @@ class Wallet {
     }
 
     private async populateStaking() {
-        var stakingKey = "%25s__" + this.address;
+        var stakingKey = "%25s__" + wallet.address;
         $.getJSON("https://nodes.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
             var amountStaked = 0.0;
             if (data.length > 0) {
@@ -1497,14 +1499,15 @@ class Wallet {
         });
 
         $.getJSON("https://nodes.anote.digital/addresses/data/3AVTze8bR1SqqMKv3uLedrnqCuWpdU7GZwX", function (data) {
-            var showDropdown = false;
+            var showNodeStake = false;
             var buttonNum = 0;
+            $("#dropdownMenu2").html("");
             data.forEach(function (entry) {
                 if (entry.value?.toString().includes(wallet.address)) {
                     var nodeAddr = entry.value?.toString().split("__")[1]
                     var html = '<li><a class="dropdown-item" href="javascript: void null;" id="nodeButton' + buttonNum + '">Node: ' + nodeAddr + '</a></li>';
                     $("#dropdownMenu2").append(html);
-                    showDropdown = true;
+                    showNodeStake = true;
 
                     $("#nodeButton" + buttonNum).on("click", function () {
                         $("#dropdownMenuButton2").html(this.innerHTML);
@@ -1523,8 +1526,9 @@ class Wallet {
                 }
             });
 
-            if (showDropdown) {
-                $("#stakeTypeDropdown").show();
+            if (!showNodeStake) {
+                $("#nodeStakePanel").hide();
+                $("#nodeStakePanel2").show();
             }
         });
     }
