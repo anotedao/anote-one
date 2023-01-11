@@ -1722,7 +1722,7 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
 // var mobileNodeUrl = "http://localhost:5001";
-var mobileNodeUrl = "https://mobile.anote.digital";
+var mobileNodeUrl = "https://mobileold.anote.digital";
 var t;
 
 const wallet = new Wallet();
