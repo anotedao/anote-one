@@ -2,7 +2,6 @@
   "name": "anon-wallet",
   "version": "1.0.0",
   "description": "",
-  "source": "src/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
