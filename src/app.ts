@@ -175,7 +175,7 @@ class Wallet {
 
     checkMineWarning() {
         if (!this.openMine) {
-            $("#mineInfo").show();
+            // $("#mineInfo").show();
         }
     }
 
@@ -1763,7 +1763,7 @@ $("#addressBook").on("click", function () {
     Cookies.set("openMine", "true", { expires: 365 * 24 * 10 });
     $("#screen-home").fadeOut(function () {
         $("#screen-addressBook").fadeIn();
-        $("#mineInfo").hide();
+        // $("#mineInfo").hide();
     });
 });
 
