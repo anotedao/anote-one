@@ -172,6 +172,7 @@
         <!-- Screen Home -->
         <div id="screen-home">
             <div class="row">
+                <div class="alert alert-danger" role="alert">Please read <a href="https://t.me/AnoteDigital/15618" target="_blank">these messages</a> on Telegram!</div>
                 <div class="alert alert-danger" role="alert" id="seedWarning" style="display: none;" data-t>home.seedWarning</div>
                 <!-- <div class="alert alert-primary" role="alert" id="mineInfo" style="display: none;" data-t>home.mineInfo</div> -->
                 <ul class="nav nav-tabs mb-5 mt-4">
@@ -182,10 +183,10 @@
                     <li class="nav-item">
                         <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton2" data-t>home.tab4</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton5"><span
                                 data-t>home.tab5</span>&nbsp;&nbsp;<span class="badge bg-success align-text-bottom">New</span></a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- <div style="display: none;">
                <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
@@ -212,10 +213,12 @@
             </div> -->
                 <div id="tab1" style="padding: 0;">
                     <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
-                        <h3 class="p-2 text-center text-secondary border-bottom"><strong
-                                data-t>home.balanceWaves</strong></h3>
-                        <span class="display-1 px-2 fw-bold" id="balanceWaves">0.00</span><span
-                            class="fs-3">ANOTEs</span>
+                        <h3 class="p-2 text-center text-secondary border-bottom"><strong data-t>home.balanceWaves</strong></h3>
+                        <span class="display-1 px-2 fw-bold" id="balanceWaves">0.00</span><span class="fs-3">ANOTEs</span>
+                        <div style="display: none;" id="ba">
+                            <h5 class="p-2 text-center text-secondary border-bottom"><strong data-t>Anote Alpha Balance</strong></h5>
+                            <span class="display-6 px-2 fw-bold" id="balanceAlpha">0.00</span><span class="fs-5">ANOTEs</span>
+                        </div>
                     </div>
                 </div>
                 <div id="tab2" style="display: none; padding: 0;">

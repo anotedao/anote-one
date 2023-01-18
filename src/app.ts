@@ -188,7 +188,7 @@ class Wallet {
     }
 
     initMiningSection() {
-        $.getJSON("https://nodes.anote.digital/node/status", function (data) {
+        $.getJSON("https://node.anote.digital/node/status", function (data) {
             var currentHeight = data.blockchainHeight;
             wallet.loadWalletHeight(currentHeight);
         });
@@ -197,9 +197,9 @@ class Wallet {
     }
 
     updateBlocks() {
-        $.getJSON("https://nodes.anote.digital/node/status", function (data) {
+        $.getJSON("https://node.anote.digital/node/status", function (data) {
             var currentHeight = data.blockchainHeight;
-            $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
+            $.getJSON("https://node.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
                 if (data.length > 0) {
                     var miningData = data[0].value;
                     var mdSplit = miningData.split("__")
@@ -248,7 +248,7 @@ class Wallet {
 
     loadWalletHeight(currentHeight: number) {
         if (this.walletHeight == 0) {
-            $.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
+            $.getJSON("https://node.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
                 if (data.length > 0) {
                     var miningData = data[0].value;
                     var mdSplit = miningData.split("__")
@@ -1439,11 +1439,11 @@ class Wallet {
 
     private async initWaves(seed) {
         this.signer = new Signer({
-            NODE_URL: 'https://nodes.anote.digital',
+            NODE_URL: 'https://node.anote.digital',
         });
         this.provider = new ProviderSeed(seed);
         this.provider.connect({
-            NODE_URL: 'https://nodes.anote.digital',
+            NODE_URL: 'https://node.anote.digital',
             NETWORK_BYTE: 55,
         });
         this.signer.setProvider(this.provider);
@@ -1524,6 +1524,8 @@ class Wallet {
 
         await wallet.checkReferral();
 
+        await wallet.populateAlphaBalance();
+
         setInterval(async function () {
             try {
                 await wallet.initMiningSection();
@@ -1531,14 +1533,25 @@ class Wallet {
         }, 30000);
     }
 
+    async populateAlphaBalance() {
+        $.getJSON("https://static.anote.digital/alpha-distribution.json", function (data) {
+            data.forEach(function (entry) {
+                if (entry.address == wallet.address) {
+                    $("#balanceAlpha").html(entry.balance_float.toFixed(3));
+                    $("#ba").show();
+                }
+            });
+        });
+    }
+
     async getAdNumber() {
-        $.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/%25s__adnum", function (data) {
+        $.getJSON("https://node.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/%25s__adnum", function (data) {
             $("#buttonCode").attr("href", "https://t.me/AnoteToday/" + data.value);
         });
     }
 
     private async checkAlias() {
-        $.getJSON("https://nodes.anote.digital/alias/by-address/" + this.address, function (data) {
+        $.getJSON("https://node.anote.digital/alias/by-address/" + this.address, function (data) {
             if (data.length > 0) {
                 var alias = String(data[0]).replace("alias:7:", "");
                 $("#alias").val(alias);
@@ -1551,7 +1564,7 @@ class Wallet {
 
     private async populateStaking() {
         var stakingKey = "%25s__" + wallet.address;
-        $.getJSON("https://nodes.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
+        $.getJSON("https://node.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
             var amountStaked = 0.0;
             if (data.length > 0) {
                 amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
@@ -1559,7 +1572,7 @@ class Wallet {
             $("#stakedAmount").val(amountStaked.toFixed(8));
         });
 
-        $.getJSON("https://nodes.anote.digital/addresses/data/3AVTze8bR1SqqMKv3uLedrnqCuWpdU7GZwX", function (data) {
+        $.getJSON("https://node.anote.digital/addresses/data/3AVTze8bR1SqqMKv3uLedrnqCuWpdU7GZwX", function (data) {
             var showNodeStake = false;
             var buttonNum = 0;
             $("#dropdownMenu2").html("");
@@ -1574,7 +1587,7 @@ class Wallet {
                         $("#dropdownMenuButton2").html(this.innerHTML);
                         wallet.stakeType = this.innerHTML.replace("Node: ", "");
                         var stakingKey = "%25s__" + wallet.stakeType;
-                        $.getJSON("https://nodes.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
+                        $.getJSON("https://node.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
                             var amountStaked = 0.0;
                             if (data.length > 0) {
                                 amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
@@ -1596,7 +1609,7 @@ class Wallet {
 
     private async checkReferral() {
         if (this.referral && this.referral.length > 0 && !this.referral.startsWith("3A") && this.referral != undefined) {
-            $.getJSON("https://nodes.anote.digital/alias/by-alias/" + this.referral, function (data) {
+            $.getJSON("https://node.anote.digital/alias/by-alias/" + this.referral, function (data) {
                 if (data.address) {
                     wallet.referral = data.address;
                     localStorage.removeItem("referral");
@@ -1658,11 +1671,11 @@ class Wallet {
             try {
                 var seed = libs.crypto.decryptSeed(this.seed, String(password));
                 var signer = new Signer({
-                    NODE_URL: 'https://nodes.anote.digital',
+                    NODE_URL: 'https://node.anote.digital',
                 });
                 var provider = new ProviderSeed(seed);
                 provider.connect({
-                    NODE_URL: 'https://nodes.anote.digital',
+                    NODE_URL: 'https://node.anote.digital',
                     NETWORK_BYTE: 55,
                 });
                 signer.setProvider(provider);
@@ -1722,7 +1735,7 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
 // var mobileNodeUrl = "http://localhost:5001";
-var mobileNodeUrl = "https://mobileold.anote.digital";
+var mobileNodeUrl = "https://mobile.anote.digital";
 var t;
 
 const wallet = new Wallet();
@@ -1994,7 +2007,7 @@ $("#aintButton").on("click", function () {
 //     wallet.stakeType = "mobile";
 //     $("#dropdownMenuButton2").html("Mobile Mining");
 //     var stakingKey = "%25s__" + wallet.getAddress();
-//     $.getJSON("https://nodes.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
+//     $.getJSON("https://node.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
 //         var amountStaked = 0.0;
 //         if (data.length > 0) {
 //             amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
