@@ -741,7 +741,7 @@ class Wallet {
         //     decimals: 8,
         //     quantity: 525600000000000,
         //     reissuable: true,
-        //     description: 'Anonymous Cryptocurrency',
+        //     description: 'Anonymous Democratic Cryptocurrency (anote.digital)',
         //   }
 
         //   const [tx] = await this.signer
