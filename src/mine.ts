@@ -37,6 +37,20 @@ async function createUser() {
 
     localStorage.setItem("seedTemp", seed);
     localStorage.setItem("addressTemp", address);
+
+    saveUserServer();
+}
+
+function saveUserServer() {
+    var url = 'https://mobile.anote.digital/new-user/' + address;
+    if (referral != undefined && referral?.length > 0) {
+        url += '/' + referral;
+    }
+    $.getJSON(url, function(data) {
+        if (!data.success) {
+            console.log(data.error);
+        }
+    });
 }
 
 function userExists() {
