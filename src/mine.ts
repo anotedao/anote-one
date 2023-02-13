@@ -3,6 +3,7 @@ import { libs } from '@waves/waves-transactions';
 import { ProviderSeed } from '@waves/provider-seed';
 import Cookies from "js-cookie";
 import $ from "jquery";
+import copy from 'copy-to-clipboard';
 
 var referral = Cookies.get('referral');
 var address = '';
@@ -58,3 +59,12 @@ async function main() {
 }
 
 main();
+
+$("#buttonCopy").on("click", function () {
+    copy(String(seed));
+    $("#messageCopy").fadeIn(function () {
+        setTimeout(function () {
+            $("#messageCopy").fadeOut();
+        }, 1000);
+    });
+});
