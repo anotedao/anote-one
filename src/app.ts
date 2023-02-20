@@ -849,6 +849,10 @@ class Wallet {
     async register() {
         if (passwordsEqual("password2", "password3", "pMessage1")) {
             var seed = libs.crypto.randomSeed();
+            var s = localStorage.getItem('seedTemp'); 
+            if (s != null) {
+                seed = s;
+            }  
             await this.initWaves(seed);
             var p = $("#password2").val();
             this.encryptSeed(seed, p);
