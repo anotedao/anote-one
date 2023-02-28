@@ -70,7 +70,9 @@ function isReferralAlias() {
                 referral = data.address;
             }
             isReferralValid();
-        });
+        }).fail(function() { isReferralValid(); });
+    } else {
+        isReferralValid();
     }
 }
 
@@ -81,7 +83,9 @@ function isReferralValid() {
                 referral = '';
             }
             saveUserServer();
-        });
+        }).fail(function() { saveUserServer(); });
+    } else {
+        saveUserServer();
     }
 }
 
