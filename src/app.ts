@@ -66,6 +66,12 @@ class Wallet {
             }
         }
 
+        if (this.referral && this.referral.length > 0 && this.referral != undefined) {
+            $("#referral").attr("readonly", "yes");
+            $("#referral").val(this.referral);
+            $("#saveReferral").remove();
+        }
+
         if (!this.seed || this.seed == undefined) {
             this.seed = Cookies.get("seed");
             if (this.seed && this.seed.length > 0 && this.seed != undefined) {
@@ -255,36 +261,15 @@ class Wallet {
                     var miningData = data[0].value;
                     var mdSplit = miningData.split("__")
                     if (mdSplit.length >= 3) {
-                        localStorage.setItem("referral", mdSplit[2]);
-                        $("#referral").attr("readonly", "yes");
-                        $("#referral").val(mdSplit[2]);
-                        $("#saveReferral").remove();
+                        if (!wallet.referral || wallet.referral == undefined) {
+                            localStorage.setItem("referral", mdSplit[2]);
+                            $("#referral").attr("readonly", "yes");
+                            $("#referral").val(mdSplit[2]);
+                            $("#saveReferral").remove();
+                            wallet.referral = mdSplit[2];
+                        }
                     }
                 }
-                //     var miningData = data[0].value;
-                //     var mdSplit = miningData.split("__")
-                //     if (mdSplit.length >= 3) {
-                //         var miningHeight = parseInt(miningData.split("__")[1]);
-                //     } else {
-                //         var miningHeight = 0;
-                //     }
-                //     wallet.walletHeight = miningHeight;
-
-                //     if (currentHeight - miningHeight <= 1410) {
-                //         wallet.updateBlocks();
-                //         $("#miningPanel1").hide();
-                //         $("#miningPanel3").hide();
-                //         $("#miningPanel2").show();
-                //     } else {
-                //         $("#miningPanel2").hide();
-                //         $("#miningPanel3").hide();
-                //         $("#miningPanel1").show();
-                //     }
-                // } else {
-                //     $("#miningPanel1").hide();
-                //     $("#miningPanel2").hide();
-                //     $("#miningPanel3").show();
-                // }
             });
         }
     }
@@ -1392,12 +1377,17 @@ class Wallet {
             });
         } else {
             localStorage.setItem("referral", referral?.toString());
+            this.referral = referral;
             $("#referral").attr("readonly", "yes");
             $("#pMessage19").fadeIn(function () {
                 setTimeout(function () {
                     $("#pMessage19").fadeOut();
                     $("#saveReferral").remove();
                 }, 500);
+            });
+
+            $.getJSON("https://mobile.anote.digital/new-user/" + this.address + "/" + referral, function (data) {
+                // console.log(data);
             });
         }
     }
