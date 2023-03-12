@@ -592,8 +592,10 @@ class Wallet {
             this.seed = null;
             this.address = null;
             Cookies.remove("sessionSeed");
+            Cookies.remove("referral");
             localStorage.removeItem("seed");
             localStorage.removeItem("address");
+            localStorage.removeItem("referral");
             $("#page-main").fadeOut(function () {
                 $("#page-newaccount").fadeIn();
             });
