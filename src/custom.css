@@ -23,3 +23,7 @@
 .captcha-img {
     /* border: 1px solid darkslategrey; */
 }
+
+.telegram-holder {
+    padding: 40px 0 0 0 !important;
+}

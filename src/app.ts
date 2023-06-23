@@ -100,6 +100,7 @@ class Wallet {
         this.checkMineWarning();
         if (this.isLoggedIn()) {
             this.populateData();
+            this.checkTelegram();
             this.getEarningsScript();
             return "main";
         } else {
@@ -365,6 +366,7 @@ class Wallet {
                     this.sessionSeed = libs.crypto.encryptSeed(String(seed), this.address);
                     Cookies.set("sessionSeed", this.sessionSeed, { expires: d });
                     this.populateData();
+                    this.checkTelegram();
                     this.showHomeAfterLogin();
                     this.getEarningsScript();
                 } catch (e) {
@@ -856,6 +858,7 @@ class Wallet {
             this.encryptSeed(seed, p);
             this.setCookies();
             this.populateData();
+            this.checkTelegram();
             this.showHomeAfterRegister();
             this.getEarningsScript();
         }
@@ -870,6 +873,7 @@ class Wallet {
                 this.encryptSeed(seed, p);
                 this.setCookies();
                 this.populateData();
+                this.checkTelegram();
                 this.showHomeAfterRegister();
                 this.getEarningsScript();
             } else {
@@ -1540,6 +1544,19 @@ class Wallet {
         }, 30000);
     }
 
+    private async checkTelegram() {
+        if (this.address && this.address.length > 0 && this.address != undefined) {
+            $("#buttonTelConnect").attr("href", "https://t.me/AnoteRobot?start=" + this.address);
+
+            $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
+                if (data.telegram_id == 0) {
+                    console.log(data);
+                    $("#buttonTelConnectHolder").show();
+                }
+            });
+        }
+    }
+
     async populateAlphaBalance() {
         $.getJSON("https://static.anote.digital/alpha-distribution.json", function (data) {
             data.forEach(function (entry) {
@@ -1553,7 +1570,7 @@ class Wallet {
 
     async getAdNumber() {
         $.getJSON("https://node.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/%25s__adnum", function (data) {
-            $("#buttonCode").attr("href", "https://t.me/AnoteToday/" + data.value);
+            $("#buttonCode").attr("href", "https://t.me/AnoteAds/" + data.value);
         });
     }
 
