@@ -867,7 +867,9 @@ class Wallet {
     async import() {
         if (passwordsEqual("password4", "password5", "pMessage2")) {
             var seed = $("#seedWords1").val();
+            seed = seed?.toString();
             if (seed) {
+                seed = seed.replace("\r", "").replace("\n", "");
                 await this.initWaves(seed);
                 var p = $("#password4").val();
                 this.encryptSeed(seed, p);
@@ -1535,8 +1537,6 @@ class Wallet {
 
         await wallet.checkReferral();
 
-        await wallet.populateAlphaBalance();
-
         setInterval(async function () {
             try {
                 await wallet.initMiningSection();
@@ -1553,11 +1553,16 @@ class Wallet {
                     console.log(data);
                     $("#buttonTelConnectHolder").show();
                 }
+
+                if (!data.alpha_sent) {
+                    wallet.populateAlphaBalance();
+                }
             });
         }
     }
 
     async populateAlphaBalance() {
+        var count = 0;
         $.getJSON("https://static.anote.digital/alpha-distribution.json", function (data) {
             data.forEach(function (entry) {
                 if (entry.address == wallet.address) {
@@ -1566,6 +1571,20 @@ class Wallet {
                 }
             });
         });
+
+        // $.getJSON("https://node.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a", function(data){
+        //     data.forEach(function (entry) {
+        //         try {
+        //             var height = entry.value.split("__")[1];
+        //             if ((270227 - height) <= 1440) {
+        //                 count++;
+        //             }
+        //         } catch (e) {}
+        //         // var height = parseInt(entry.value.split("__")[1])
+        //         // console.log(height);
+        //     });
+        //     console.log(count);
+        // })
     }
 
     async getAdNumber() {
