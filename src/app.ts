@@ -1360,7 +1360,7 @@ class Wallet {
                 });
 
                 $("#alias").attr("readonly", "yes");
-                $("#referralLink").val("https://anote.one/mine?r=" + alias);
+                $("#referralLink").val("https://anotedao.com/mine?r=" + alias);
                 $("#saveAlias").remove();
             } catch (error: any) {
                 $("#pMessage16").html(t.settings.aliasLimit);
@@ -1502,7 +1502,7 @@ class Wallet {
     }
 
     private async populateData() {
-        $("#referralLink").val("https://anote.one/mine?r=" + this.address);
+        $("#referralLink").val("https://anotedao.com/mine?r=" + this.address);
         $("#address").val(this.address);
         var historyHref = "https://explorer.anotedao.com/address/" + this.address + "/tx";
         $("#history").attr("href", historyHref);
@@ -1599,7 +1599,7 @@ class Wallet {
                 var alias = String(data[0]).replace("alias:7:", "");
                 $("#alias").val(alias);
                 $("#alias").attr("readonly", "yes");
-                $("#referralLink").val("https://anote.one/mine?r=" + alias);
+                $("#referralLink").val("https://anotedao.com/mine?r=" + alias);
                 $("#saveAlias").remove();
             }
         });
