@@ -869,7 +869,7 @@ class Wallet {
             var seed = $("#seedWords1").val();
             seed = seed?.toString();
             if (seed) {
-                seed = seed.replace("\r", "").replace("\n", "").trim();
+                // seed = seed.replace("\r", "").replace("\n", "").trim();
                 await this.initWaves(seed);
                 var p = $("#password4").val();
                 this.encryptSeed(seed, p);
@@ -1557,6 +1557,10 @@ class Wallet {
                 if (!data.alpha_sent) {
                     wallet.populateAlphaBalance();
                 }
+
+                var ua = wallet.balanceWaves / 100000000 * data.price;
+
+                $("#balanceUsd").html(ua.toFixed(4)?.toString());
             });
         }
     }
