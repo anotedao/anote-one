@@ -1446,6 +1446,20 @@ class Wallet {
             }
         });
 
+        $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
+            if (data.telegram_id == 0) {
+                console.log(data);
+                $("#buttonTelConnectHolder").show();
+            }
+
+            if (!data.alpha_sent) {
+                wallet.populateAlphaBalance();
+            }
+
+            var ua = wallet.balanceWaves / 100000000 * data.price;
+            $("#balanceUsd").html(ua.toFixed(4)?.toString());
+        });
+
         this.loadAintInfo();
         this.checkScumbag();
     }
@@ -1547,24 +1561,6 @@ class Wallet {
     private async checkTelegram() {
         if (this.address && this.address.length > 0 && this.address != undefined) {
             $("#buttonTelConnect").attr("href", "https://t.me/AnoteRobot?start=" + this.address);
-
-            $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
-                if (data.telegram_id == 0) {
-                    console.log(data);
-                    $("#buttonTelConnectHolder").show();
-                }
-
-                if (!data.alpha_sent) {
-                    wallet.populateAlphaBalance();
-                }
-
-                if (wallet.balanceWaves > 0) {
-                    var ua = wallet.balanceWaves / 100000000 * data.price;
-                    $("#balanceUsd").html(ua.toFixed(4)?.toString());
-                } else {
-                    setTimeout(wallet.checkTelegram, 1000);
-                }
-            });
         }
     }
 
