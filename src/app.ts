@@ -1558,16 +1558,12 @@ class Wallet {
                     wallet.populateAlphaBalance();
                 }
 
-                var counter == 0;
-
-                while (wallet.balanceWaves == 0 && counter < 30) {
-                    sleep(100);
-                    counter++;
+                if (wallet.balanceWaves > 0) {
+                    var ua = wallet.balanceWaves / 100000000 * data.price;
+                    $("#balanceUsd").html(ua.toFixed(4)?.toString());
+                } else {
+                    setTimeout(wallet.checkTelegram, 1000);
                 }
-
-                var ua = wallet.balanceWaves / 100000000 * data.price;
-
-                $("#balanceUsd").html(ua.toFixed(4)?.toString());
             });
         }
     }
