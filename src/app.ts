@@ -1559,7 +1559,7 @@ class Wallet {
                 }
 
                 while (wallet.balanceWaves == 0) {
-                    delay(100);
+                    sleep(100);
                 }
 
                 var ua = wallet.balanceWaves / 100000000 * data.price;
@@ -2165,6 +2165,10 @@ function float2int(value) {
     return value | 0;
 }
 
-function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-  }
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
