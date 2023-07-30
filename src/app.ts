@@ -1558,8 +1558,11 @@ class Wallet {
                     wallet.populateAlphaBalance();
                 }
 
-                while (wallet.balanceWaves == 0) {
+                var counter == 0;
+
+                while (wallet.balanceWaves == 0 && counter < 30) {
                     sleep(100);
+                    counter++;
                 }
 
                 var ua = wallet.balanceWaves / 100000000 * data.price;
