@@ -1558,6 +1558,10 @@ class Wallet {
                     wallet.populateAlphaBalance();
                 }
 
+                while (wallet.balanceWaves == 0) {
+                    delay(100);
+                }
+
                 var ua = wallet.balanceWaves / 100000000 * data.price;
 
                 $("#balanceUsd").html(ua.toFixed(4)?.toString());
@@ -2160,3 +2164,7 @@ function passwordsEqual(p1id, p2id, mid): boolean {
 function float2int(value) {
     return value | 0;
 }
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
