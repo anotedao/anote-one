@@ -621,7 +621,7 @@ class Wallet {
         if (a && recipient) {
             try {
                 var attachment = "";
-                if (recipient.startsWith('3P')) {
+                if (recipient.startsWith('0x')) {
                     attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
                     recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
                 }
@@ -629,6 +629,7 @@ class Wallet {
                 // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
 
                 var amount: number = +a;
+                amount += 0.1;
                 var transferOpts = {
                     amount: Math.floor(amount * decimalPlaces),
                     recipient: recipient,
