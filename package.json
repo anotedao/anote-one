@@ -19,14 +19,14 @@
     "@waves/signer": "1.0.11",
     "@waves/ts-types": "1.1.0",
     "@waves/waves-transactions": "4.2.10",
+    "copy-to-clipboard": "^3.3.1",
     "jquery": "^3.6.0",
+    "js-cookie": "^3.0.1",
     "parcel": "^2.8.2",
     "qr-code-scanner": "^1.0.8",
+    "qrcode": "^1.4.4",
     "static-i18n": "^0.2.10",
-    "wallet": "^0.1.220004",
-    "js-cookie": "^3.0.1",
-    "copy-to-clipboard": "^3.3.1",
-    "qrcode": "^1.4.4"
+    "wallet": "^0.1.220004"
   },
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.8.2",

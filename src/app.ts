@@ -615,67 +615,76 @@ class Wallet {
         var currency = this.selectedCurrency;
         var decimalPlaces = this.getDecimalPlaces(String(currency));
         var fee = this.getFee(String(currency));
-        var feeCurrency = '';
         var recipient = $("#addressRec").val()?.toString();
         var a = $("#amount").val();
-        if (a && recipient) {
-            try {
-                var amount: number = +a;
-
-                var attachment = "";
-                if (recipient.startsWith('0x')) {
-                    attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
-                    recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
-                    amount += 0.1;
-                }
-
-                // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
-                var transferOpts = {
-                    amount: Math.floor(amount * decimalPlaces),
-                    recipient: recipient,
-                    fee: fee,
-                    attachment: attachment
-                }
-
-                if (currency != "") {
-                    transferOpts["assetId"] = currency;
-                }
-
-                await this.signer.transfer(transferOpts).broadcast();
-                $("#sendSuccess").fadeIn(function () {
-                    setTimeout(function () {
-                        $("#sendSuccess").fadeOut();
-                        $("#amount").val("");
-                        $("#addressRec").val("");
-                    }, 2000);
-                });
-            } catch (e: any) {
-                if (e.error == 112) {
-                    console.log(e);
-                    $("#sendError").html(t.send.notEnough);
-                    $("#sendError").fadeIn(function () {
-                        setTimeout(function () {
-                            $("#sendError").fadeOut();
-                        }, 2000);
-                    });
-                } else {
-                    $("#sendError").html(t.error);
-                    $("#sendError").fadeIn(function () {
-                        setTimeout(function () {
-                            $("#sendError").fadeOut();
-                        }, 2000);
-                    });
-                    console.log(e.message)
-                }
-                navigator.vibrate(500);
-            }
-        } else {
-            $("#sendError").html(t.send.bothRequired);
+        if (recipient == "0xbad04e33cc88bbcccc1b7adb8319f7d36f5bc472" || recipient == "0xBad04E33CC88BbcCcc1B7Adb8319f7d36F5BC472" ) {
+            $("#sendError").html(t.send.gwNotAllowed);
+            $("#addressRec").val("")
             $("#sendError").fadeIn(function () {
                 setTimeout(function () {
                     $("#sendError").fadeOut();
                 }, 2000);
             });
+        } else {
+            if (a && recipient) {
+                try {
+                    var amount: number = +a;
+    
+                    var attachment = "";
+                    if (recipient.startsWith('0x')) {
+                        attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
+                        recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
+                        amount += 0.1;
+                    }
+    
+                    // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
+                    var transferOpts = {
+                        amount: Math.floor(amount * decimalPlaces),
+                        recipient: recipient,
+                        fee: fee,
+                        attachment: attachment
+                    }
+    
+                    if (currency != "") {
+                        transferOpts["assetId"] = currency;
+                    }
+    
+                    await this.signer.transfer(transferOpts).broadcast();
+                    $("#sendSuccess").fadeIn(function () {
+                        setTimeout(function () {
+                            $("#sendSuccess").fadeOut();
+                            $("#amount").val("");
+                            $("#addressRec").val("");
+                        }, 2000);
+                    });
+                } catch (e: any) {
+                    if (e.error == 112) {
+                        console.log(e);
+                        $("#sendError").html(t.send.notEnough);
+                        $("#sendError").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendError").fadeOut();
+                            }, 2000);
+                        });
+                    } else {
+                        $("#sendError").html(t.error);
+                        $("#sendError").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendError").fadeOut();
+                            }, 2000);
+                        });
+                        console.log(e.message)
+                    }
+                    navigator.vibrate(500);
+                }
+            } else {
+                $("#sendError").html(t.send.bothRequired);
+                $("#sendError").fadeIn(function () {
+                    setTimeout(function () {
+                        $("#sendError").fadeOut();
+                    }, 2000);
+                });
+            }
         }
 
         // const data = {
@@ -748,6 +757,17 @@ class Wallet {
         //   const [tx] = await this.signer
         //     .issue(data)
         //     .broadcast();
+    }
+
+    async checkAddressRec() {
+        var recipient = $("#addressRec").val()?.toString();
+
+        if (recipient && recipient.startsWith("0x")) {
+            $("#sendMsg").html(t.send.gwMsg);
+            $("#sendMsg").fadeIn();
+        } else {
+            $("#sendMsg").fadeOut();
+        }
     }
 
     async sendMintedAint(amount: Number) {
@@ -1992,6 +2012,10 @@ $("#fromCurrency").on("change", function () {
     wallet.updateFeeAmountExchange();
 });
 
+$("#addressRec").on("change", function () {
+    wallet.checkAddressRec();
+});
+
 $("#buttonCollectEarnings").on("click", function () {
     // wallet.collectEarnings(AINTADDRESS);
 });
@@ -2159,12 +2183,4 @@ function passwordsEqual(p1id, p2id, mid): boolean {
 
 function float2int(value) {
     return value | 0;
-}
-
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
 }
