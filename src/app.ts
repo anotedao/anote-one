@@ -1034,6 +1034,67 @@ class Wallet {
         }
     }
 
+    async stakeAnote() {
+        console.log('stakeAnote');
+        var a = $("#stakeAmountAnote").val();
+        var amount = 0;
+        if (a != undefined && a != "") {
+            amount = Math.ceil(parseFloat(a?.toString()) * 100000000);
+        }
+
+        console.log(amount);
+
+        if (amount > this.balanceWaves) {
+            $("#pMessage26").html("You don't have enough ANOTE.");
+            $("#pMessage26").fadeIn(function () {
+                setTimeout(function () {
+                    $("#pMessage26").fadeOut();
+                }, 2000);
+            });
+            navigator.vibrate(500);
+        } else if (amount > 0) {
+            try {
+                const [tx] = await this.signer.invoke({
+                    dApp: "3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ",
+                    call: { function: "lockAnote", args: [] },
+                    fee: 500000,
+                    payment: [{
+                        assetId: "WAVES",
+                        amount: amount,
+                    }],
+                }).broadcast();
+
+                setTimeout(wallet.populateStaking, 3000);
+
+                $("#stakeAmountAnote").val("");
+
+                $("#pMessage25").fadeIn(function () {
+                    setTimeout(function () {
+                        $("#pMessage25").fadeOut();
+                    }, 500);
+                });
+            } catch (e: any) {
+                $("#pMessage26").html(e.message);
+                $("#pMessage26").fadeIn(function () {
+                    setTimeout(function () {
+                        $("#pMessage26").fadeOut();
+                    }, 2000);
+                });
+                console.log(e.message)
+                navigator.vibrate(500);
+            }
+
+        } else {
+            $("#pMessage26").html(t.exchange.amountRequired);
+            $("#pMessage26").fadeIn(function () {
+                setTimeout(function () {
+                    $("#pMessage16").fadeOut();
+                }, 2000);
+            });
+            navigator.vibrate(500);
+        }
+    }
+
     async unstakeAint() {
         this.stakeType = "mobile";
         var a = $("#stakeAmount").val();
@@ -1076,6 +1137,54 @@ class Wallet {
             $("#pMessage11").fadeIn(function () {
                 setTimeout(function () {
                     $("#pMessage11").fadeOut();
+                }, 2000);
+            });
+            navigator.vibrate(500);
+        }
+    }
+
+    async unstakeAnote() {
+        this.stakeType = "mobile";
+        var a = $("#stakeAmountAnote").val();
+        var amount = 0;
+        if (a != undefined && a != "") {
+            amount = Math.ceil(parseFloat(a?.toString()) * 100000000);
+            console.log(amount);
+        }
+
+        if (amount > 0) {
+            try {
+                const [tx] = await this.signer.invoke({
+                    dApp: "3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ",
+                    call: { function: "unlockAnote", args: [{ type: 'integer', value: amount }] },
+                    fee: 500000,
+                }).broadcast();
+
+                setTimeout(wallet.populateStaking, 3000);
+
+                $("#stakeAmountAnote").val("");
+
+                $("#pMessage25").fadeIn(function () {
+                    setTimeout(function () {
+                        $("#pMessage25").fadeOut();
+                    }, 500);
+                });
+            } catch (e: any) {
+                $("#pMessage26").html(e.message);
+                $("#pMessage26").fadeIn(function () {
+                    setTimeout(function () {
+                        $("#pMessage26").fadeOut();
+                    }, 2000);
+                });
+                console.log(e.message)
+                navigator.vibrate(500);
+            }
+
+        } else {
+            $("#pMessage26").html(t.exchange.amountRequired);
+            $("#pMessage26").fadeIn(function () {
+                setTimeout(function () {
+                    $("#pMessage26").fadeOut();
                 }, 2000);
             });
             navigator.vibrate(500);
@@ -1469,7 +1578,7 @@ class Wallet {
 
         $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
             if (data.telegram_id == 0) {
-                console.log(data);
+                // console.log(data);
                 $("#buttonTelConnectHolder").show();
             }
 
@@ -2114,6 +2223,14 @@ $("#buttonStakeAint").on("click", function () {
 
 $("#buttonUnstakeAint").on("click", function () {
     wallet.unstakeAint();
+});
+
+$("#buttonStakeAnote").on("click", function () {
+    wallet.stakeAnote();
+});
+
+$("#buttonUnstakeAnote").on("click", function () {
+    wallet.unstakeAnote();
 });
 
 $("#buttonStakeAintNode").on("click", function () {
