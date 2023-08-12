@@ -538,6 +538,9 @@
                     <li class="nav-item">
                         <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton6" data-t>bank.tab6</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton7" data-t>bank.tab7</a>
+                    </li>
                     <!-- <li class="nav-item">
                   <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton5" data-t>bank.tab3</a>
                 </li> -->
@@ -663,6 +666,41 @@
                                 <div class="col-6 text-end">
                                     <button type="button" class="btn btn-danger btn-lg" id="buttonUnstakeAint">
                                         <i class="bi bi-unlock-fill"></i>&nbsp;&nbsp;Unstake AINT
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-0 col-lg-3"></div>
+                    </div>
+                </div>
+                <div id="tab7" class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151; display: none;">
+                    <div class="row">
+                        <div class="col-0 col-lg-3"></div>
+                        <div class="col-12 col-lg-6">
+                            <h5 class="pb-2 text-start text-secondary border-bottom mb-3"><strong
+                                    data-t>home.stakeAnoteTitle</strong></h5>
+                            <div class="mb-3">
+                                <label for="stakedAmount" class="form-label"><strong>Staked Amount</strong></label>
+                                <input type="text" class="form-control" id="stakedAmount" placeholder="0.0" readonly
+                                    disabled>
+                            </div>
+                            <div class="mb-4">
+                                <label for="stakeAmount" class="form-label"><strong>Amount</strong></label>
+                                <input type="text" class="form-control" id="stakeAmount" placeholder="0.0">
+                            </div>
+                            <div id="pMessage10" class="form-text text-success mb-4"
+                                style="display: none; margin-top: 0;">You have successfully staked AINT.</div>
+                            <div id="pMessage11" class="form-text text-danger mb-4"
+                                style="display: none; margin-top: 0;"></div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-success btn-lg" id="buttonStakeAnote">
+                                        <i class="bi bi-lock-fill"></i>&nbsp;&nbsp;Stake ANOTE
+                                    </button>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <button type="button" class="btn btn-danger btn-lg" id="buttonUnstakeAnote">
+                                        <i class="bi bi-unlock-fill"></i>&nbsp;&nbsp;Unstake ANOTE
                                     </button>
                                 </div>
                             </div>

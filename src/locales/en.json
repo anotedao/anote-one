@@ -46,6 +46,7 @@
     "balanceAINTs": "AINT Balance",
     "mineMessage": "Anote can be mined in a simple way using Telegram messenger. You can read more about mining <a href=\"https://www.anonutopia.com/beginner\" target=\"_blank\">here</a>.",
     "stakeAintTitle": "Lock AINT For Mining",
+    "stakeAnoteTitle": "Lock ANOTE For Mining",
     "stakeAintNodeTitle": "Lock AINT On Node"
   },
   "receive": {
@@ -77,6 +78,7 @@
     "tab2": "AINT Miner",
     "tab3": "Staking",
     "tab6": "Anote Node",
+    "tab7": "Stake Anote",
     "message": "This section is under the development and it will be available in the next version.",
     "minedAnotes": "Mine Anotes",
     "mine": "Mine Anotes",

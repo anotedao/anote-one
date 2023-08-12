@@ -1899,8 +1899,10 @@ $("#tabButton4").on("click", function () {
     $("#tabButton4").addClass("active");
     $("#tabButton3").removeClass("active");
     $("#tabButton6").removeClass("active");
+    $("#tabButton7").removeClass("active");
     $("#tab3").hide();
     $("#tab6").hide();
+    $("#tab7").hide();
     $("#tab4").fadeIn();
 });
 
@@ -1908,8 +1910,10 @@ $("#tabButton5").on("click", function () {
     $("#tabButton5").addClass("active");
     $("#tabButton1").removeClass("active");
     $("#tabButton2").removeClass("active");
+    $("#tabButton7").removeClass("active");
     $("#tab1").hide();
     $("#tab2").hide();
+    $("#tab7").hide();
     $("#tab5").fadeIn();
 });
 
@@ -1917,9 +1921,22 @@ $("#tabButton6").on("click", function () {
     $("#tabButton6").addClass("active");
     $("#tabButton3").removeClass("active");
     $("#tabButton4").removeClass("active");
+    $("#tabButton7").removeClass("active");
     $("#tab3").hide();
     $("#tab4").hide();
+    $("#tab7").hide();
     $("#tab6").fadeIn();
+});
+
+$("#tabButton7").on("click", function () {
+    $("#tabButton6").removeClass("active");
+    $("#tabButton3").removeClass("active");
+    $("#tabButton4").removeClass("active");
+    $("#tabButton7").addClass("active");
+    $("#tab3").hide();
+    $("#tab4").hide();
+    $("#tab6").hide();
+    $("#tab7").fadeIn();
 });
 
 $("#backFromSettings").on("click", function () {
