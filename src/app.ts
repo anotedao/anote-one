@@ -1748,6 +1748,14 @@ class Wallet {
             $("#stakedAmount").val(amountStaked.toFixed(8));
         });
 
+        $.getJSON("https://node.anote.digital/addresses/data/3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ?key=" + stakingKey, function (data) {
+            var amountStaked = 0.0;
+            if (data.length > 0) {
+                amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
+            }
+            $("#stakedAmountAnote").val(amountStaked.toFixed(8));
+        });
+
         $.getJSON("https://node.anote.digital/addresses/data/3AVTze8bR1SqqMKv3uLedrnqCuWpdU7GZwX", function (data) {
             var showNodeStake = false;
             var buttonNum = 0;
