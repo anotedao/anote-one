@@ -30,6 +30,7 @@ class Wallet {
     balanceAint: number;
     aintPrice: number;
     aintTier: number;
+    priceAnote: number;
 
     earningsWaves: number;
     earningsAhrk: number;
@@ -49,6 +50,7 @@ class Wallet {
         this.openMine = Cookies.get("openMine");
         this.countdownStarted = false;
         this.aintPrice = 0;
+        this.priceAnote = 0;
         this.aintTier = 0;
         this.balanceWaves2 = 0;
 
@@ -1338,21 +1340,22 @@ class Wallet {
                 });
             });
 
-            var amountWaves = parseFloat(amt?.toString()) - 0.001;
-            var amountTierWaves = this.aintTier * this.aintPrice;
-            var amountStepWaves = amountWaves - 0.005
-            // amountStepWaves = amountWaves - amountTierWaves;
-            if (amountStepWaves > amountTierWaves) {
-                amountStepWaves = amountTierWaves;
+            var amountAnotes = parseFloat(amt?.toString());
+            var amountTierUsd = this.aintTier * this.aintPrice;
+            var amountTierAnote = amountTierUsd / this.priceAnote;
+            var amountStepAnote = amountAnotes - 0.005
+            // amountStepWaves = amountAnotes - amountTierWaves;
+            if (amountStepAnote > amountTierAnote) {
+                amountStepAnote = amountTierAnote;
             }
 
-            while (amountWaves > 0.005) {
+            while (amountAnotes > 0.005) {
                 try {
-                    var amount = Math.floor(amountStepWaves * 100000000);
+                    var amount = Math.floor(amountStepAnote * 100000000);
                     console.log(amount);
-                    const [tx] = await this.signerWaves.invoke({
-                        dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
-                        call: { function: "mint", args: [] },
+                    const [tx] = await this.signer.invoke({
+                        dApp: "3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW",
+                        call: { function: "mintAint", args: [] },
                         // dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
                         // call: { function: "constructor", args: [{ type: 'string', value: "3PQEVtX7SukU7zVfpgkKDmnrX7NFw1pHBVd" }] },
                         fee: 500000,
@@ -1362,15 +1365,16 @@ class Wallet {
                         }],
                     }).broadcast();
 
-                    amountWaves = amountWaves - amountStepWaves - 0.005;
+                    amountAnotes = amountAnotes - amountStepAnote - 0.005;
 
-                    this.aintTier = 100;
-                    this.aintPrice += 0.01
-                    var amountTierWaves = this.aintTier * this.aintPrice;
+                    this.aintTier = 10;
+                    this.aintPrice += 0.1
+                    var amountTierUsd = this.aintTier * this.aintPrice;
+                    var amountTierAnote = amountTierUsd / this.priceAnote;
 
-                    var amountStepWaves = amountWaves - 0.005;
-                    if (amountStepWaves > amountTierWaves) {
-                        amountStepWaves = amountTierWaves;
+                    var amountStepAnote = amountAnotes - 0.005;
+                    if (amountStepAnote > amountTierAnote) {
+                        amountStepAnote = amountTierAnote;
                     }
 
                 } catch (error: any) {
@@ -1385,9 +1389,19 @@ class Wallet {
                 }
             }
 
+            // setTimeout(function () {
+            //     wallet.populateBalance(true);
+            // }, 10000);
+
             setTimeout(function () {
-                wallet.populateBalance(true);
-            }, 10000);
+                wallet.populateBalance(false);
+                $("#pMessage21").fadeOut(function() {
+                    $("#pMessage21").html("Minting is done. You can continue using your app normally. Your AINTs will be shown on your balance in a minute.");
+                    $("#pMessage21").fadeIn();
+                });
+                $("#mintLoading").fadeOut();
+
+            }, 3000);
 
             $("#sendWaves").val("");
             $("#receiveAint").val();
@@ -1401,32 +1415,36 @@ class Wallet {
 
         var amt = $("#sendWaves").val();
         if (amt != undefined && amt != "") {
-            var amountWaves = parseFloat(amt?.toString()) - 0.001;
-            // console.log(amountWaves)
-            var amountTierWaves = this.aintTier * this.aintPrice;
-            // console.log(amountTierWaves)
-            var amountStepWaves = amountWaves - 0.005
-            // console.log(amountStepWaves)
-            if (amountStepWaves > amountTierWaves) {
-                amountStepWaves = amountTierWaves;
+            var amountAnote = parseFloat(amt?.toString());
+            // console.log(amountAnote);
+            var amountTierUsd = this.aintTier * this.aintPrice;
+            var amountTierAnote = amountTierUsd / this.priceAnote;
+            // console.log(amountTierAnote);
+            var amountStepAnote = amountAnote - 0.005
+            // console.log(amountStepAnote);
+            if (amountStepAnote > amountTierAnote) {
+                amountStepAnote = amountTierAnote;
             }
 
             var tier = this.aintTier;
             var price = this.aintPrice;
 
-            while (amountWaves > 0.005) {
-                amountAint += amountStepWaves / price;
+            // amountAnote = amountAnote - amountStepAnote;
+
+            while (amountAnote > 0.005) {
+                amountAint += amountStepAnote * this.priceAnote / price;
                 // console.log(amountAint);
 
-                amountWaves = amountWaves - amountStepWaves - 0.005;
+                amountAnote = amountAnote - amountStepAnote - 0.005;
 
-                tier = 100;
-                price += 0.01
-                var amountTierWaves = tier * price;
+                tier = 10;
+                price += 0.1
+                var amountTierUsd = this.aintTier * this.aintPrice;
+                var amountTierAnote = amountTierUsd / this.priceAnote;
 
-                var amountStepWaves = amountWaves - 0.005;
-                if (amountStepWaves > amountTierWaves) {
-                    amountStepWaves = amountTierWaves;
+                var amountStepAnote = amountAnote - 0.005;
+                if (amountStepAnote > amountTierAnote) {
+                    amountStepAnote = amountTierAnote;
                 }
             }
 
@@ -1435,7 +1453,7 @@ class Wallet {
     }
 
     async loadAintInfo() {
-        $.getJSON("https://nodes.wavesplatform.com/addresses/data/3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy", function (data) {
+        $.getJSON("https://node.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW", function (data) {
             data.forEach(function (entry) {
                 if (entry.key == "%s__price") {
                     var price = parseFloat(entry.value) / 100000000;
@@ -1445,11 +1463,15 @@ class Wallet {
                     var tier = parseFloat(entry.value) / 100000000;
                     $("#aintTier").val(tier.toFixed(8));
                     wallet.aintTier = tier;
+                } else if (entry.key == "%s__priceAnote") {
+                    var ap = parseFloat(entry.value) / 100000000;
+                    $("#priceAnote").val(ap.toFixed(8));
+                    wallet.priceAnote = ap;
                 }
             });
         });
 
-        $.getJSON("https://nodes.wavesplatform.com/assets/balance/3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy/BvuzJNB6qUrvEmzGt1PMBZ1QCnBNn2L7ezXHhgQKMxr7", function (data) {
+        $.getJSON("https://node.anote.digital/assets/balance/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/7paojf37ipks5Ac4rHMwtLHHe9YU6w8FBfafwoTEmmf9", function (data) {
             var total = parseFloat(data.balance) / 100000000;
             $("#aintTotal").val(total.toFixed(8));
         });
@@ -1561,19 +1583,29 @@ class Wallet {
             }
         });
 
-        const balancesW = await this.signerWaves.getBalance();
+        const balancesW = await this.signer.getBalance();
         balancesW.forEach(function (asset) {
             if (asset.assetId == "WAVES") {
                 var balance = asset.amount / SATINBTC;
                 wallet.balanceWaves2 = balance;
                 $("#balanceWaves2").html(String(balance.toFixed(8)));
                 // $("#sendWaves").val(String(balance.toFixed(8)));
-            } else if (asset.assetId == AINTWAVES) {
-                if (asset.amount > 0 && wallet.balanceWaves2 >= 0.001 && sendAint) {
-                    wallet.sendMintedAint(asset.amount);
-                    wallet.balanceWaves2 -= 0.001;
-                }
             }
+            // } else if (asset.assetId == AINTWAVES) {
+            //     if (asset.amount > 0 && wallet.balanceWaves2 >= 0.001 && sendAint) {
+            //         // wallet.sendMintedAint(asset.amount);
+            //         // wallet.balanceWaves2 -= 0.001;
+            //         $("#pMessage21").html("Minting is done. You can continue using your app normally. Your AINTs will be shown on your balance in a minute.");
+            //         setTimeout(function () {
+            //             wallet.populateBalance(false);
+            //             $("#pMessage21").fadeOut(function() {
+            //                 $("#pMessage21").html("You have successfully minted new AINT.");
+            //             });
+            //             $("#mintLoading").fadeOut();
+
+            //         }, 3000);
+            //     }
+            // }
         });
 
         $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
@@ -1657,7 +1689,7 @@ class Wallet {
             await this.initWaves(seed);
         }
 
-        $("#wavesAddress").val(this.addressWaves);
+        $("#wavesAddress").val(this.address);
 
         await wallet.populateBalance(false);
 
