@@ -1329,6 +1329,10 @@ class Wallet {
         //     fee: 500000,
         //     payment: [],
         // }).broadcast();
+
+        var aintTier = this.aintTier;
+        var aintPrice = this.aintPrice;
+
         var amt = $("#sendWaves").val();
         if (amt != undefined && amt != "") {
             $("#pMessage21").fadeIn(function () {
@@ -1341,7 +1345,7 @@ class Wallet {
             });
 
             var amountAnotes = parseFloat(amt?.toString());
-            var amountTierUsd = this.aintTier * this.aintPrice;
+            var amountTierUsd = aintTier * aintPrice;
             var amountTierAnote = amountTierUsd / this.priceAnote;
             var amountStepAnote = amountAnotes - 0.005
             // amountStepWaves = amountAnotes - amountTierWaves;
@@ -1356,8 +1360,6 @@ class Wallet {
                     const [tx] = await this.signer.invoke({
                         dApp: "3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW",
                         call: { function: "mintAint", args: [] },
-                        // dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
-                        // call: { function: "constructor", args: [{ type: 'string', value: "3PQEVtX7SukU7zVfpgkKDmnrX7NFw1pHBVd" }] },
                         fee: 500000,
                         payment: [{
                             assetId: "WAVES",
@@ -1367,14 +1369,19 @@ class Wallet {
 
                     amountAnotes = amountAnotes - amountStepAnote - 0.005;
 
-                    this.aintTier = 10;
-                    this.aintPrice += 0.1
-                    var amountTierUsd = this.aintTier * this.aintPrice;
+                    aintTier = 10;
+                    aintPrice += 0.1
+
+                    var amountTierUsd = aintTier * aintPrice;
                     var amountTierAnote = amountTierUsd / this.priceAnote;
 
                     var amountStepAnote = amountAnotes - 0.005;
                     if (amountStepAnote > amountTierAnote) {
                         amountStepAnote = amountTierAnote;
+                    }
+
+                    if (amountStepAnote > amountAnotes) {
+                        amountStepAnote = amountAnotes - 0.005;
                     }
 
                 } catch (error: any) {
@@ -1413,39 +1420,40 @@ class Wallet {
     calculateAint() {
         var amountAint = 0;
 
+        var aintPrice = this.aintPrice;
+        var aintTier = this.aintTier;
+
         var amt = $("#sendWaves").val();
         if (amt != undefined && amt != "") {
             var amountAnote = parseFloat(amt?.toString());
-            // console.log(amountAnote);
-            var amountTierUsd = this.aintTier * this.aintPrice;
+            console.log(amountAnote);
+            var amountTierUsd = aintTier * aintPrice;
             var amountTierAnote = amountTierUsd / this.priceAnote;
-            // console.log(amountTierAnote);
+            console.log(amountTierAnote);
             var amountStepAnote = amountAnote - 0.005
-            // console.log(amountStepAnote);
             if (amountStepAnote > amountTierAnote) {
                 amountStepAnote = amountTierAnote;
             }
-
-            var tier = this.aintTier;
-            var price = this.aintPrice;
-
-            // amountAnote = amountAnote - amountStepAnote;
+            console.log(amountStepAnote);
 
             while (amountAnote > 0.005) {
-                amountAint += amountStepAnote * this.priceAnote / price;
-                // console.log(amountAint);
+                amountAint += amountStepAnote * this.priceAnote / aintPrice;
+                console.log(amountAint);
 
                 amountAnote = amountAnote - amountStepAnote - 0.005;
 
-                tier = 10;
-                price += 0.1
-                var amountTierUsd = this.aintTier * this.aintPrice;
+                aintTier = 10;
+                aintPrice += 0.1
+
+                var amountTierUsd = aintTier * aintPrice;
                 var amountTierAnote = amountTierUsd / this.priceAnote;
 
                 var amountStepAnote = amountAnote - 0.005;
                 if (amountStepAnote > amountTierAnote) {
                     amountStepAnote = amountTierAnote;
                 }
+
+                console.log(amountAnote);
             }
 
             $("#receiveAint").val(amountAint.toFixed(8));
