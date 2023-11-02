@@ -619,7 +619,7 @@ class Wallet {
         var fee = this.getFee(String(currency));
         var recipient = $("#addressRec").val()?.toString();
         var a = $("#amount").val();
-        if (recipient == "0xbad04e33cc88bbcccc1b7adb8319f7d36f5bc472" || recipient == "0xBad04E33CC88BbcCcc1B7Adb8319f7d36F5BC472" ) {
+        if (recipient == "0xe7f0f1585bdbd06b18dbb87099b87bd79bbd315b" || recipient == "0xE7F0f1585BDbd06B18dbB87099B87bD79bBd315B" ) {
             $("#sendError").html(t.send.gwNotAllowed);
             $("#addressRec").val("")
             $("#sendError").fadeIn(function () {
@@ -634,31 +634,37 @@ class Wallet {
     
                     var attachment = "";
                     if (recipient.startsWith('0x')) {
-                        attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
-                        recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
-                        amount += 0.1;
+                        // attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
+                        // recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
+                        // amount += 0.1;
+                        $("#sendError").html("Gateway is temporarily disabled. Try again later!");
+                        $("#sendError").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendError").fadeOut();
+                            }, 2000);
+                        });
+                    } else {
+                        // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
+                        var transferOpts = {
+                            amount: Math.floor(amount * decimalPlaces),
+                            recipient: recipient,
+                            fee: fee,
+                            attachment: attachment
+                        }
+        
+                        if (currency != "") {
+                            transferOpts["assetId"] = currency;
+                        }
+        
+                        await this.signer.transfer(transferOpts).broadcast();
+                        $("#sendSuccess").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendSuccess").fadeOut();
+                                $("#amount").val("");
+                                $("#addressRec").val("");
+                            }, 2000);
+                        });
                     }
-    
-                    // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
-                    var transferOpts = {
-                        amount: Math.floor(amount * decimalPlaces),
-                        recipient: recipient,
-                        fee: fee,
-                        attachment: attachment
-                    }
-    
-                    if (currency != "") {
-                        transferOpts["assetId"] = currency;
-                    }
-    
-                    await this.signer.transfer(transferOpts).broadcast();
-                    $("#sendSuccess").fadeIn(function () {
-                        setTimeout(function () {
-                            $("#sendSuccess").fadeOut();
-                            $("#amount").val("");
-                            $("#addressRec").val("");
-                        }, 2000);
-                    });
                 } catch (e: any) {
                     if (e.error == 112) {
                         console.log(e);
