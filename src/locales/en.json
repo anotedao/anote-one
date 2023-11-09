@@ -139,7 +139,7 @@
       "notEnough": "You don't have enough on your account, the fee is 0.001 Anotes.",
       "bothRequired": "Both fields are required.",
       "gwNotAllowed": "You can't send to Anote BSC gateway address.",
-      "gwMsg": "<strong><u>Please notice! Gateway fee for sending to BSC chain is 0.1 ANOTE on Anote side and 0.001 BNB to withdraw on BSC side.</u></strong>"
+      "gwMsg": "<strong><u>Please notice! Gateway fee for sending to BSC chain is 0.1 ANOTE on Anote side and 0.005 BNB to withdraw on BSC side. The amount is limited to 2 anotes per withdraw.</u></strong>"
     },
     "exchange": {
       "currenciesSame": "Currencies can't be same.",
