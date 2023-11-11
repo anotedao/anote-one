@@ -1571,7 +1571,7 @@ class Wallet {
 
     async populateBalance(sendAint: boolean) {
         const balances = await this.signer.getBalance();
-        balances.forEach(function (asset) {
+        await balances.forEach(function (asset) {
             if (asset.assetId == AHRK) {
                 wallet.balanceAhrk = asset.amount;
                 if (t.lang == "hr") {
@@ -1625,7 +1625,9 @@ class Wallet {
             // }
         });
 
-        $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
+        console.log(this.balanceWaves);
+
+        await $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
             if (data.telegram_id == 0) {
                 // console.log(data);
                 $("#buttonTelConnectHolder").show();
@@ -1634,13 +1636,42 @@ class Wallet {
             if (!data.alpha_sent) {
                 wallet.populateAlphaBalance();
             }
-
+            console.log(wallet.balanceWaves);
+            console.log(data.price);
             var ua = wallet.balanceWaves / 100000000 * data.price;
+            console.log(ua);
             $("#balanceUsd").html(ua.toFixed(4)?.toString());
         });
 
         this.loadAintInfo();
         this.checkScumbag();
+    }
+
+    async populateTokens() {
+        var tokenData;
+        await $.getJSON("https://node.anote.digital/addresses/data/3ADqaKZpZrEEBSjZKqNemWrG3jzYUdUUYpi", function(data) {
+            tokenData = data;
+        });
+
+        $.getJSON("https://node.anote.digital/assets/balance/" + this.address, function(data) {
+            $.each(data.balances, function(i, b) {
+                var amount = b.balance / (10 ** b.issueTransaction.decimals);
+                var tokenListed = wallet.isTokenListed(tokenData, b.assetId);
+                if (tokenListed) {
+                    $("#balanceTokens").append('<p><span class="display-6 px-2 fw-bold">' + amount.toFixed(b.issueTransaction.decimals) + '</span><span class="fs-5">' + b.issueTransaction.name + '</span></p>');
+                }
+            });
+        });
+    }
+
+    isTokenListed(data, token_id) {
+        var tokenListed = false;
+        $.each(data, function(i, t){
+            if (t.key == token_id) {
+                tokenListed =  true;
+            }
+        });
+        return tokenListed;
     }
 
     private async initWaves(seed) {
@@ -1729,6 +1760,8 @@ class Wallet {
         await wallet.populateStaking();
 
         await wallet.checkReferral();
+
+        await wallet.populateTokens();
 
         setInterval(async function () {
             try {
