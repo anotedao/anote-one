@@ -1852,7 +1852,9 @@ class Wallet {
             $("#dropdownMenu2").html("");
             data.forEach(function (entry) {
                 if (entry.value?.toString().includes(wallet.address)) {
-                    var nodeAddr = entry.value?.toString().split("__")[1]
+                    // var nodeAddr = entry.value?.toString().split("__")[1]
+                    // console.log(entry);
+                    var nodeAddr = entry.key?.toString();
                     var html = '<li><a class="dropdown-item" href="javascript: void null;" id="nodeButton' + buttonNum + '">Node: ' + nodeAddr + '</a></li>';
                     $("#dropdownMenu2").append(html);
                     showNodeStake = true;
