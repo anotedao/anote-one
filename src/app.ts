@@ -1495,7 +1495,7 @@ class Wallet {
             });
         });
 
-        $.getJSON("https://node.anote.digital/assets/balance/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/7paojf37ipks5Ac4rHMwtLHHe9YU6w8FBfafwoTEmmf9", function (data) {
+        $.getJSON("https://node.anote.digital/assets/balance/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/9tZso8WvrB2YR5SA7RyCnsLcKjTZBGtQq49Js8cczeyb", function (data) {
             var total = parseFloat(data.balance) / 100000000;
             $("#aintTotal").val(total.toFixed(8));
         });
@@ -2001,7 +2001,7 @@ class Wallet {
 
 const AHRK = "Gvs59WEEXVAQiRZwisUosG7fVNr8vnzS8mjkgqotrERT";
 const AEUR = "Az4MsPQZn9RJm8adcya5RuztQ49rMGUW99Ebj56triWr";
-const AINT = "7paojf37ipks5Ac4rHMwtLHHe9YU6w8FBfafwoTEmmf9";
+const AINT = "9tZso8WvrB2YR5SA7RyCnsLcKjTZBGtQq49Js8cczeyb";
 const AINTWAVES = "BvuzJNB6qUrvEmzGt1PMBZ1QCnBNn2L7ezXHhgQKMxr7";
 const ANOTE = "";
 
