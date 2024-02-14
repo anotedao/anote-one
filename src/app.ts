@@ -641,40 +641,40 @@ class Wallet {
     
                     var attachment = "";
                     if (recipient.startsWith('0x')) {
-                        attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
-                        recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
-                        if (amount > 2) {
-                            amount = 2;
+                        // attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
+                        // recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
+                        // if (amount > 2) {
+                        //     amount = 2;
+                        // }
+                        // amount += 0.1;
+                        $("#sendError").html("Gateway is temporarily disabled. Try again later!");
+                        $("#sendError").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendError").fadeOut();
+                            }, 2000);
+                        });
+                    } else {
+                        // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
+                        var transferOpts = {
+                            amount: Math.floor(amount * decimalPlaces),
+                            recipient: recipient,
+                            fee: fee,
+                            attachment: attachment
                         }
-                        amount += 0.1;
-                        // $("#sendError").html("Gateway is temporarily disabled. Try again later!");
-                        // $("#sendError").fadeIn(function () {
-                        //     setTimeout(function () {
-                        //         $("#sendError").fadeOut();
-                        //     }, 2000);
-                        // });
+        
+                        if (currency != "") {
+                            transferOpts["assetId"] = currency;
+                        }
+        
+                        await this.signer.transfer(transferOpts).broadcast();
+                        $("#sendSuccess").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendSuccess").fadeOut();
+                                $("#amount").val("");
+                                $("#addressRec").val("");
+                            }, 2000);
+                        });
                     }
-
-                    // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
-                    var transferOpts = {
-                        amount: Math.floor(amount * decimalPlaces),
-                        recipient: recipient,
-                        fee: fee,
-                        attachment: attachment
-                    }
-    
-                    if (currency != "") {
-                        transferOpts["assetId"] = currency;
-                    }
-    
-                    await this.signer.transfer(transferOpts).broadcast();
-                    $("#sendSuccess").fadeIn(function () {
-                        setTimeout(function () {
-                            $("#sendSuccess").fadeOut();
-                            $("#amount").val("");
-                            $("#addressRec").val("");
-                        }, 2000);
-                    });
                 } catch (e: any) {
                     if (e.error == 112) {
                         console.log(e);
@@ -781,7 +781,7 @@ class Wallet {
         var recipient = $("#addressRec").val()?.toString();
 
         if (recipient && recipient.startsWith("0x")) {
-            $("#sendMsg").html(t.send.gwMsg);
+            $("#sendMsg").html(t.send.gwMsgDis);
             $("#sendMsg").fadeIn();
         } else {
             $("#sendMsg").fadeOut();
