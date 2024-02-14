@@ -414,11 +414,11 @@ class Wallet {
         if (currency == ANOTE) {
             dp = 10**8;
             amount = this.balanceWaves;
-            $("#dropdownMenuButton1").html("ANOTE");
+            $("#dropdownMenuButton1").html("AINT");
         } else if (currency == AINT) {
             dp = 10**8;
             amount = this.balanceAint;
-            $("#dropdownMenuButton1").html("AINT");
+            $("#dropdownMenuButton1").html("ANOTE");
         } else {
             $.each(this.balances, function(i, b) {
                 if (b.assetId == assetId) {
