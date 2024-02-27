@@ -668,40 +668,39 @@ class Wallet {
     
                     var attachment = "";
                     if (recipient.startsWith('0x')) {
-                        // attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
-                        // recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
-                        // if (amount > 2) {
-                        //     amount = 2;
-                        // }
-                        // amount += 0.1;
-                        $("#sendError").html("Gateway is temporarily disabled. Try again later!");
-                        $("#sendError").fadeIn(function () {
-                            setTimeout(function () {
-                                $("#sendError").fadeOut();
-                            }, 2000);
-                        });
-                    } else {
-                        // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
-                        var transferOpts = {
-                            amount: Math.floor(amount * decimalPlaces),
-                            recipient: recipient,
-                            fee: fee,
-                            attachment: attachment
+                        attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
+                        recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
+                        if (amount > 2) {
+                            amount = 2;
                         }
-        
-                        if (currency != "") {
-                            transferOpts["assetId"] = currency;
-                        }
-        
-                        await this.signer.transfer(transferOpts).broadcast();
-                        $("#sendSuccess").fadeIn(function () {
-                            setTimeout(function () {
-                                $("#sendSuccess").fadeOut();
-                                $("#amount").val("");
-                                $("#addressRec").val("");
-                            }, 2000);
-                        });
+                        amount += 0.1;
+                        // $("#sendError").html("Gateway is temporarily disabled. Try again later!");
+                        // $("#sendError").fadeIn(function () {
+                        //     setTimeout(function () {
+                        //         $("#sendError").fadeOut();
+                        //     }, 2000);
+                        // });
                     }
+                    // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
+                    var transferOpts = {
+                        amount: Math.floor(amount * decimalPlaces),
+                        recipient: recipient,
+                        fee: fee,
+                        attachment: attachment
+                    }
+    
+                    if (currency != "") {
+                        transferOpts["assetId"] = currency;
+                    }
+    
+                    await this.signer.transfer(transferOpts).broadcast();
+                    $("#sendSuccess").fadeIn(function () {
+                        setTimeout(function () {
+                            $("#sendSuccess").fadeOut();
+                            $("#amount").val("");
+                            $("#addressRec").val("");
+                        }, 2000);
+                    });
                 } catch (e: any) {
                     if (e.error == 112) {
                         console.log(e);
@@ -808,7 +807,7 @@ class Wallet {
         var recipient = $("#addressRec").val()?.toString();
 
         if (recipient && recipient.startsWith("0x")) {
-            $("#sendMsg").html(t.send.gwMsgDis);
+            $("#sendMsg").html(t.send.gwMsg);
             $("#sendMsg").fadeIn();
         } else {
             $("#sendMsg").fadeOut();
@@ -1387,7 +1386,7 @@ class Wallet {
                 try {
                     var amount = Math.ceil(amountStepWaves * 100000000);
                     console.log(amount);
-                    const [tx] = await this.signer.invoke({
+                    await this.signer.invoke({
                         dApp: "3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW",
                         call: { function: "mintAnote", args: [] },
                         // dApp: "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy",
@@ -1420,6 +1419,8 @@ class Wallet {
                         }, 3000);
                     });
                 }
+
+                await sleep(2000);
             }
 
             // setTimeout(function () {
@@ -1638,7 +1639,7 @@ class Wallet {
             // }
         });
 
-        console.log(this.balanceWaves);
+        // console.log(this.balanceWaves);
 
         await $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
             if (data.telegram_id == 0) {
@@ -1650,7 +1651,7 @@ class Wallet {
                 wallet.populateAlphaBalance();
             }
             var ua = wallet.balanceWaves / 100000000 * data.price;
-            console.log(ua);
+            // console.log(ua);
             $("#balanceUsd").html(ua.toFixed(4)?.toString());
         });
 
@@ -2424,3 +2425,5 @@ function passwordsEqual(p1id, p2id, mid): boolean {
 function float2int(value) {
     return value | 0;
 }
+
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
