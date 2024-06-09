@@ -198,7 +198,7 @@ class Wallet {
     }
 
     initMiningSection() {
-        $.getJSON("https://node.anote.digital/node/status", function (data) {
+        $.getJSON("https://nodes.anotedao.com/node/status", function (data) {
             var currentHeight = data.blockchainHeight;
             wallet.loadWalletHeight(currentHeight);
         });
@@ -208,9 +208,9 @@ class Wallet {
 
     // updateBlocks() {
     //     console.log("updateblocks");
-    //     $.getJSON("https://node.anote.digital/node/status", function (data) {
+    //     $.getJSON("https://nodes.anotedao.com/node/status", function (data) {
     //         var currentHeight = data.blockchainHeight;
-    //         $.getJSON("https://node.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
+    //         $.getJSON("https://nodes.anotedao.com/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
     //             if (data.length > 0) {
     //                 var miningData = data[0].value;
     //                 var mdSplit = miningData.split("__")
@@ -260,7 +260,7 @@ class Wallet {
 
     loadWalletHeight(currentHeight: number) {
         if (this.walletHeight == 0) {
-            $.getJSON("https://node.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
+            $.getJSON("https://nodes.anotedao.com/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
                 if (data.length > 0) {
                     var miningData = data[0].value;
                     var mdSplit = miningData.split("__")
@@ -665,6 +665,7 @@ class Wallet {
             if (a && recipient) {
                 try {
                     var amount: number = +a;
+                    var gateway = false;
     
                     var attachment = "";
                     if (recipient.startsWith('0x')) {
@@ -680,27 +681,38 @@ class Wallet {
                         //         $("#sendError").fadeOut();
                         //     }, 2000);
                         // });
+                        gateway = true;
                     }
                     // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
-                    var transferOpts = {
-                        amount: Math.floor(amount * decimalPlaces),
-                        recipient: recipient,
-                        fee: fee,
-                        attachment: attachment
+
+                    if (gateway && currency != AINT) {
+                        $("#sendError").html("Only ANOTE can currently be sent to BSC chain.");
+                        $("#sendError").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendError").fadeOut();
+                            }, 2000);
+                        });
+                    } else {
+                        var transferOpts = {
+                            amount: Math.floor(amount * decimalPlaces),
+                            recipient: recipient,
+                            fee: fee,
+                            attachment: attachment
+                        }
+        
+                        if (currency != "") {
+                            transferOpts["assetId"] = currency;
+                        }
+        
+                        await this.signer.transfer(transferOpts).broadcast();
+                        $("#sendSuccess").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendSuccess").fadeOut();
+                                $("#amount").val("");
+                                $("#addressRec").val("");
+                            }, 2000);
+                        });
                     }
-    
-                    if (currency != "") {
-                        transferOpts["assetId"] = currency;
-                    }
-    
-                    await this.signer.transfer(transferOpts).broadcast();
-                    $("#sendSuccess").fadeIn(function () {
-                        setTimeout(function () {
-                            $("#sendSuccess").fadeOut();
-                            $("#amount").val("");
-                            $("#addressRec").val("");
-                        }, 2000);
-                    });
                 } catch (e: any) {
                     if (e.error == 112) {
                         console.log(e);
@@ -1483,7 +1495,7 @@ class Wallet {
     }
 
     async loadAintInfo() {
-        $.getJSON("https://node.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW", function (data) {
+        $.getJSON("https://nodes.anotedao.com/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW", function (data) {
             data.forEach(function (entry) {
                 if (entry.key == "%s__price") {
                     var price = parseFloat(entry.value) / 100000000;
@@ -1501,7 +1513,7 @@ class Wallet {
             });
         });
 
-        $.getJSON("https://node.anote.digital/assets/balance/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/9tZso8WvrB2YR5SA7RyCnsLcKjTZBGtQq49Js8cczeyb", function (data) {
+        $.getJSON("https://nodes.anotedao.com/assets/balance/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/9tZso8WvrB2YR5SA7RyCnsLcKjTZBGtQq49Js8cczeyb", function (data) {
             var total = parseFloat(data.balance) / 100000000;
             $("#aintTotal").val(total.toFixed(8));
         });
@@ -1661,11 +1673,11 @@ class Wallet {
 
     async populateTokens() {
         var tokenData;
-        await $.getJSON("https://node.anote.digital/addresses/data/3ADqaKZpZrEEBSjZKqNemWrG3jzYUdUUYpi", function(data) {
+        await $.getJSON("https://nodes.anotedao.com/addresses/data/3ADqaKZpZrEEBSjZKqNemWrG3jzYUdUUYpi", function(data) {
             tokenData = data;
         });
 
-        $.getJSON("https://node.anote.digital/assets/balance/" + this.address, function(data) {
+        $.getJSON("https://nodes.anotedao.com/assets/balance/" + this.address, function(data) {
             $.each(data.balances, function(i, b) {
                 var amount = b.balance / (10 ** b.issueTransaction.decimals);
                 var tokenListed = wallet.isTokenListed(tokenData, b.assetId);
@@ -1690,11 +1702,11 @@ class Wallet {
 
     private async initWaves(seed) {
         this.signer = new Signer({
-            NODE_URL: 'https://node.anote.digital',
+            NODE_URL: 'https://nodes.anotedao.com',
         });
         this.provider = new ProviderSeed(seed);
         this.provider.connect({
-            NODE_URL: 'https://node.anote.digital',
+            NODE_URL: 'https://nodes.anotedao.com',
             NETWORK_BYTE: 55,
         });
         this.signer.setProvider(this.provider);
@@ -1803,7 +1815,7 @@ class Wallet {
             });
         });
 
-        // $.getJSON("https://node.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a", function(data){
+        // $.getJSON("https://nodes.anotedao.com/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a", function(data){
         //     data.forEach(function (entry) {
         //         try {
         //             var height = entry.value.split("__")[1];
@@ -1819,13 +1831,13 @@ class Wallet {
     }
 
     async getAdNumber() {
-        $.getJSON("https://node.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/%25s__adnum", function (data) {
+        $.getJSON("https://nodes.anotedao.com/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW/%25s__adnum", function (data) {
             $("#buttonCode").attr("href", "https://t.me/AnoteAds/" + data.value);
         });
     }
 
     private async checkAlias() {
-        $.getJSON("https://node.anote.digital/alias/by-address/" + this.address, function (data) {
+        $.getJSON("https://nodes.anotedao.com/alias/by-address/" + this.address, function (data) {
             if (data.length > 0) {
                 var alias = String(data[0]).replace("alias:7:", "");
                 $("#alias").val(alias);
@@ -1838,7 +1850,7 @@ class Wallet {
 
     private async populateStaking() {
         var stakingKey = "%25s__" + wallet.address;
-        $.getJSON("https://node.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
+        $.getJSON("https://nodes.anotedao.com/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
             var amountStaked = 0.0;
             if (data.length > 0) {
                 amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
@@ -1846,7 +1858,7 @@ class Wallet {
             $("#stakedAmount").val(amountStaked.toFixed(8));
         });
 
-        $.getJSON("https://node.anote.digital/addresses/data/3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ?key=" + stakingKey, function (data) {
+        $.getJSON("https://nodes.anotedao.com/addresses/data/3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ?key=" + stakingKey, function (data) {
             var amountStaked = 0.0;
             if (data.length > 0) {
                 amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
@@ -1854,7 +1866,7 @@ class Wallet {
             $("#stakedAmountAnote").val(amountStaked.toFixed(8));
         });
 
-        $.getJSON("https://node.anote.digital/addresses/data/3AVTze8bR1SqqMKv3uLedrnqCuWpdU7GZwX", function (data) {
+        $.getJSON("https://nodes.anotedao.com/addresses/data/3AVTze8bR1SqqMKv3uLedrnqCuWpdU7GZwX", function (data) {
             var showNodeStake = false;
             var buttonNum = 0;
             $("#dropdownMenu2").html("");
@@ -1871,7 +1883,7 @@ class Wallet {
                         $("#dropdownMenuButton2").html(this.innerHTML);
                         wallet.stakeType = this.innerHTML.replace("Node: ", "");
                         var stakingKey = "%25s__" + wallet.stakeType;
-                        $.getJSON("https://node.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
+                        $.getJSON("https://nodes.anotedao.com/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
                             var amountStaked = 0.0;
                             if (data.length > 0) {
                                 amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
@@ -1893,7 +1905,7 @@ class Wallet {
 
     private async checkReferral() {
         if (this.referral && this.referral.length > 0 && !this.referral.startsWith("3A") && this.referral != undefined) {
-            $.getJSON("https://node.anote.digital/alias/by-alias/" + this.referral, function (data) {
+            $.getJSON("https://nodes.anotedao.com/alias/by-alias/" + this.referral, function (data) {
                 if (data.address) {
                     wallet.referral = data.address;
                     localStorage.removeItem("referral");
@@ -1955,11 +1967,11 @@ class Wallet {
             try {
                 var seed = libs.crypto.decryptSeed(this.seed, String(password));
                 var signer = new Signer({
-                    NODE_URL: 'https://node.anote.digital',
+                    NODE_URL: 'https://nodes.anotedao.com',
                 });
                 var provider = new ProviderSeed(seed);
                 provider.connect({
-                    NODE_URL: 'https://node.anote.digital',
+                    NODE_URL: 'https://nodes.anotedao.com',
                     NETWORK_BYTE: 55,
                 });
                 signer.setProvider(provider);
@@ -2311,7 +2323,7 @@ $("#aintButton").on("click", function () {
 //     wallet.stakeType = "mobile";
 //     $("#dropdownMenuButton2").html("Mobile Mining");
 //     var stakingKey = "%25s__" + wallet.getAddress();
-//     $.getJSON("https://node.anote.digital/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
+//     $.getJSON("https://nodes.anotedao.com/addresses/data/3A9y1Zy78DDApbQWXKxonXxci6DvnJnnNZD?key=" + stakingKey, function (data) {
 //         var amountStaked = 0.0;
 //         if (data.length > 0) {
 //             amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
