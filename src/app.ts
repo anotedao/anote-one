@@ -1616,20 +1616,6 @@ class Wallet {
 
         // console.log(this.balanceWaves);
 
-        await $.getJSON("https://mobile.anotedao.com/miner/" + this.address, function (data) {
-            if (data.telegram_id == 0) {
-                // console.log(data);
-                $("#buttonTelConnectHolder").show();
-            }
-
-            if (!data.alpha_sent) {
-                wallet.populateAlphaBalance();
-            }
-            var ua = wallet.balanceWaves / 100000000 * data.price;
-            // console.log(ua);
-            $("#balanceUsd").html(ua.toFixed(4)?.toString());
-        });
-
         this.loadAintInfo();
         this.checkScumbag();
     }
@@ -1746,11 +1732,11 @@ class Wallet {
 
         // wallet.checkReferral();
 
-        await wallet.populateStaking();
-
         await wallet.checkReferral();
 
         await wallet.populateTokens();
+
+        await wallet.populateStaking();
 
         await wallet.sendAllAint();
 
@@ -1819,15 +1805,48 @@ class Wallet {
                 amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
             }
             $("#stakedAmount").val(amountStaked.toFixed(8));
+
+            $.getJSON("https://mobile.anotedao.com/miner/" + wallet.address, function (data) {
+                if (data.telegram_id == 0) {
+                    // console.log(data);
+                    $("#buttonTelConnectHolder").show();
+                }
+    
+                if (!data.alpha_sent) {
+                    wallet.populateAlphaBalance();
+                }
+
+                var amountAnote = wallet.balanceAint / 100000000;
+                var amountFromAint = (wallet.balanceWaves / 100000000) / wallet.aintPrice;
+
+                // console.log(wallet.balanceWaves);
+                // console.log(wallet.aintPrice);
+                // console.log(amountFromAint);
+
+                $.getJSON("https://nodes.anotedao.com/addresses/data/3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ?key=" + stakingKey, function (data1) {
+                    var amountStakedAint = 0.0;
+                    if (data1.length > 0) {
+                        amountStakedAint = parseFloat(data1[0].value.split("__")[1]) / 100000000;
+                    }
+                    
+                    var amountFromStakedAint = amountStakedAint / wallet.aintPrice;
+
+                    var amountFinal = amountAnote + amountStaked + amountFromAint + amountFromStakedAint;
+                    console.log(amountFinal);
+
+                    var ua = amountFinal * data.price;
+                    $("#balanceUsd").html(ua.toFixed(4)?.toString());
+                });
+            });
         });
 
-        $.getJSON("https://nodes.anotedao.com/addresses/data/3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ?key=" + stakingKey, function (data) {
-            var amountStaked = 0.0;
-            if (data.length > 0) {
-                amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
-            }
-            $("#stakedAmountAnote").val(amountStaked.toFixed(8));
-        });
+        // $.getJSON("https://nodes.anotedao.com/addresses/data/3AR11vcAeEfWFMTKbcxTo79LcbH7uSmhftZ?key=" + stakingKey, function (data) {
+        //     var amountStaked = 0.0;
+        //     if (data.length > 0) {
+        //         amountStaked = parseFloat(data[0].value.split("__")[1]) / 100000000;
+        //     }
+        //     $("#stakedAmountAnote").val(amountStaked.toFixed(8));
+        // });
 
         $.getJSON("https://nodes.anotedao.com/addresses/data/3AVTze8bR1SqqMKv3uLedrnqCuWpdU7GZwX", function (data) {
             var showNodeStake = false;
