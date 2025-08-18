@@ -16,7 +16,7 @@
    <meta property="og:title" data-attr-t data-attr-t-interpolate content-t="{{html.title}}"/>
    <meta property="og:description" data-attr-t data-attr-t-interpolate content-t="{{html.description}}"/>
    <meta property="og:image" data-attr-t data-attr-t-interpolate content-t="{{html.fbImg}}" /> -->
-    <meta property="og:url" content="https://app.anotedao.com/" />
+    <meta property="og:url" content="https://app.aintchain.com/" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Anote Wallet | Best of Bitcoin, Ethereum and PI!" />
     <meta property="og:description"
@@ -376,7 +376,7 @@
                             class="bi bi-briefcase-fill text-primary main-icon"></i></a>
                 </div>
                 <div class="col-xl-9 col-md-6 col-3">
-                    <a href="https://explorer.anotedao.com/" id="history" target="_blank"><i
+                    <a href="https://explorer.aintchain.com/" id="history" target="_blank"><i
                             class="bi bi-person-lines-fill text-secondary main-icon"></i></a>
                 </div>
                 <div class="col-xl-1 col-md-2 col-3 text-end">
@@ -618,7 +618,7 @@
                                     <label class="form-label fw-bold" data-t>settings.referralLink</label>
                                     <div class="input-group mb-3 input-group-sm">
                                         <input type="text" class="form-control" readonly
-                                            value="https://anotedao.com/mine?r=" id="referralLink">
+                                            value="https://aintchain.com/mine?r=" id="referralLink">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button" id="buttonCopyReferral">
                                                 <i class="bi bi-files"></i>
@@ -755,9 +755,30 @@
                     </div>
                 </div>
             </div> -->
-            <div class="row">
+            <!-- <div class="row">
                 <div class="bg-light p-md-5 p-3 border shadow-lg">
                     <p>Staking is temporarily disabled. It will be enabled again down the road.</p>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="bg-light p-md-5 py-5 border shadow-lg" style="color: #515151;">
+                    <div class="row">
+                        <div class="col-0 col-lg-3"></div>
+                        <div class="col-12 col-lg-6">
+                            <h5 class="pb-2 text-start text-secondary border-bottom mb-3"><strong>Staking</strong></h5>
+                            <div class="mb-3">
+                                <label for="stakedAmountAnote" class="form-label"><strong>Staked AINT</strong></label>
+                                <input type="text" class="form-control" id="stakedAmountAnote" placeholder="0.0" readonly
+                                    disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="stakedAmount" class="form-label"><strong>Staked ANOTE</strong></label>
+                                <input type="text" class="form-control" id="stakedAmount" placeholder="0.0" readonly
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="col-0 col-lg-3"></div>
+                    </div>
                 </div>
             </div>
             <div class="row py-4 mt-4">
@@ -1016,7 +1037,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
-    <script type="module" src="./app.ts"></script>
+    <script type="module" src="./app.ts?1"></script>
 
 </body>
 
