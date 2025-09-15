@@ -1633,7 +1633,7 @@ class Wallet {
                 if (tokenListed) {
                     $("#balanceTokens").show();
                     $("#balanceTokens").append('<p><span class="display-6 px-2 fw-bold">' + amount.toFixed(b.issueTransaction.decimals) + '</span><span class="fs-5">' + b.issueTransaction.name + '</span></p>');
-                    $("#tokensSendList").append('<li><a class="dropdown-item" href="javascript: void null;" onclick="wallet.updateAmount(\'' + b.assetId + '\');">' + b.issueTransaction.name + '</a></li>');
+                    $("#tokensSendList").append('<li><a class="dropdown-item" href="javascript: void null;" onclick="wallet.updateAmount(\'' + b.assetId + '\');">' + b.issueTransaction.name.replace("_", "") + '</a></li>');
                 }
             });
         });
