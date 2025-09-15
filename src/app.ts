@@ -368,7 +368,7 @@ class Wallet {
 
     updateAmount(assetId) {
         this.selectedCurrency = assetId;
-        var currency = this.selectedCurrency;
+        var currency = this.selectedCurrency.replace("_", "");
 
         var amount = 0;
         var dpi = 8;
@@ -389,7 +389,7 @@ class Wallet {
                     amount = b.amount;
                     dp = 10 ** dpi;
                     // console.log(b);
-                    $("#dropdownMenuButton1").html(b.assetName);
+                    $("#dropdownMenuButton1").html(b.assetName.replace("_", ""));
                 }
             });
             // this.balances.forEach(function(b) {
@@ -1632,7 +1632,7 @@ class Wallet {
                 var tokenListed = wallet.isTokenListed(tokenData, b.assetId);
                 if (tokenListed) {
                     $("#balanceTokens").show();
-                    $("#balanceTokens").append('<p><span class="display-6 px-2 fw-bold">' + amount.toFixed(b.issueTransaction.decimals) + '</span><span class="fs-5">' + b.issueTransaction.name + '</span></p>');
+                    $("#balanceTokens").append('<p><span class="display-6 px-2 fw-bold">' + amount.toFixed(b.issueTransaction.decimals) + '</span><span class="fs-5">' + b.issueTransaction.name.replace("_", "") + '</span></p>');
                     $("#tokensSendList").append('<li><a class="dropdown-item" href="javascript: void null;" onclick="wallet.updateAmount(\'' + b.assetId + '\');">' + b.issueTransaction.name.replace("_", "") + '</a></li>');
                 }
             });
